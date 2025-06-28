@@ -49,7 +49,7 @@ export default function CreateAccount() {
 
     try {
       const { error } = await signUp(email, password, {
-        full_name: name,
+        display_name: name,
       })
       
       if (error) {
