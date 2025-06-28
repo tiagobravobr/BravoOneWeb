@@ -140,7 +140,7 @@ export default function ResetPassword() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 text-base"
+                    className="appearance-none relative block w-full px-3 py-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
                     placeholder="Digite sua nova senha"
                   />
                   {password && (
@@ -178,7 +178,7 @@ export default function ResetPassword() {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 text-base"
+                    className="appearance-none relative block w-full px-3 py-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
                     placeholder="Confirme sua nova senha"
                   />
                   {confirmPassword && password !== confirmPassword && (

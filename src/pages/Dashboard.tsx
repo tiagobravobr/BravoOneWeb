@@ -6,41 +6,41 @@ export default function Dashboard() {
             id: 5,
             title: "GESTÃO",
             subtitle: "para novos líderes",
-            image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2000&auto=format&fit=crop", // Modern leadership/business
             gradient: "from-blue-500/20 to-blue-900/40"
         },
         {
             id: 4,
             title: "QUEBRANDO",
             subtitle: "barreiras limitantes",
-            image: "https://images.unsplash.com/photo-1573164713712-03790a178651?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2000&auto=format&fit=crop", // Warrior/strength
             gradient: "from-purple-500/20 to-purple-900/40"
         },
         {
             id: 3,
             title: "COMO INSPIRAR",
             subtitle: "equipes todos os dias",
-            image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop", // Space/inspiration
             gradient: "from-orange-500/20 to-orange-900/40"
         },
         {
             id: 2,
             title: "COMUNICAÇÃO",
             subtitle: "ampliando seu impacto",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2000&auto=format&fit=crop", // Global/world business
             gradient: "from-red-500/20 to-red-900/40"
         },
         {
             id: 1,
             title: "RAIO X",
             subtitle: "da liderança perfeita",
-            image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop", // Business leadership
             gradient: "from-green-500/20 to-green-900/40"
         }
     ]
 
     return (
-        <div className="min-h-screen bg-gray-900">
+        <div className="min-h-screen bg-gray-950">
             {/* Header Sticky com Glassmorphism */}
             <Header />
 
@@ -55,9 +55,9 @@ export default function Dashboard() {
                             className="w-full h-full object-cover"
                         />
                         {/* Gradiente horizontal para escurecer a imagem */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-900/40" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-gray-950/80 to-gray-950/40" />
                         {/* Gradiente vertical na parte inferior para transição suave */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950" />
                     </div>
 
                     {/* Conteúdo do hero alinhado com o cabeçalho */}
@@ -86,31 +86,41 @@ export default function Dashboard() {
                             <p className="text-gray-400">Sua jornada de transformação em liderança</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                             {modules.map((module) => (
-                                <div key={module.id} className="group cursor-pointer">
-                                    <div className="relative h-80 rounded-xl overflow-hidden bg-gray-800">
-                                        <img
-                                            src={module.image}
-                                            alt={module.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                        />
-                                        <div className={`absolute inset-0 bg-gradient-to-b ${module.gradient} to-gray-900/60`} />
+                                <div key={module.id} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2">
+                                    {/* Container principal com brilho de fundo */}
+                                    <div className="relative aspect-[9/16]">
+                                        {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
+                                        <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                        
+                                        {/* Card principal */}
+                                        <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                            <img
+                                                src={module.image}
+                                                alt={module.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <div className={`absolute inset-0 bg-gradient-to-b ${module.gradient} to-gray-950/60`} />
+                                            
+                                            {/* Gradiente adicional na parte inferior para contraste do texto - finalizando em preto */}
+                                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
 
-                                        <div className="absolute inset-0 p-6 flex flex-col justify-between">
-                                            <div className="text-right">
-                                                <span className="bg-primary-500 text-white text-xs font-bold px-2 py-1 rounded">
-                                                    MÓDULO {module.id}
-                                                </span>
-                                            </div>
+                                            <div className="absolute inset-0 p-4 flex flex-col justify-between">
+                                                <div className="text-right">
+                                                    <span className="bg-primary-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                                        MÓDULO {module.id}
+                                                    </span>
+                                                </div>
 
-                                            <div>
-                                                <h3 className="text-white font-bold text-lg mb-1 font-serif">
-                                                    {module.title}
-                                                </h3>
-                                                <p className="text-gray-200 text-sm font-light">
-                                                    {module.subtitle}
-                                                </p>
+                                                <div>
+                                                    <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                        {module.title}
+                                                    </h3>
+                                                    <p className="text-gray-200 text-base font-light">
+                                                        {module.subtitle}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

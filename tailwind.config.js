@@ -58,11 +58,15 @@ export default {
           700: '#292929',  // Dark mode background secondary
           800: '#1f1f1f',  // Dark mode background primary
           900: '#171717',  // Dark mode background darker
+          950: '#0c0c0c',  // Dark mode background darkest
         }
       },
       fontFamily: {
         sans: ['IBM Plex Sans', 'system-ui', 'sans-serif'],
         serif: ['IBM Plex Serif', 'Georgia', 'serif'],
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(ellipse at center, var(--tw-gradient-stops))',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
