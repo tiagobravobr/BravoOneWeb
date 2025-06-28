@@ -1,22 +1,33 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { resetPassword } = useAuth()
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError('')
     
-    // Aqui você pode adicionar a lógica de recuperação de senha
-    console.log('Password reset request for:', email)
-    
-    // Simular envio de email
-    setTimeout(() => {
+    try {
+      const { error } = await resetPassword(email)
+      
+      if (error) {
+        setError(error.message)
+      } else {
+        setEmailSent(true)
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
       setIsLoading(false)
-      setEmailSent(true)
-    }, 2000)
+    }
   }
 
   if (emailSent) {
@@ -59,12 +70,12 @@ export default function ForgotPassword() {
 
                 {/* Botão voltar */}
                 <div>
-                  <a
-                    href="/"
+                  <Link
+                    to="/login"
                     className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 transform hover:scale-[1.02]"
                   >
                     Voltar ao login
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Footer */}
@@ -125,6 +136,12 @@ export default function ForgotPassword() {
 
               {/* Formulário */}
               <form className="space-y-6" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="bg-red-900/50 border border-red-700 rounded-lg p-3">
+                    <p className="text-red-300 text-sm">{error}</p>
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="email" className="block text-base font-medium text-gray-300 mb-2">
                     E-mail
@@ -157,9 +174,9 @@ export default function ForgotPassword() {
               <div className="mt-6 text-center">
                 <p className="text-base text-gray-400">
                   Lembrou da senha?{' '}
-                  <a href="/" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
+                  <Link to="/login" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
                     Voltar ao login
-                  </a>
+                  </Link>
                 </p>
               </div>
 

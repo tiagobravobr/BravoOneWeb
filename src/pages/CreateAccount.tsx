@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function CreateAccount() {
   const [name, setName] = useState('')
@@ -7,19 +9,67 @@ export default function CreateAccount() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signUp, user } = useAuth()
+  const navigate = useNavigate()
+
+  // Redirecionar se já estiver logado
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard')
+    }
+  }, [user, navigate])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    // Aqui você pode adicionar a lógica de criação de conta
-    console.log('Account creation:', { name, email, password, confirmPassword, agreeTerms })
-    
-    // Simular criação de conta
-    setTimeout(() => {
+    setError('')
+    setSuccess('')
+
+    // Validações
+    if (password !== confirmPassword) {
+      setError('As senhas não coincidem')
       setIsLoading(false)
-      // Redirecionar para verificação de e-mail ou login
-    }, 2000)
+      return
+    }
+
+    if (password.length < 6) {
+      setError('A senha deve ter pelo menos 6 caracteres')
+      setIsLoading(false)
+      return
+    }
+
+    if (!agreeTerms) {
+      setError('Você deve aceitar os termos de uso')
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      const { error } = await signUp(email, password, {
+        full_name: name,
+      })
+      
+      if (error) {
+        if (error.message.includes('already registered')) {
+          setError('Este email já está cadastrado')
+        } else {
+          setError(error.message)
+        }
+      } else {
+        setSuccess('Conta criada com sucesso! Verifique seu email para confirmar a conta.')
+        // Opcionalmente redirecionar após alguns segundos
+        setTimeout(() => {
+          navigate('/login')
+        }, 3000)
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -46,6 +96,18 @@ export default function CreateAccount() {
 
               {/* Formulário */}
               <form className="space-y-5" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="bg-red-900/50 border border-red-700 rounded-lg p-3">
+                    <p className="text-red-300 text-sm">{error}</p>
+                  </div>
+                )}
+
+                {success && (
+                  <div className="bg-green-900/50 border border-green-700 rounded-lg p-3">
+                    <p className="text-green-300 text-sm">{success}</p>
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="name" className="block text-base font-medium text-gray-300 mb-2">
                     Como gostaria de ser chamado?
@@ -154,9 +216,9 @@ export default function CreateAccount() {
               <div className="mt-6 text-center">
                 <p className="text-base text-gray-400">
                   Já tem uma conta?{' '}
-                  <a href="/" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
+                  <Link to="/login" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
                     Entrar
-                  </a>
+                  </Link>
                 </p>
               </div>
 

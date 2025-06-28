@@ -1,14 +1,44 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  
+  const { signIn, user } = useAuth()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirecionar se já estiver logado
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard')
+    }
+  }, [user, navigate])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Aqui você pode adicionar a lógica de login
-    console.log('Login attempt:', { email, password, rememberMe })
+    setLoading(true)
+    setError('')
+
+    try {
+      const { error } = await signIn(email, password)
+      
+      if (error) {
+        setError(error.message === 'Invalid login credentials' 
+          ? 'Email ou senha incorretos' 
+          : error.message)
+      } else {
+        navigate('/dashboard')
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -35,6 +65,12 @@ export default function Login() {
 
               {/* Formulário */}
               <form className="space-y-6" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="bg-red-900/50 border border-red-700 rounded-lg p-3">
+                    <p className="text-red-300 text-sm">{error}</p>
+                  </div>
+                )}
+                
                 <div>
                   <label htmlFor="email" className="block text-base font-medium text-gray-300 mb-2">
                     E-mail
@@ -85,18 +121,26 @@ export default function Login() {
                   </div>
 
                   <div className="text-base">
-                    <a href="/forgot-password" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
+                    <Link to="/forgot-password" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
                       Esqueceu a senha?
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
                 <div>
                   <button
                     type="submit"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 transform hover:scale-[1.02]"
+                    disabled={loading}
+                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    Entrar
+                    {loading ? (
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Entrando...
+                      </div>
+                    ) : (
+                      'Entrar'
+                    )}
                   </button>
                 </div>
               </form>
@@ -105,9 +149,9 @@ export default function Login() {
               <div className="mt-6 text-center">
                 <p className="text-base text-gray-400">
                   Não tem uma conta?{' '}
-                  <a href="/create-account" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
+                  <Link to="/create-account" className="font-medium text-primary-400 hover:text-primary-300 transition-colors">
                     Criar conta
-                  </a>
+                  </Link>
                 </p>
               </div>
 
