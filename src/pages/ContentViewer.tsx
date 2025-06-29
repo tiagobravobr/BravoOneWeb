@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Play, Heart, MoreVertical, ThumbsUp, ChevronLeft, ChevronRight, Bookmark } from 'lucide-react'
+import { Play, Heart, MoreVertical, ThumbsUp, ChevronLeft, ChevronRight, Bookmark, ChevronDown } from 'lucide-react'
 
 interface ContentData {
   id: string
@@ -65,6 +65,7 @@ const ContentViewer = () => {
   const [content, setContent] = useState<ContentData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [expandedModule, setExpandedModule] = useState<number>(1) // Módulo 1 aberto por padrão
 
   useEffect(() => {
     // Simula carregamento de dados
@@ -83,6 +84,10 @@ const ContentViewer = () => {
 
   const handleGoBack = () => {
     navigate('/dashboard')
+  }
+
+  const toggleModule = (moduleId: number) => {
+    setExpandedModule(expandedModule === moduleId ? 0 : moduleId)
   }
 
   if (isLoading) {
@@ -119,570 +124,633 @@ const ContentViewer = () => {
   return (
     <div className="page-layout bg-gray-950">
       <Header />
-      
+
       <main className="pt-20 pb-16">
         {/* Removido breadcrumb e botão voltar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-8">
             {/* Sidebar - Menu Lateral Sticky */}
-            <div className={`sticky top-20 transition-all duration-300 ${
-              isSidebarCollapsed ? 'w-16' : 'w-80'
-            } flex-shrink-0 self-start`}>
+            <div className={`sticky top-20 transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-80'
+              } flex-shrink-0 self-start`}>
               <div>
-                <div className={`relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl transition-all duration-300 ${
-                  isSidebarCollapsed ? 'w-16' : 'w-full'
-              }`}>
-                <div className="card-glow"></div>
-                
-                {isSidebarCollapsed ? (
-                  /* Modo Colapsado - Apenas botão toggle */
-                  <div className="p-4 flex items-center justify-center">
-                    <button
-                      onClick={() => setIsSidebarCollapsed(false)}
-                      className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
-                      title="Expandir menu"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                ) : (
-                  /* Modo Expandido - Conteúdo completo */
-                  <>
-                    {/* Header da Sidebar com Toggle Button */}
-                    <div className="relative p-6 border-b border-gray-800">
-                      {/* Toggle Button - Canto superior direito */}
+                <div className={`relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-full'
+                  }`}>
+                  <div className="card-glow"></div>
+
+                  {isSidebarCollapsed ? (
+                    /* Modo Colapsado - Apenas botão toggle */
+                    <div className="p-4 flex items-center justify-center">
                       <button
-                        onClick={() => setIsSidebarCollapsed(true)}
-                        className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors z-10"
-                        title="Recolher menu"
+                        onClick={() => setIsSidebarCollapsed(false)}
+                        className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
+                        title="Expandir menu"
                       >
-                        <ChevronLeft className="w-4 h-4" />
+                        <ChevronRight className="w-4 h-4" />
                       </button>
-                      
-                      <h3 className="text-lg font-semibold text-white mb-2 pr-10">Método Bravo de Negócios</h3>
-                      <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-                        <span>6 módulos</span>
-                        <span>•</span>
-                        <span>24 aulas</span>
-                        <span>•</span>
-                        <span>12h 45min</span>
-                      </div>
-                      
-                      {/* Progress Bar */}
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Progresso</span>
-                          <span className="text-primary-400 font-medium">4%</span>
-                        </div>
-                        <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-500" style={{ width: '4%' }}></div>
-                        </div>
-                        <p className="text-xs text-gray-400">1 de 24 aulas concluídas</p>
-                      </div>
                     </div>
+                  ) : (
+                    /* Modo Expandido - Conteúdo completo */
+                    <>
+                      {/* Header da Sidebar com Toggle Button */}
+                      <div className="relative p-6 border-b border-gray-800 bg-gray-800/60">
+                        {/* Toggle Button - Canto superior direito */}
+                        <button
+                          onClick={() => setIsSidebarCollapsed(true)}
+                          className="absolute top-4 right-4 p-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors"
+                          title="Recolher menu"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                        </button>
 
-                    {/* Lista de Módulos */}
-                    <div>
-                      {/* Módulo 1 - Modelo de Negócio */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 1: Modelo de Negócio</h4>
-                            <span className="text-xs text-gray-400">2h 15min</span>
+                        <h3 className="text-xl font-bold text-white mb-2 pr-12">Método Bravo de Negócios</h3>
+                        <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                          <span>6 módulos</span>
+                          <span>•</span>
+                          <span>24 aulas</span>
+                          <span>•</span>
+                          <span>12h 45min</span>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="space-y-2">
+                          <div className="w-full bg-gray-800 rounded-full h-2.5">
+                            <div className="bg-gradient-to-r from-primary-500 to-primary-600 h-2.5 rounded-full transition-all duration-500" style={{ width: '4%' }}></div>
                           </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-3 rounded-lg bg-primary-600/20 border border-primary-500/30 group">
-                              <div className="w-6 h-6 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-primary-300 font-medium truncate">
-                                  Introdução ao Modelo de Negócio
-                                </p>
-                                <p className="text-xs text-gray-400">18min • Assistindo agora</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Business Model Canvas
-                                </p>
-                                <p className="text-xs text-gray-400">25min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Proposta de Valor Única
-                                </p>
-                                <p className="text-xs text-gray-400">22min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Validação de Mercado
-                                </p>
-                                <p className="text-xs text-gray-400">30min</p>
-                              </div>
-                            </div>
+                          <div className="flex justify-between items-center">
+                            <p className="text-xs text-gray-400">1 de 24 aulas concluídas</p>
+                            <span className="text-xs text-primary-400 font-medium">4%</span>
                           </div>
                         </div>
                       </div>
 
-                      {/* Módulo 2 - Fundamentação */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 2: Fundamentação</h4>
-                            <span className="text-xs text-gray-400">2h 30min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Estrutura Jurídica e Legal
-                                </p>
-                                <p className="text-xs text-gray-400">35min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Planejamento Financeiro
-                                </p>
-                                <p className="text-xs text-gray-400">40min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Sistemas e Processos
-                                </p>
-                                <p className="text-xs text-gray-400">35min</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Módulo 3 - Visão & Planejamento */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 3: Visão & Planejamento</h4>
-                            <span className="text-xs text-gray-400">2h 0min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Definindo Visão e Missão
-                                </p>
-                                <p className="text-xs text-gray-400">30min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Planejamento Estratégico
-                                </p>
-                                <p className="text-xs text-gray-400">45min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Metas e KPIs
-                                </p>
-                                <p className="text-xs text-gray-400">25min</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Módulo 4 - Liderança Empresarial */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 4: Liderança Empresarial</h4>
-                            <span className="text-xs text-gray-400">2h 20min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Liderança Transformacional
-                                </p>
-                                <p className="text-xs text-gray-400">35min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Gestão de Equipes
-                                </p>
-                                <p className="text-xs text-gray-400">40min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Cultura Organizacional
-                                </p>
-                                <p className="text-xs text-gray-400">25min</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Módulo 5 - Máquina de Valor */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 5: Máquina de Valor</h4>
-                            <span className="text-xs text-gray-400">2h 15min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Sistemas de Vendas
-                                </p>
-                                <p className="text-xs text-gray-400">35min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Marketing Digital
-                                </p>
-                                <p className="text-xs text-gray-400">40min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Automação de Processos
-                                </p>
-                                <p className="text-xs text-gray-400">20min</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Módulo 6 - Performance */}
+                      {/* Lista de Módulos */}
                       <div>
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 6: Performance</h4>
-                            <span className="text-xs text-gray-400">1h 45min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Métricas e Análise
-                                </p>
-                                <p className="text-xs text-gray-400">30min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Otimização Contínua
-                                </p>
-                                <p className="text-xs text-gray-400">35min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Escalabilidade
-                                </p>
-                                <p className="text-xs text-gray-400">20min</p>
+                        {/* Módulo 1 - Modelo de Negócio */}
+                        <div className="border-b border-gray-800">
+                          <div
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            onClick={() => toggleModule(1)}
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-medium text-white">Módulo 1: Modelo de Negócio</h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-400">2h 15min</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 1 ? 'rotate-180' : ''
+                                    }`}
+                                />
                               </div>
                             </div>
                           </div>
+                          {expandedModule === 1 && (
+                            <div className="bg-black/60">
+                              <div className="flex items-center gap-3 px-4 py-3 bg-primary-600/20 group cursor-pointer">
+                                <div className="w-6 h-6 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-primary-300 font-medium truncate">
+                                    Introdução ao Modelo de Negócio
+                                  </p>
+                                  <p className="text-xs text-gray-400">18min • Assistindo agora</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Business Model Canvas
+                                  </p>
+                                  <p className="text-xs text-gray-400">25min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Proposta de Valor Única
+                                  </p>
+                                  <p className="text-xs text-gray-400">22min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Validação de Mercado
+                                  </p>
+                                  <p className="text-xs text-gray-400">30min</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Módulo 2 - Fundamentação */}
+                        <div className="border-b border-gray-800">
+                          <div
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            onClick={() => toggleModule(2)}
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-medium text-white">Módulo 2: Fundamentação</h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-400">2h 30min</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 2 ? 'rotate-180' : ''
+                                    }`}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {expandedModule === 2 && (
+                            <div className="bg-black/60">
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Estrutura Jurídica e Legal
+                                  </p>
+                                  <p className="text-xs text-gray-400">35min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Planejamento Financeiro
+                                  </p>
+                                  <p className="text-xs text-gray-400">40min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Sistemas e Processos
+                                  </p>
+                                  <p className="text-xs text-gray-400">35min</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Módulo 3 - Visão & Planejamento */}
+                        <div className="border-b border-gray-800">
+                          <div
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            onClick={() => toggleModule(3)}
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-medium text-white">Módulo 3: Visão & Planejamento</h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-400">2h 0min</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 3 ? 'rotate-180' : ''
+                                    }`}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {expandedModule === 3 && (
+                            <div className="bg-black/60">
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Definindo Visão e Missão
+                                  </p>
+                                  <p className="text-xs text-gray-400">30min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Planejamento Estratégico
+                                  </p>
+                                  <p className="text-xs text-gray-400">45min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Metas e KPIs
+                                  </p>
+                                  <p className="text-xs text-gray-400">25min</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Módulo 4 - Liderança Empresarial */}
+                        <div className="border-b border-gray-800">
+                          <div
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            onClick={() => toggleModule(4)}
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-medium text-white">Módulo 4: Liderança Empresarial</h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-400">2h 20min</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 4 ? 'rotate-180' : ''
+                                    }`}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {expandedModule === 4 && (
+                            <div className="bg-black/60">
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Liderança Transformacional
+                                  </p>
+                                  <p className="text-xs text-gray-400">35min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Gestão de Equipes
+                                  </p>
+                                  <p className="text-xs text-gray-400">40min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Cultura Organizacional
+                                  </p>
+                                  <p className="text-xs text-gray-400">25min</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Módulo 5 - Máquina de Valor */}
+                        <div className="border-b border-gray-800">
+                          <div
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            onClick={() => toggleModule(5)}
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-medium text-white">Módulo 5: Máquina de Valor</h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-400">2h 15min</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 5 ? 'rotate-180' : ''
+                                    }`}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {expandedModule === 5 && (
+                            <div className="bg-black/60">
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Sistemas de Vendas
+                                  </p>
+                                  <p className="text-xs text-gray-400">35min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Marketing Digital
+                                  </p>
+                                  <p className="text-xs text-gray-400">40min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Automação de Processos
+                                  </p>
+                                  <p className="text-xs text-gray-400">20min</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Módulo 6 - Performance */}
+                        <div>
+                          <div
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            onClick={() => toggleModule(6)}
+                          >
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-medium text-white">Módulo 6: Performance</h4>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-gray-400">1h 45min</span>
+                                <ChevronDown
+                                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 6 ? 'rotate-180' : ''
+                                    }`}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {expandedModule === 6 && (
+                            <div className="bg-black/60">
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Métricas e Análise
+                                  </p>
+                                  <p className="text-xs text-gray-400">30min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Otimização Contínua
+                                  </p>
+                                  <p className="text-xs text-gray-400">35min</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                                <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                  <Play className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                    Escalabilidade
+                                  </p>
+                                  <p className="text-xs text-gray-400">20min</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
             </div>
 
             {/* Conteúdo Principal - Video */}
             <div className="flex-1 min-w-0">
               {/* Thumbnail/Video Player */}
               <div className="relative mb-8">
-              <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden border border-gray-800">
-                {content.type === 'video' || content.type === 'course' ? (
-                  <div className="relative w-full h-full group">
+                <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden border border-gray-800">
+                  {content.type === 'video' || content.type === 'course' ? (
+                    <div className="relative w-full h-full group">
+                      <img
+                        src={content.thumbnail}
+                        alt={content.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-center justify-center">
+                        <button className="group/play">
+                          <div className="w-16 h-16 bg-primary-600 hover:bg-primary-700 rounded-full flex items-center justify-center transition-all duration-300 group-hover/play:scale-110 shadow-2xl">
+                            <Play className="w-6 h-6 text-white ml-0.5" fill="currentColor" />
+                          </div>
+                        </button>
+                      </div>
+
+                      {/* Progress indicator */}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/50">
+                        <div className="h-full bg-primary-500 transition-all duration-300" style={{ width: '8%' }}></div>
+                      </div>
+
+                      {/* Time overlay */}
+                      <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-lg text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        1:02 / 12:00
+                      </div>
+                    </div>
+                  ) : (
                     <img
                       src={content.thumbnail}
                       alt={content.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-center justify-center">
-                      <button className="group/play">
-                        <div className="w-16 h-16 bg-primary-600 hover:bg-primary-700 rounded-full flex items-center justify-center transition-all duration-300 group-hover/play:scale-110 shadow-2xl">
-                          <Play className="w-6 h-6 text-white ml-0.5" fill="currentColor" />
-                        </div>
-                      </button>
-                    </div>
-                    
-                    {/* Progress indicator */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/50">
-                      <div className="h-full bg-primary-500 transition-all duration-300" style={{ width: '8%' }}></div>
-                    </div>
-                    
-                    {/* Time overlay */}
-                    <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-lg text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      1:02 / 12:00
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    src={content.thumbnail}
-                    alt={content.title}
-                    className="w-full h-full object-cover"
-                  />
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Informações da Aula */}
-            {content.currentLesson && (
-              <div className="mb-8">
-                <div className="mb-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h1 className="text-2xl lg:text-3xl font-bold text-white mb-3">
-                        {content.currentLesson.title}
-                      </h1>
-                      <div className="flex items-center gap-4 text-sm text-gray-400">
-                        <span>Por {content.author}</span>
-                        <span>•</span>
-                        <span>{content.currentLesson.duration}</span>
-                        <span>•</span>
-                        <span>{content.category}</span>
+              {/* Informações da Aula */}
+              {content.currentLesson && (
+                <div className="mb-8">
+                  <div className="mb-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                          {content.currentLesson.title}
+                        </h1>
+                        <div className="flex items-center gap-4 text-sm text-gray-400">
+                          <span>Por {content.author}</span>
+                          <span>•</span>
+                          <span>{content.currentLesson.duration}</span>
+                          <span>•</span>
+                          <span>{content.category}</span>
+                        </div>
+                      </div>
+
+                      {/* Ações da Aula */}
+                      <div className="flex items-center gap-2">
+                        <button className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-800/50 rounded-lg transition-colors">
+                          <Heart className="w-5 h-5" />
+                        </button>
+                        <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-gray-800/50 rounded-lg transition-colors">
+                          <Bookmark className="w-5 h-5" />
+                        </button>
+                        <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors">
+                          <MoreVertical className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
-                    
-                    {/* Ações da Aula */}
-                    <div className="flex items-center gap-2">
-                      <button className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-800/50 rounded-lg transition-colors">
-                        <Heart className="w-5 h-5" />
-                      </button>
-                      <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-gray-800/50 rounded-lg transition-colors">
-                        <Bookmark className="w-5 h-5" />
-                      </button>
-                      <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors">
-                        <MoreVertical className="w-5 h-5" />
-                      </button>
+                  </div>
+
+                  {/* Conteúdo da Aula */}
+                  <div className="prose prose-lg prose-invert max-w-none mb-8">
+                    <div className="text-gray-300 leading-relaxed space-y-4">
+                      {content.currentLesson.content.split('\n\n').map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Seção de Comentários */}
+              <div className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 mb-8">
+                <div className="card-glow"></div>
+
+                {/* Header dos Comentários */}
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-semibold text-white">Comentários</h3>
+                  <span className="text-sm text-gray-400">3 comentários</span>
+                </div>
+
+                {/* Form para novo comentário */}
+                <div className="mb-8">
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                      TB
+                    </div>
+                    <div className="flex-1">
+                      <textarea
+                        placeholder="Adicione um comentário sobre esta aula..."
+                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-primary-500 transition-colors"
+                        rows={3}
+                      />
+                      <div className="flex justify-end mt-3">
+                        <button className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors">
+                          Comentar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Conteúdo da Aula */}
-                <div className="prose prose-lg prose-invert max-w-none mb-8">
-                  <div className="text-gray-300 leading-relaxed space-y-4">
-                    {content.currentLesson.content.split('\n\n').map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
+                {/* Lista de Comentários */}
+                <div className="space-y-6">
+                  {/* Comentário 1 */}
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                      MS
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium text-white">Maria Silva</span>
+                        <span className="text-xs text-gray-400">há 2 dias</span>
+                      </div>
+                      <p className="text-gray-300 text-sm leading-relaxed">
+                        Excelente introdução! Consegui entender claramente a diferença entre liderança tradicional e transformacional. Os exemplos práticos ajudaram muito na compreensão.
+                      </p>
+                      <div className="flex items-center gap-4 mt-3">
+                        <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-300 transition-colors">
+                          <ThumbsUp className="w-3 h-3" />
+                          <span>12</span>
+                        </button>
+                        <button className="text-xs text-gray-400 hover:text-white transition-colors">
+                          Responder
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Comentário 2 */}
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                      RC
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium text-white">Roberto Costa</span>
+                        <span className="text-xs text-gray-400">há 1 dia</span>
+                      </div>
+                      <p className="text-gray-300 text-sm leading-relaxed">
+                        Tiago, parabéns pelo conteúdo! Já estou aplicando alguns conceitos com minha equipe e os resultados são visíveis. Ansioso pelas próximas aulas.
+                      </p>
+                      <div className="flex items-center gap-4 mt-3">
+                        <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-300 transition-colors">
+                          <ThumbsUp className="w-3 h-3" />
+                          <span>8</span>
+                        </button>
+                        <button className="text-xs text-gray-400 hover:text-white transition-colors">
+                          Responder
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Comentário 3 */}
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                      AF
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium text-white">Ana Fernandes</span>
+                        <span className="text-xs text-gray-400">há 5 horas</span>
+                      </div>
+                      <p className="text-gray-300 text-sm leading-relaxed">
+                        Muito didático! A forma como você explica os 4 pilares da liderança transformacional é muito clara. Recomendo para todos os gestores da minha empresa.
+                      </p>
+                      <div className="flex items-center gap-4 mt-3">
+                        <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-300 transition-colors">
+                          <ThumbsUp className="w-3 h-3" />
+                          <span>5</span>
+                        </button>
+                        <button className="text-xs text-gray-400 hover:text-white transition-colors">
+                          Responder
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            )}
 
-            {/* Seção de Comentários */}
-            <div className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 mb-8">
-              <div className="card-glow"></div>
-              
-              {/* Header dos Comentários */}
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-white">Comentários</h3>
-                <span className="text-sm text-gray-400">3 comentários</span>
-              </div>
+              {/* Navegação - Próxima Aula */}
+              <div className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
+                <div className="card-glow"></div>
 
-              {/* Form para novo comentário */}
-              <div className="mb-8">
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                    TB
-                  </div>
+                <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <textarea
-                      placeholder="Adicione um comentário sobre esta aula..."
-                      className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-primary-500 transition-colors"
-                      rows={3}
-                    />
-                    <div className="flex justify-end mt-3">
-                      <button className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors">
-                        Comentar
-                      </button>
-                    </div>
+                    <p className="text-sm text-gray-400 mb-1">Próxima aula</p>
+                    <h4 className="text-lg font-semibold text-white mb-2">Business Model Canvas</h4>
+                    <p className="text-sm text-gray-400">25 minutos</p>
                   </div>
+
+                  <button className="flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg transition-colors font-medium group">
+                    <span>Continuar</span>
+                    <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                      <Play className="w-3 h-3 text-white ml-0.5" fill="currentColor" />
+                    </div>
+                  </button>
                 </div>
               </div>
-
-              {/* Lista de Comentários */}
-              <div className="space-y-6">
-                {/* Comentário 1 */}
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                    MS
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="font-medium text-white">Maria Silva</span>
-                      <span className="text-xs text-gray-400">há 2 dias</span>
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Excelente introdução! Consegui entender claramente a diferença entre liderança tradicional e transformacional. Os exemplos práticos ajudaram muito na compreensão.
-                    </p>
-                    <div className="flex items-center gap-4 mt-3">
-                      <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-300 transition-colors">
-                        <ThumbsUp className="w-3 h-3" />
-                        <span>12</span>
-                      </button>
-                      <button className="text-xs text-gray-400 hover:text-white transition-colors">
-                        Responder
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Comentário 2 */}
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                    RC
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="font-medium text-white">Roberto Costa</span>
-                      <span className="text-xs text-gray-400">há 1 dia</span>
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Tiago, parabéns pelo conteúdo! Já estou aplicando alguns conceitos com minha equipe e os resultados são visíveis. Ansioso pelas próximas aulas.
-                    </p>
-                    <div className="flex items-center gap-4 mt-3">
-                      <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-300 transition-colors">
-                        <ThumbsUp className="w-3 h-3" />
-                        <span>8</span>
-                      </button>
-                      <button className="text-xs text-gray-400 hover:text-white transition-colors">
-                        Responder
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Comentário 3 */}
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                    AF
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="font-medium text-white">Ana Fernandes</span>
-                      <span className="text-xs text-gray-400">há 5 horas</span>
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Muito didático! A forma como você explica os 4 pilares da liderança transformacional é muito clara. Recomendo para todos os gestores da minha empresa.
-                    </p>
-                    <div className="flex items-center gap-4 mt-3">
-                      <button className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary-300 transition-colors">
-                        <ThumbsUp className="w-3 h-3" />
-                        <span>5</span>
-                      </button>
-                      <button className="text-xs text-gray-400 hover:text-white transition-colors">
-                        Responder
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Navegação - Próxima Aula */}
-            <div className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-              <div className="card-glow"></div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-sm text-gray-400 mb-1">Próxima aula</p>
-                  <h4 className="text-lg font-semibold text-white mb-2">Business Model Canvas</h4>
-                  <p className="text-sm text-gray-400">25 minutos</p>
-                </div>
-                
-                <button className="flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg transition-colors font-medium group">
-                  <span>Continuar</span>
-                  <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                    <Play className="w-3 h-3 text-white ml-0.5" fill="currentColor" />
-                  </div>
-                </button>
-              </div>
-            </div>
             </div>
           </div>
         </div>
