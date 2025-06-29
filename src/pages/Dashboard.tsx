@@ -1,64 +1,78 @@
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
 import Header from '../components/Header'
 
 export default function Dashboard() {
-    const [currentSlide, setCurrentSlide] = useState(0)
+    // Configuração do Embla Carousel
+    const [emblaRef, emblaApi] = useEmblaCarousel({ 
+        align: 'start',
+        slidesToScroll: 1,
+        containScroll: 'trimSnaps',
+        dragFree: true
+    })
+    const [canScrollPrev, setCanScrollPrev] = useState(false)
+    const [canScrollNext, setCanScrollNext] = useState(false)
+
+    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
+    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
+
+    const onSelect = useCallback(() => {
+        if (!emblaApi) return
+        setCanScrollPrev(emblaApi.canScrollPrev())
+        setCanScrollNext(emblaApi.canScrollNext())
+    }, [emblaApi])
+
+    useEffect(() => {
+        if (!emblaApi) return
+        onSelect()
+        emblaApi.on('select', onSelect)
+        emblaApi.on('reInit', onSelect)
+    }, [emblaApi, onSelect])
     
     const modules = [
         {
             id: 1,
             title: "MODELO DE NEGÓCIO",
             subtitle: "estrutura para o sucesso",
-            image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-indigo-500/20 to-indigo-900/40"
         },
         {
             id: 2,
             title: "FUNDAMENTAÇÃO",
             subtitle: "base sólida para crescer",
-            image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1534180079718-c54f5e889c4f?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-red-500/20 to-red-900/40"
         },
         {
             id: 3,
             title: "VISÃO & PLANEJAMENTO",
             subtitle: "estratégia empresarial",
-            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1717493222260-10abfbde479c?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-orange-500/20 to-orange-900/40"
         },
         {
             id: 4,
             title: "LIDERANÇA EMPRESARIAL",
             subtitle: "gestão de alta performance",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1523504706857-0b1cc4956993?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-purple-500/20 to-purple-900/40"
         },
         {
             id: 5,
             title: "MÁQUINA DE VALOR",
             subtitle: "sistemas que geram riqueza",
-            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1642240251149-bcccea43798d?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-blue-500/20 to-blue-900/40"
         },
         {
             id: 6,
             title: "PERFORMANCE",
             subtitle: "otimização e resultados",
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1730382624761-af8112d26209?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-green-500/20 to-green-900/40"
         }
     ]
-
-    const itemsPerPage = 5.5 // Mostra 5 cards completos e meio card para indicar mais conteúdo
-    const totalSlides = Math.ceil(modules.length / Math.floor(itemsPerPage))
-    
-    const nextSlide = () => {
-        setCurrentSlide(prev => Math.min(prev + 1, totalSlides - 1))
-    }
-    
-    const prevSlide = () => {
-        setCurrentSlide(prev => Math.max(prev - 1, 0))
-    }
 
     return (
         <div className="min-h-screen bg-gray-950">
@@ -107,13 +121,13 @@ export default function Dashboard() {
                             <p className="text-gray-400">Domine qualquer negócio com maestria e gere os melhores resultados</p>
                         </div>
 
-                        {/* Carrossel de Módulos com estilo Netflix */}
-                        <div className="relative">
+                        {/* Carrossel com Embla - Drag, responsivo e sem seleção de texto */}
+                        <div className="relative select-none">
                             {/* Setas de navegação */}
-                            {currentSlide > 0 && (
+                            {canScrollPrev && (
                                 <button
-                                    onClick={prevSlide}
-                                    className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-gray-800/80 hover:bg-gray-700/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    onClick={scrollPrev}
+                                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 bg-gray-800/80 hover:bg-gray-700/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
                                 >
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -121,10 +135,10 @@ export default function Dashboard() {
                                 </button>
                             )}
                             
-                            {currentSlide < totalSlides - 1 && (
+                            {canScrollNext && (
                                 <button
-                                    onClick={nextSlide}
-                                    className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-gray-800/80 hover:bg-gray-700/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    onClick={scrollNext}
+                                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-10 bg-gray-800/80 hover:bg-gray-700/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
                                 >
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -132,20 +146,17 @@ export default function Dashboard() {
                                 </button>
                             )}
 
-                            {/* Container do carrossel com espaço para o brilho */}
-                            <div className="overflow-hidden px-4 py-4">
-                                <div 
-                                    className="flex transition-transform duration-300 ease-in-out gap-4"
-                                    style={{ 
-                                        transform: `translateX(-${currentSlide * (100 / itemsPerPage)}%)`,
-                                        width: `${(modules.length / itemsPerPage) * 100}%`
-                                    }}
-                                >
+                            {/* Container Embla com tamanhos responsivos e sem seleção de texto */}
+                            <div className="overflow-hidden py-6 select-none" ref={emblaRef}>
+                                <div className="flex gap-4">
                                     {modules.map((module) => (
                                         <div 
                                             key={module.id} 
-                                            className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
-                                            style={{ width: `${100 / modules.length}%`, minWidth: `${100 / itemsPerPage}%` }}
+                                            className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2 flex-[0_0_auto] 
+                                                       w-[calc(40%-9.6px)]
+                                                       md:w-[calc(22.22%-12.8px)]
+                                                       lg:w-[calc(18.18%-12.8px)]
+                                                       select-none"
                                         >
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[9/16]">
@@ -159,7 +170,8 @@ export default function Dashboard() {
                                                         alt={module.title}
                                                         className="w-full h-full object-cover"
                                                     />
-                                                    <div className={`absolute inset-0 bg-gradient-to-b ${module.gradient} to-gray-950/60`} />
+                                                    {/* Overlay preto sutil para melhor contraste */}
+                                                    <div className="absolute inset-0 bg-black/20" />
                                                     
                                                     {/* Gradiente adicional na parte inferior para contraste do texto - finalizando em preto */}
                                                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
