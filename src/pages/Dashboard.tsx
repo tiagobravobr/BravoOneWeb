@@ -107,7 +107,8 @@ export default function Dashboard() {
             subtitle: "mentalidade vencedora",
             image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
             readTime: "5 min",
-            date: "2 dias atrás"
+            date: "2 dias atrás",
+            isNew: true
         },
         {
             id: 2,
@@ -263,7 +264,8 @@ export default function Dashboard() {
             id: 1,
             title: "LIDERANÇA SITUACIONAL",
             subtitle: "adapte seu estilo ao contexto",
-            image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2000&auto=format&fit=crop"
+            image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2000&auto=format&fit=crop",
+            isNew: true
         },
         {
             id: 2,
@@ -297,13 +299,15 @@ export default function Dashboard() {
             id: 1,
             title: "FLUXO DE CAIXA",
             subtitle: "controle total das suas finanças",
-            image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop"
+            image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop",
+            isNew: true
         },
         {
             id: 2,
             title: "ANÁLISE DE CUSTOS",
             subtitle: "otimize sua margem de lucro",
-            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop"
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop",
+            isNew: true
         },
         {
             id: 3,
@@ -552,6 +556,13 @@ export default function Dashboard() {
                                                     <div className="absolute inset-0 bg-black/20" />
                                                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
 
+                                                    {/* Badge Novo */}
+                                                    {item.isNew && (
+                                                        <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
+                                                            Novo
+                                                        </div>
+                                                    )}
+
                                                     <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                                         <div>
                                                             <h3 className="text-white font-bold text-xl mb-1 font-serif">
@@ -630,6 +641,13 @@ export default function Dashboard() {
                                                     {/* Overlay preto sutil */}
                                                     <div className="absolute inset-0 bg-black/20" />
                                                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+
+                                                    {/* Badge Novo */}
+                                                    {item.isNew && (
+                                                        <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
+                                                            Novo
+                                                        </div>
+                                                    )}
 
                                                     <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                                         <div>
@@ -780,17 +798,27 @@ export default function Dashboard() {
 
                                                 {/* Card principal */}
                                                 <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    
+                                                    {/* Imagem */}
                                                     <img
                                                         src={item.image}
                                                         alt={item.title}
-                                                        className="w-full h-2/3 object-cover"
+                                                        className="w-full h-[70%] object-cover"
                                                     />
-                                                    {/* Overlay preto sutil */}
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/40" />
+                                                    
+                                                    {/* Overlay preto sutil apenas na imagem */}
+                                                    <div className="absolute top-0 left-0 right-0 h-[70%] bg-gradient-to-b from-black/10 via-transparent to-black/60" />
 
-                                                    {/* Conteúdo do card */}
-                                                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-800/95 backdrop-blur-sm">
-                                                        <h3 className="text-white font-semibold text-sm mb-1 line-clamp-2">
+                                                    {/* Badge Novo */}
+                                                    {item.isNew && (
+                                                        <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
+                                                            Novo
+                                                        </div>
+                                                    )}
+
+                                                    {/* Conteúdo do card - 30% da altura */}
+                                                    <div className="absolute bottom-0 left-0 right-0 h-[30%] p-3 bg-gray-800 flex flex-col justify-center">
+                                                        <h3 className="text-white font-semibold text-sm mb-1 line-clamp-1">
                                                             {item.title}
                                                         </h3>
                                                         <p className="text-gray-300 text-xs mb-2 line-clamp-1">
