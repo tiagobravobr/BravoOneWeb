@@ -4,8 +4,10 @@ import Login from './pages/Login'
 import CreateAccount from './pages/CreateAccount'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
-import Dashboard from './pages/Dashboard'
+import Home from './pages/Home'
 import ContentViewer from './pages/ContentViewer'
+import AdminLayout from './components/admin/AdminLayout'
+import { AdminDashboard, AdminContent, AdminUsers, AdminAnalytics, AdminSettings } from './pages/admin'
 
 function App() {
   return (
@@ -16,10 +18,10 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route 
-          path="/dashboard" 
+          path="/" 
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Home />
             </ProtectedRoute>
           } 
         />
@@ -31,7 +33,23 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Admin Routes */}
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="content" element={<AdminContent />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="analytics" element={<AdminAnalytics />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="/dashboard" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   )

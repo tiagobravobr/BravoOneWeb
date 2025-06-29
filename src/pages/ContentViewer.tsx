@@ -84,7 +84,7 @@ const ContentViewer = () => {
   }, [slug])
 
   const handleGoBack = () => {
-    navigate('/dashboard')
+    navigate('/')
   }
 
   const toggleModule = (moduleId: number) => {
@@ -114,7 +114,7 @@ const ContentViewer = () => {
             onClick={handleGoBack}
             className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
           >
-            Voltar ao Dashboard
+            Voltar para Home
           </button>
         </div>
         <Footer />
@@ -126,7 +126,7 @@ const ContentViewer = () => {
     <div className="page-layout bg-gray-950">
       <Header />
 
-      {/* Botão Voltar ao Dashboard */}
+      {/* Botão Voltar para Home */}
       <div className="pt-20 pb-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
@@ -134,7 +134,7 @@ const ContentViewer = () => {
             className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-medium">Voltar ao Dashboard</span>
+            <span className="text-sm font-medium">Voltar para Home</span>
           </button>
         </div>
       </div>
