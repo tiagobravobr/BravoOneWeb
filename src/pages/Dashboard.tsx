@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default function Dashboard() {
     // Configuração do Embla Carousel para Módulos
@@ -450,7 +451,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[9/16]">
                                                 {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
-                                                <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                                <div className="card-glow"></div>
 
                                                 {/* Card principal */}
                                                 <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
@@ -543,7 +544,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[9/16]">
                                                 {/* Brilho difuso */}
-                                                <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                                <div className="card-glow"></div>
 
                                                 {/* Card principal */}
                                                 <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
@@ -629,7 +630,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[9/16]">
                                                 {/* Brilho difuso */}
-                                                <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                                <div className="card-glow"></div>
 
                                                 {/* Card principal */}
                                                 <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
@@ -715,7 +716,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[9/16]">
                                                 {/* Brilho difuso */}
-                                                <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                                <div className="card-glow"></div>
 
                                                 {/* Card principal */}
                                                 <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
@@ -794,7 +795,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[4/3.5]">
                                                 {/* Brilho difuso */}
-                                                <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                                <div className="card-glow"></div>
 
                                                 {/* Card principal */}
                                                 <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
@@ -839,6 +840,9 @@ export default function Dashboard() {
                     </section>
                 </div>
             </main>
+            
+            {/* Footer */}
+            <Footer />
         </div>
     )
 }
