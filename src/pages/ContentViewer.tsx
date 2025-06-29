@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Play, Heart, MoreVertical, ThumbsUp, ChevronLeft, ChevronRight, Bookmark, ChevronDown } from 'lucide-react'
+import { Play, Heart, MoreVertical, ThumbsUp, Bookmark, ChevronDown, ChevronsLeft, ChevronsRight, ArrowLeft } from 'lucide-react'
 
 interface ContentData {
   id: string
@@ -66,6 +66,7 @@ const ContentViewer = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const [expandedModule, setExpandedModule] = useState<number>(1) // Módulo 1 aberto por padrão
+  const activeModule = 1 // Simula que estamos visualizando conteúdo do Módulo 1
 
   useEffect(() => {
     // Simula carregamento de dados
@@ -125,7 +126,20 @@ const ContentViewer = () => {
     <div className="page-layout bg-gray-950">
       <Header />
 
-      <main className="pt-20 pb-16">
+      {/* Botão Voltar ao Dashboard */}
+      <div className="pt-20 pb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={handleGoBack}
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-medium">Voltar ao Dashboard</span>
+          </button>
+        </div>
+      </div>
+
+      <main className="pb-16">
         {/* Removido breadcrumb e botão voltar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-8">
@@ -145,25 +159,25 @@ const ContentViewer = () => {
                         className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
                         title="Expandir menu"
                       >
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronsRight className="w-5 h-5" />
                       </button>
                     </div>
                   ) : (
                     /* Modo Expandido - Conteúdo completo */
                     <>
                       {/* Header da Sidebar com Toggle Button */}
-                      <div className="relative p-6 border-b border-gray-800 bg-gray-800/60">
+                      <div className="sidebar-header">
                         {/* Toggle Button - Canto superior direito */}
                         <button
                           onClick={() => setIsSidebarCollapsed(true)}
-                          className="absolute top-4 right-4 p-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors"
+                          className="menu-toggle"
                           title="Recolher menu"
                         >
-                          <ChevronLeft className="w-4 h-4" />
+                          <ChevronsLeft className="w-5 h-5" />
                         </button>
 
-                        <h3 className="text-xl font-bold text-white mb-2 pr-12">Método Bravo de Negócios</h3>
-                        <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                        <h3 className="collection-title">Método Bravo de Negócios</h3>
+                        <div className="collection-info">
                           <span>6 módulos</span>
                           <span>•</span>
                           <span>24 aulas</span>
@@ -173,12 +187,12 @@ const ContentViewer = () => {
 
                         {/* Progress Bar */}
                         <div className="space-y-2">
-                          <div className="w-full bg-gray-800 rounded-full h-2.5">
-                            <div className="bg-gradient-to-r from-primary-500 to-primary-600 h-2.5 rounded-full transition-all duration-500" style={{ width: '4%' }}></div>
+                          <div className="progress-bar">
+                            <div className="progress-fill" style={{ width: '4%' }}></div>
                           </div>
-                          <div className="flex justify-between items-center">
-                            <p className="text-xs text-gray-400">1 de 24 aulas concluídas</p>
-                            <span className="text-xs text-primary-400 font-medium">4%</span>
+                          <div className="progress-info">
+                            <p className="progress-text">1 de 24 aulas concluídas</p>
+                            <span className="progress-percentage">4%</span>
                           </div>
                         </div>
                       </div>
@@ -188,11 +202,13 @@ const ContentViewer = () => {
                         {/* Módulo 1 - Modelo de Negócio */}
                         <div className="border-b border-gray-800">
                           <div
-                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
+                              activeModule === 1 ? 'module-active' : ''
+                            }`}
                             onClick={() => toggleModule(1)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-sm font-normal text-gray-300">Módulo 1: Modelo de Negócio</h4>
+                              <h4 className="module-title">Módulo 1: Modelo de Negócio</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 15min</span>
                                 <ChevronDown
@@ -203,8 +219,8 @@ const ContentViewer = () => {
                             </div>
                           </div>
                           {expandedModule === 1 && (
-                            <div className="bg-black/60">
-                              <div className="flex items-center gap-3 px-4 py-3 bg-primary-600/20 group cursor-pointer">
+                            <div className="module-content">
+                              <div className="lesson-active">
                                 <div className="w-6 h-6 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -215,7 +231,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">18min • Assistindo agora</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -226,7 +242,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">25min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -255,11 +271,13 @@ const ContentViewer = () => {
                         {/* Módulo 2 - Fundamentação */}
                         <div className="border-b border-gray-800">
                           <div
-                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
+                              activeModule === 2 ? 'module-active' : ''
+                            }`}
                             onClick={() => toggleModule(2)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-sm font-normal text-gray-300">Módulo 2: Fundamentação</h4>
+                              <h4 className="module-title">Módulo 2: Fundamentação</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 30min</span>
                                 <ChevronDown
@@ -270,8 +288,8 @@ const ContentViewer = () => {
                             </div>
                           </div>
                           {expandedModule === 2 && (
-                            <div className="bg-black/60">
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                            <div className="module-content">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -282,7 +300,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">35min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -293,7 +311,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">40min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -311,11 +329,13 @@ const ContentViewer = () => {
                         {/* Módulo 3 - Visão & Planejamento */}
                         <div className="border-b border-gray-800">
                           <div
-                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
+                              activeModule === 3 ? 'module-active' : ''
+                            }`}
                             onClick={() => toggleModule(3)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-sm font-normal text-gray-300">Módulo 3: Visão & Planejamento</h4>
+                              <h4 className="module-title">Módulo 3: Visão & Planejamento</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 0min</span>
                                 <ChevronDown
@@ -326,8 +346,8 @@ const ContentViewer = () => {
                             </div>
                           </div>
                           {expandedModule === 3 && (
-                            <div className="bg-black/60">
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                            <div className="module-content">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -338,7 +358,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">30min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -349,7 +369,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">45min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -367,11 +387,13 @@ const ContentViewer = () => {
                         {/* Módulo 4 - Liderança Empresarial */}
                         <div className="border-b border-gray-800">
                           <div
-                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
+                              activeModule === 4 ? 'module-active' : ''
+                            }`}
                             onClick={() => toggleModule(4)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-sm font-normal text-gray-300">Módulo 4: Liderança Empresarial</h4>
+                              <h4 className="module-title">Módulo 4: Liderança Empresarial</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 20min</span>
                                 <ChevronDown
@@ -382,8 +404,8 @@ const ContentViewer = () => {
                             </div>
                           </div>
                           {expandedModule === 4 && (
-                            <div className="bg-black/60">
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                            <div className="module-content">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -394,7 +416,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">35min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -405,7 +427,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">40min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -423,11 +445,13 @@ const ContentViewer = () => {
                         {/* Módulo 5 - Máquina de Valor */}
                         <div className="border-b border-gray-800">
                           <div
-                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
+                              activeModule === 5 ? 'module-active' : ''
+                            }`}
                             onClick={() => toggleModule(5)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-sm font-normal text-gray-300">Módulo 5: Máquina de Valor</h4>
+                              <h4 className="module-title">Módulo 5: Máquina de Valor</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 15min</span>
                                 <ChevronDown
@@ -438,8 +462,8 @@ const ContentViewer = () => {
                             </div>
                           </div>
                           {expandedModule === 5 && (
-                            <div className="bg-black/60">
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                            <div className="module-content">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -450,7 +474,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">35min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -461,7 +485,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">40min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -479,11 +503,13 @@ const ContentViewer = () => {
                         {/* Módulo 6 - Performance */}
                         <div>
                           <div
-                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
+                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
+                              activeModule === 6 ? 'module-active' : ''
+                            }`}
                             onClick={() => toggleModule(6)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-sm font-normal text-gray-300">Módulo 6: Performance</h4>
+                              <h4 className="module-title">Módulo 6: Performance</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">1h 45min</span>
                                 <ChevronDown
@@ -494,8 +520,8 @@ const ContentViewer = () => {
                             </div>
                           </div>
                           {expandedModule === 6 && (
-                            <div className="bg-black/60">
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                            <div className="module-content">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -506,7 +532,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">30min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -517,7 +543,7 @@ const ContentViewer = () => {
                                   <p className="text-xs text-gray-400">35min</p>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800/50 transition-colors cursor-pointer group">
+                              <div className="lesson-item group">
                                 <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
                                   <Play className="w-3 h-3 text-white" />
                                 </div>
@@ -657,7 +683,7 @@ const ContentViewer = () => {
                 <div className="space-y-6">
                   {/* Comentário 1 */}
                   <div className="flex gap-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                    <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
                       MS
                     </div>
                     <div className="flex-1">
@@ -707,7 +733,7 @@ const ContentViewer = () => {
 
                   {/* Comentário 3 */}
                   <div className="flex gap-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                    <div className="w-10 h-10 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
                       AF
                     </div>
                     <div className="flex-1">
