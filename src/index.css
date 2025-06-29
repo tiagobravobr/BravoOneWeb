@@ -69,3 +69,151 @@ input[type="text"] {
   background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
   inset: 0.25rem;
 }
+
+/* ContentViewer - Classes organizadas */
+
+/* Títulos dos módulos */
+.module-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(209 213 219);
+}
+
+/* Container dos módulos expandidos */
+.module-content {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Aula atual/ativa */
+.lesson-active {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: rgba(189, 22, 22, 0.2); /* primary-600/20 = #BD1616 com 20% opacidade */
+  cursor: pointer;
+}
+
+/* Aulas normais */
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.lesson-item:hover {
+  background-color: rgba(41, 41, 41, 0.5); /* gray-700/50 ao invés de gray-800/50 */
+}
+
+/* Cabeçalho da sidebar */
+.sidebar-header {
+  position: relative;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgb(41, 41, 41); /* gray-700 - mais neutro */
+  background-color: rgba(41, 41, 41, 0.6); /* gray-700/60 - tom mais neutro */
+}
+
+/* Botão de toggle do menu */
+.menu-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  color: rgb(209 213 219);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.menu-toggle:hover {
+  color: white;
+  background-color: rgba(41, 41, 41, 0.5); /* gray-700/50 - neutro */
+}
+
+/* Título principal da coleção */
+.collection-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+  padding-right: 3rem;
+}
+
+/* Informações da coleção */
+.collection-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: rgb(156 163 175);
+  margin-bottom: 1rem;
+}
+
+/* Barra de progresso */
+.progress-bar {
+  width: 100%;
+  background-color: rgb(41, 41, 41); /* gray-700 - neutro ao invés de azulado */
+  border-radius: 9999px;
+  height: 0.625rem;
+}
+
+.progress-fill {
+  background: linear-gradient(to right, rgb(189, 22, 22), rgb(189, 22, 22)); /* primary-500 to primary-600 = #BD1616 */
+  height: 0.625rem;
+  border-radius: 9999px;
+  transition: all 0.5s ease;
+}
+
+/* Informações de progresso */
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-text {
+  font-size: 0.75rem;
+  color: rgb(156 163 175);
+}
+
+.progress-percentage {
+  font-size: 0.75rem;
+  color: rgb(248, 113, 113); /* primary-400 = #f87171 */
+  font-weight: 500;
+}
+
+/* Containers e bordas dos módulos */
+.module-container {
+  border-bottom: 1px solid rgb(41, 41, 41); /* gray-700 ao invés de gray-800 */
+}
+
+.module-header {
+  padding: 1rem;
+  transition: colors 0.2s ease;
+  cursor: pointer;
+}
+
+.module-header:hover {
+  background-color: rgba(41, 41, 41, 0.3); /* gray-700/30 */
+}
+
+/* Sidebar container */
+.sidebar-container {
+  background-color: rgba(23, 23, 23, 0.5); /* gray-900/50 */
+  backdrop-filter: blur(4px);
+  border: 1px solid rgb(41, 41, 41); /* gray-700 */
+  border-radius: 0.75rem;
+}
+
+/* Módulo ativo */
+.module-active {
+  background-color: rgba(41, 41, 41, 0.4); /* gray-700/40 - destaque sutil */
+  border-left: 3px solid rgb(189, 22, 22); /* primary-600 - borda vermelha */
+}
+
+.module-active .module-title {
+  color: rgb(248, 113, 113); /* primary-400 - título em vermelho claro */
+  font-weight: 600; /* um pouco mais pesado */
+}
