@@ -1,43 +1,64 @@
+import { useState } from 'react'
 import Header from '../components/Header'
 
 export default function Dashboard() {
+    const [currentSlide, setCurrentSlide] = useState(0)
+    
     const modules = [
         {
-            id: 5,
-            title: "GESTÃO",
-            subtitle: "para novos líderes",
-            image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2000&auto=format&fit=crop", // Modern leadership/business
-            gradient: "from-blue-500/20 to-blue-900/40"
-        },
-        {
-            id: 4,
-            title: "QUEBRANDO",
-            subtitle: "barreiras limitantes",
-            image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2000&auto=format&fit=crop", // Warrior/strength
-            gradient: "from-purple-500/20 to-purple-900/40"
-        },
-        {
-            id: 3,
-            title: "COMO INSPIRAR",
-            subtitle: "equipes todos os dias",
-            image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop", // Space/inspiration
-            gradient: "from-orange-500/20 to-orange-900/40"
+            id: 1,
+            title: "MODELO DE NEGÓCIO",
+            subtitle: "estrutura para o sucesso",
+            image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2000&auto=format&fit=crop",
+            gradient: "from-indigo-500/20 to-indigo-900/40"
         },
         {
             id: 2,
-            title: "COMUNICAÇÃO",
-            subtitle: "ampliando seu impacto",
-            image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2000&auto=format&fit=crop", // Global/world business
+            title: "FUNDAMENTAÇÃO",
+            subtitle: "base sólida para crescer",
+            image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-red-500/20 to-red-900/40"
         },
         {
-            id: 1,
-            title: "RAIO X",
-            subtitle: "da liderança perfeita",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop", // Business leadership
+            id: 3,
+            title: "VISÃO & PLANEJAMENTO",
+            subtitle: "estratégia empresarial",
+            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2000&auto=format&fit=crop",
+            gradient: "from-orange-500/20 to-orange-900/40"
+        },
+        {
+            id: 4,
+            title: "LIDERANÇA EMPRESARIAL",
+            subtitle: "gestão de alta performance",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2000&auto=format&fit=crop",
+            gradient: "from-purple-500/20 to-purple-900/40"
+        },
+        {
+            id: 5,
+            title: "MÁQUINA DE VALOR",
+            subtitle: "sistemas que geram riqueza",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop",
+            gradient: "from-blue-500/20 to-blue-900/40"
+        },
+        {
+            id: 6,
+            title: "PERFORMANCE",
+            subtitle: "otimização e resultados",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000&auto=format&fit=crop",
             gradient: "from-green-500/20 to-green-900/40"
         }
     ]
+
+    const itemsPerPage = 5.5 // Mostra 5 cards completos e meio card para indicar mais conteúdo
+    const totalSlides = Math.ceil(modules.length / Math.floor(itemsPerPage))
+    
+    const nextSlide = () => {
+        setCurrentSlide(prev => Math.min(prev + 1, totalSlides - 1))
+    }
+    
+    const prevSlide = () => {
+        setCurrentSlide(prev => Math.max(prev - 1, 0))
+    }
 
     return (
         <div className="min-h-screen bg-gray-950">
@@ -65,13 +86,13 @@ export default function Dashboard() {
                         <div className="container mx-auto px-4">
                             <div className="max-w-2xl">
                                 <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-serif">
-                                    /BRAVO<span className="text-primary-500">ONE</span>
+                                    Academia de Negócios
                                 </h1>
                                 <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light">
-                                    O método definitivo para se tornar um líder excepcional
+                                    Desenvolva um negócio com propósito, estratégia e resultados
                                 </p>
                                 <button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-                                    Continuar jornada
+                                    Começar
                                 </button>
                             </div>
                         </div>
@@ -82,50 +103,89 @@ export default function Dashboard() {
                     {/* Modules Section */}
                     <section>
                         <div className="mb-8">
-                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">/módulos</h2>
-                            <p className="text-gray-400">Sua jornada de transformação em liderança</p>
+                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">Método Bravo de Negócios</h2>
+                            <p className="text-gray-400">Domine qualquer negócio com maestria e gere os melhores resultados</p>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                            {modules.map((module) => (
-                                <div key={module.id} className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2">
-                                    {/* Container principal com brilho de fundo */}
-                                    <div className="relative aspect-[9/16]">
-                                        {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
-                                        <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
-                                        
-                                        {/* Card principal */}
-                                        <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
-                                            <img
-                                                src={module.image}
-                                                alt={module.title}
-                                                className="w-full h-full object-cover"
-                                            />
-                                            <div className={`absolute inset-0 bg-gradient-to-b ${module.gradient} to-gray-950/60`} />
-                                            
-                                            {/* Gradiente adicional na parte inferior para contraste do texto - finalizando em preto */}
-                                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+                        {/* Carrossel de Módulos com estilo Netflix */}
+                        <div className="relative">
+                            {/* Setas de navegação */}
+                            {currentSlide > 0 && (
+                                <button
+                                    onClick={prevSlide}
+                                    className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-gray-800/80 hover:bg-gray-700/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                            )}
+                            
+                            {currentSlide < totalSlides - 1 && (
+                                <button
+                                    onClick={nextSlide}
+                                    className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-gray-800/80 hover:bg-gray-700/90 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            )}
 
-                                            <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                                                <div className="text-right">
-                                                    <span className="bg-primary-500 text-white text-xs font-bold px-2 py-1 rounded">
-                                                        MÓDULO {module.id}
-                                                    </span>
-                                                </div>
+                            {/* Container do carrossel com espaço para o brilho */}
+                            <div className="overflow-hidden px-4 py-4">
+                                <div 
+                                    className="flex transition-transform duration-300 ease-in-out gap-4"
+                                    style={{ 
+                                        transform: `translateX(-${currentSlide * (100 / itemsPerPage)}%)`,
+                                        width: `${(modules.length / itemsPerPage) * 100}%`
+                                    }}
+                                >
+                                    {modules.map((module) => (
+                                        <div 
+                                            key={module.id} 
+                                            className="group cursor-pointer transform transition-all duration-300 hover:-translate-y-2"
+                                            style={{ width: `${100 / modules.length}%`, minWidth: `${100 / itemsPerPage}%` }}
+                                        >
+                                            {/* Container principal com brilho de fundo */}
+                                            <div className="relative aspect-[9/16]">
+                                                {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
+                                                <div className="absolute -inset-3 bg-gradient-radial from-white/12 via-white/6 to-white/2 group-hover:from-white/18 group-hover:via-white/4 group-hover:to-transparent group-hover:inset-1 transition-all duration-300 rounded-lg blur-lg -z-10"></div>
+                                                
+                                                {/* Card principal */}
+                                                <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    <img
+                                                        src={module.image}
+                                                        alt={module.title}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                    <div className={`absolute inset-0 bg-gradient-to-b ${module.gradient} to-gray-950/60`} />
+                                                    
+                                                    {/* Gradiente adicional na parte inferior para contraste do texto - finalizando em preto */}
+                                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
 
-                                                <div>
-                                                    <h3 className="text-white font-bold text-xl mb-1 font-serif">
-                                                        {module.title}
-                                                    </h3>
-                                                    <p className="text-gray-200 text-base font-light">
-                                                        {module.subtitle}
-                                                    </p>
+                                                    <div className="absolute inset-0 p-4 flex flex-col justify-between">
+                                                        <div className="text-right">
+                                                            <span className="bg-primary-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                                                MÓDULO {module.id}
+                                                            </span>
+                                                        </div>
+
+                                                        <div>
+                                                            <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                {module.title}
+                                                            </h3>
+                                                            <p className="text-gray-200 text-base font-light">
+                                                                {module.subtitle}
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </section>
 
