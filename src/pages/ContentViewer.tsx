@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Play, ArrowLeft, Heart, MoreVertical, ThumbsUp, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Play, Heart, MoreVertical, ThumbsUp, ChevronLeft, ChevronRight, Bookmark } from 'lucide-react'
 
 interface ContentData {
   id: string
@@ -33,28 +33,28 @@ interface ContentData {
 
 // Simulação de dados de conteúdo
 const mockContentData: Record<string, ContentData> = {
-  'lideranca-transformacional': {
+  'modelo-de-negocio': {
     id: '1',
-    slug: 'lideranca-transformacional',
+    slug: 'modelo-de-negocio',
     type: 'course',
-    title: 'Liderança Transformacional',
-    description: 'Desenvolva habilidades de liderança avançada e aprenda a inspirar e motivar equipes de alta performance através de técnicas comprovadas do Método Bravo.',
-    content: 'A liderança transformacional é uma abordagem revolucionária que vai além da gestão tradicional. Neste curso exclusivo da Bravo, você descobrirá como se tornar um líder que inspira, motiva e transforma não apenas resultados, mas também pessoas e organizações inteiras. Através de metodologias práticas e cases reais, desenvolvemos um programa completo que aborda desde os fundamentos neurológicos da liderança até as estratégias mais avançadas de influência e persuasão.\n\nO diferencial do Método Bravo está na combinação única entre neurociência aplicada, psicologia comportamental e estratégias empresariais comprovadas. Você aprenderá técnicas específicas para desenvolver sua presença de liderança, criar conexões autênticas com sua equipe e implementar mudanças organizacionais duradouras. Este não é apenas um curso teórico - é um sistema prático e aplicável que já transformou milhares de líderes ao redor do mundo.',
-    duration: '4h 30min',
+    title: 'Método Bravo de Negócios',
+    description: 'Domine os fundamentos empresariais através de metodologias práticas e estratégias comprovadas para construir e escalar negócios de sucesso.',
+    content: 'O Método Bravo de Negócios é um programa completo que aborda desde a concepção do modelo de negócio até a implementação de sistemas de alta performance. Desenvolvido com base em anos de experiência prática e cases reais de empresas que alcançaram resultados extraordinários.\n\nEste curso foi estruturado para empreendedores, executivos e profissionais que desejam construir uma base sólida para seus negócios, implementar estratégias eficazes e criar sistemas sustentáveis de crescimento e lucratividade.',
+    duration: '12h 45min',
     difficulty: 'intermediate',
-    category: 'Gestão & Liderança',
+    category: 'Negócios & Empreendedorismo',
     author: 'Tiago Bravo',
     currentLesson: {
-      title: 'Introdução à Liderança Transformacional',
-      duration: '12min',
-      content: 'Nesta aula introdutória, você descobrirá os fundamentos da liderança transformacional e como ela difere das abordagens tradicionais de gestão. Exploraremos os quatro pilares essenciais que todo líder transformacional deve dominar: visão inspiradora, influência intelectual, consideração individualizada e motivação inspiracional.\n\nVamos analisar casos reais de líderes que conseguiram transformar suas organizações através desta metodologia, incluindo exemplos práticos de como aplicar esses conceitos no seu dia a dia. Ao final desta aula, você terá uma compreensão clara do que significa ser um líder transformacional e estará preparado para iniciar sua jornada de desenvolvimento.'
+      title: 'Introdução ao Modelo de Negócio',
+      duration: '18min',
+      content: 'Nesta aula introdutória, você descobrirá os elementos fundamentais que compõem um modelo de negócio sólido e escalável. Vamos explorar como identificar oportunidades de mercado, definir sua proposta de valor única e estruturar uma base empresarial que sustente o crescimento a longo prazo.\n\nAprenderemos sobre os 9 componentes essenciais do Business Model Canvas e como aplicá-los na prática para validar e refinar sua ideia de negócio. Ao final desta aula, você terá uma compreensão clara de como construir um modelo de negócio robusto e diferenciado no mercado.'
     },
     publishedDate: '2024-01-15',
-    thumbnail: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop',
+    thumbnail: 'https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?q=80&w=2000&auto=format&fit=crop',
     videoUrl: '#',
-    tags: ['liderança', 'gestão', 'transformação', 'equipes', 'método bravo'],
+    tags: ['negócios', 'empreendedorismo', 'modelo de negócio', 'estratégia', 'método bravo'],
     rating: 4.9,
-    enrolledCount: 2547,
+    enrolledCount: 3247,
     isLocked: false
   }
 }
@@ -159,36 +159,36 @@ const ContentViewer = () => {
                         <ChevronLeft className="w-4 h-4" />
                       </button>
                       
-                      <h3 className="text-lg font-semibold text-white mb-2 pr-10">Conteúdo do Curso</h3>
+                      <h3 className="text-lg font-semibold text-white mb-2 pr-10">Método Bravo de Negócios</h3>
                       <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
-                        <span>4 módulos</span>
+                        <span>6 módulos</span>
                         <span>•</span>
-                        <span>16 aulas</span>
+                        <span>24 aulas</span>
                         <span>•</span>
-                        <span>4h 30min</span>
+                        <span>12h 45min</span>
                       </div>
                       
                       {/* Progress Bar */}
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-400">Progresso</span>
-                          <span className="text-primary-400 font-medium">6%</span>
+                          <span className="text-primary-400 font-medium">4%</span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-500" style={{ width: '6%' }}></div>
+                          <div className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-500" style={{ width: '4%' }}></div>
                         </div>
-                        <p className="text-xs text-gray-400">1 de 16 aulas concluídas</p>
+                        <p className="text-xs text-gray-400">1 de 24 aulas concluídas</p>
                       </div>
                     </div>
 
                     {/* Lista de Módulos */}
                     <div>
-                      {/* Módulo 1 */}
+                      {/* Módulo 1 - Modelo de Negócio */}
                       <div className="border-b border-gray-800">
                         <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 1: Fundamentos</h4>
-                            <span className="text-xs text-gray-400">45min</span>
+                            <h4 className="font-medium text-white">Módulo 1: Modelo de Negócio</h4>
+                            <span className="text-xs text-gray-400">2h 15min</span>
                           </div>
                           <div className="space-y-2">
                             <div className="flex items-center gap-3 p-3 rounded-lg bg-primary-600/20 border border-primary-500/30 group">
@@ -197,9 +197,9 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-primary-300 font-medium truncate">
-                                  Introdução à Liderança Transformacional
+                                  Introdução ao Modelo de Negócio
                                 </p>
-                                <p className="text-xs text-gray-400">12min • Assistindo agora</p>
+                                <p className="text-xs text-gray-400">18min • Assistindo agora</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
@@ -208,52 +208,7 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Os 4 Pilares da Liderança
-                                </p>
-                                <p className="text-xs text-gray-400">15min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Autoconhecimento do Líder
-                                </p>
-                                <p className="text-xs text-gray-400">18min</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Módulo 2 */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 2: Comunicação</h4>
-                            <span className="text-xs text-gray-400">1h 15min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Comunicação Assertiva
-                                </p>
-                                <p className="text-xs text-gray-400">20min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Escuta Ativa e Empatia
+                                  Business Model Canvas
                                 </p>
                                 <p className="text-xs text-gray-400">25min</p>
                               </div>
@@ -264,30 +219,7 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Feedback Construtivo
-                                </p>
-                                <p className="text-xs text-gray-400">30min</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Módulo 3 */}
-                      <div className="border-b border-gray-800">
-                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 3: Motivação</h4>
-                            <span className="text-xs text-gray-400">1h 30min</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Teorias da Motivação
+                                  Proposta de Valor Única
                                 </p>
                                 <p className="text-xs text-gray-400">22min</p>
                               </div>
@@ -298,43 +230,21 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Engajamento de Equipes
+                                  Validação de Mercado
                                 </p>
-                                <p className="text-xs text-gray-400">28min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Reconhecimento e Recompensas
-                                </p>
-                                <p className="text-xs text-gray-400">24min</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
-                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-3 h-3 text-white" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Criando uma Cultura de Alto Desempenho
-                                </p>
-                                <p className="text-xs text-gray-400">16min</p>
+                                <p className="text-xs text-gray-400">30min</p>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* Módulo 4 */}
-                      <div>
+                      {/* Módulo 2 - Fundamentação */}
+                      <div className="border-b border-gray-800">
                         <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
                           <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-white">Módulo 4: Implementação</h4>
-                            <span className="text-xs text-gray-400">1h 20min</span>
+                            <h4 className="font-medium text-white">Módulo 2: Fundamentação</h4>
+                            <span className="text-xs text-gray-400">2h 30min</span>
                           </div>
                           <div className="space-y-2">
                             <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
@@ -343,9 +253,9 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Plano de Ação Pessoal
+                                  Estrutura Jurídica e Legal
                                 </p>
-                                <p className="text-xs text-gray-400">25min</p>
+                                <p className="text-xs text-gray-400">35min</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
@@ -354,7 +264,41 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Mudança Organizacional
+                                  Planejamento Financeiro
+                                </p>
+                                <p className="text-xs text-gray-400">40min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Sistemas e Processos
+                                </p>
+                                <p className="text-xs text-gray-400">35min</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Módulo 3 - Visão & Planejamento */}
+                      <div className="border-b border-gray-800">
+                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-white">Módulo 3: Visão & Planejamento</h4>
+                            <span className="text-xs text-gray-400">2h 0min</span>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Definindo Visão e Missão
                                 </p>
                                 <p className="text-xs text-gray-400">30min</p>
                               </div>
@@ -365,9 +309,155 @@ const ContentViewer = () => {
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
-                                  Casos Práticos e Estudos
+                                  Planejamento Estratégico
+                                </p>
+                                <p className="text-xs text-gray-400">45min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Metas e KPIs
                                 </p>
                                 <p className="text-xs text-gray-400">25min</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Módulo 4 - Liderança Empresarial */}
+                      <div className="border-b border-gray-800">
+                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-white">Módulo 4: Liderança Empresarial</h4>
+                            <span className="text-xs text-gray-400">2h 20min</span>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Liderança Transformacional
+                                </p>
+                                <p className="text-xs text-gray-400">35min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Gestão de Equipes
+                                </p>
+                                <p className="text-xs text-gray-400">40min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Cultura Organizacional
+                                </p>
+                                <p className="text-xs text-gray-400">25min</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Módulo 5 - Máquina de Valor */}
+                      <div className="border-b border-gray-800">
+                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-white">Módulo 5: Máquina de Valor</h4>
+                            <span className="text-xs text-gray-400">2h 15min</span>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Sistemas de Vendas
+                                </p>
+                                <p className="text-xs text-gray-400">35min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Marketing Digital
+                                </p>
+                                <p className="text-xs text-gray-400">40min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Automação de Processos
+                                </p>
+                                <p className="text-xs text-gray-400">20min</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Módulo 6 - Performance */}
+                      <div>
+                        <div className="p-4 hover:bg-gray-800/30 transition-colors cursor-pointer">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-white">Módulo 6: Performance</h4>
+                            <span className="text-xs text-gray-400">1h 45min</span>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Métricas e Análise
+                                </p>
+                                <p className="text-xs text-gray-400">30min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Otimização Contínua
+                                </p>
+                                <p className="text-xs text-gray-400">35min</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700/30 transition-colors cursor-pointer group">
+                              <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-3 h-3 text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-gray-300 group-hover:text-white transition-colors truncate">
+                                  Escalabilidade
+                                </p>
+                                <p className="text-xs text-gray-400">20min</p>
                               </div>
                             </div>
                           </div>
@@ -442,6 +532,9 @@ const ContentViewer = () => {
                     <div className="flex items-center gap-2">
                       <button className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-800/50 rounded-lg transition-colors">
                         <Heart className="w-5 h-5" />
+                      </button>
+                      <button className="p-2 text-gray-400 hover:text-yellow-400 hover:bg-gray-800/50 rounded-lg transition-colors">
+                        <Bookmark className="w-5 h-5" />
                       </button>
                       <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors">
                         <MoreVertical className="w-5 h-5" />
@@ -578,8 +671,8 @@ const ContentViewer = () => {
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <p className="text-sm text-gray-400 mb-1">Próxima aula</p>
-                  <h4 className="text-lg font-semibold text-white mb-2">Os 4 Pilares da Liderança</h4>
-                  <p className="text-sm text-gray-400">15 minutos</p>
+                  <h4 className="text-lg font-semibold text-white mb-2">Business Model Canvas</h4>
+                  <p className="text-sm text-gray-400">25 minutos</p>
                 </div>
                 
                 <button className="flex items-center gap-3 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg transition-colors font-medium group">

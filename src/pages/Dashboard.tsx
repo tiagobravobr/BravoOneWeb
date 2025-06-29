@@ -1,9 +1,21 @@
 import { useState, useCallback, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useEmblaCarousel from 'embla-carousel-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
 export default function Dashboard() {
+    const navigate = useNavigate()
+
+    // Função para navegar para o conteúdo do módulo
+    const handleModuleClick = (moduleId: number) => {
+        if (moduleId === 1) {
+            // Apenas o primeiro módulo (Modelo de Negócio) está conectado
+            navigate('/content/modelo-de-negocio')
+        }
+        // Outros módulos ainda não implementados
+    }
+
     // Configuração do Embla Carousel para Módulos
     const [emblaRef, emblaApi] = useEmblaCarousel({
         align: 'start',
@@ -447,6 +459,7 @@ export default function Dashboard() {
                                                        md:w-[calc(22.22%-12.8px)]
                                                        lg:w-[calc(18.18%-12.8px)]
                                                        select-none"
+                                            onClick={() => handleModuleClick(module.id)}
                                         >
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[9/16]">
