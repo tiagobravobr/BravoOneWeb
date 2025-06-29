@@ -207,9 +207,9 @@ const ContentViewer = () => {
                             }`}
                             onClick={() => toggleModule(1)}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="module-title">Módulo 1: Modelo de Negócio</h4>
-                              <div className="flex items-center gap-2">
+                            <div className="flex items-start justify-between gap-4">
+                              <h4 className="module-title flex-1 min-w-0">Módulo 1: Modelo de Negócio</h4>
+                              <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-gray-400">2h 15min</span>
                                 <ChevronDown
                                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 1 ? 'rotate-180' : ''
@@ -271,14 +271,12 @@ const ContentViewer = () => {
                         {/* Módulo 2 - Fundamentação */}
                         <div className="border-b border-gray-800">
                           <div
-                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
-                              activeModule === 2 ? 'module-active' : ''
-                            }`}
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
                             onClick={() => toggleModule(2)}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="module-title">Módulo 2: Fundamentação</h4>
-                              <div className="flex items-center gap-2">
+                            <div className="flex items-start justify-between gap-4">
+                              <h4 className="module-title flex-1 min-w-0">Módulo 2: Fundamentação</h4>
+                              <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-gray-400">2h 30min</span>
                                 <ChevronDown
                                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 2 ? 'rotate-180' : ''
@@ -329,14 +327,12 @@ const ContentViewer = () => {
                         {/* Módulo 3 - Visão & Planejamento */}
                         <div className="border-b border-gray-800">
                           <div
-                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
-                              activeModule === 3 ? 'module-active' : ''
-                            }`}
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
                             onClick={() => toggleModule(3)}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="module-title">Módulo 3: Visão & Planejamento</h4>
-                              <div className="flex items-center gap-2">
+                            <div className="flex items-start justify-between gap-4">
+                              <h4 className="module-title flex-1 min-w-0">Módulo 3: Visão & Planejamento</h4>
+                              <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-gray-400">2h 0min</span>
                                 <ChevronDown
                                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 3 ? 'rotate-180' : ''
@@ -387,14 +383,12 @@ const ContentViewer = () => {
                         {/* Módulo 4 - Liderança Empresarial */}
                         <div className="border-b border-gray-800">
                           <div
-                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
-                              activeModule === 4 ? 'module-active' : ''
-                            }`}
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
                             onClick={() => toggleModule(4)}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="module-title">Módulo 4: Liderança Empresarial</h4>
-                              <div className="flex items-center gap-2">
+                            <div className="flex items-start justify-between gap-4">
+                              <h4 className="module-title flex-1 min-w-0">Módulo 4: Liderança Empresarial</h4>
+                              <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-gray-400">2h 20min</span>
                                 <ChevronDown
                                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 4 ? 'rotate-180' : ''
@@ -445,14 +439,12 @@ const ContentViewer = () => {
                         {/* Módulo 5 - Máquina de Valor */}
                         <div className="border-b border-gray-800">
                           <div
-                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
-                              activeModule === 5 ? 'module-active' : ''
-                            }`}
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
                             onClick={() => toggleModule(5)}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="module-title">Módulo 5: Máquina de Valor</h4>
-                              <div className="flex items-center gap-2">
+                            <div className="flex items-start justify-between gap-4">
+                              <h4 className="module-title flex-1 min-w-0">Módulo 5: Máquina de Valor</h4>
+                              <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-gray-400">2h 15min</span>
                                 <ChevronDown
                                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 5 ? 'rotate-180' : ''
@@ -503,14 +495,12 @@ const ContentViewer = () => {
                         {/* Módulo 6 - Performance */}
                         <div>
                           <div
-                            className={`p-4 transition-colors cursor-pointer hover:bg-gray-800/30 ${
-                              activeModule === 6 ? 'module-active' : ''
-                            }`}
+                            className="p-4 transition-colors cursor-pointer hover:bg-gray-800/30"
                             onClick={() => toggleModule(6)}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="module-title">Módulo 6: Performance</h4>
-                              <div className="flex items-center gap-2">
+                            <div className="flex items-start justify-between gap-4">
+                              <h4 className="module-title flex-1 min-w-0">Módulo 6: Performance</h4>
+                              <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className="text-xs text-gray-400">1h 45min</span>
                                 <ChevronDown
                                   className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${expandedModule === 6 ? 'rotate-180' : ''

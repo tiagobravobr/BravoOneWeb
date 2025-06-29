@@ -54,6 +54,11 @@ export default function Header() {
     ]
 
     const isActiveRoute = (path: string) => {
+        if (path === '/admin') {
+            // Dashboard deve estar ativo apenas quando está exatamente em /admin
+            return location.pathname === '/admin'
+        }
+        // Para outras rotas, usar startsWith
         return location.pathname.startsWith(path)
     }
 
