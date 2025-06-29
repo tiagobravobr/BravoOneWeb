@@ -192,7 +192,7 @@ const ContentViewer = () => {
                             onClick={() => toggleModule(1)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-medium text-white">Módulo 1: Modelo de Negócio</h4>
+                              <h4 className="text-sm font-normal text-gray-300">Módulo 1: Modelo de Negócio</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 15min</span>
                                 <ChevronDown
@@ -259,7 +259,7 @@ const ContentViewer = () => {
                             onClick={() => toggleModule(2)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-medium text-white">Módulo 2: Fundamentação</h4>
+                              <h4 className="text-sm font-normal text-gray-300">Módulo 2: Fundamentação</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 30min</span>
                                 <ChevronDown
@@ -315,7 +315,7 @@ const ContentViewer = () => {
                             onClick={() => toggleModule(3)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-medium text-white">Módulo 3: Visão & Planejamento</h4>
+                              <h4 className="text-sm font-normal text-gray-300">Módulo 3: Visão & Planejamento</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 0min</span>
                                 <ChevronDown
@@ -371,7 +371,7 @@ const ContentViewer = () => {
                             onClick={() => toggleModule(4)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-medium text-white">Módulo 4: Liderança Empresarial</h4>
+                              <h4 className="text-sm font-normal text-gray-300">Módulo 4: Liderança Empresarial</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 20min</span>
                                 <ChevronDown
@@ -427,7 +427,7 @@ const ContentViewer = () => {
                             onClick={() => toggleModule(5)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-medium text-white">Módulo 5: Máquina de Valor</h4>
+                              <h4 className="text-sm font-normal text-gray-300">Módulo 5: Máquina de Valor</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">2h 15min</span>
                                 <ChevronDown
@@ -483,7 +483,7 @@ const ContentViewer = () => {
                             onClick={() => toggleModule(6)}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <h4 className="font-medium text-white">Módulo 6: Performance</h4>
+                              <h4 className="text-sm font-normal text-gray-300">Módulo 6: Performance</h4>
                               <div className="flex items-center gap-2">
                                 <span className="text-xs text-gray-400">1h 45min</span>
                                 <ChevronDown
