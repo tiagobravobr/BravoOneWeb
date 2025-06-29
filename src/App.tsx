@@ -5,6 +5,7 @@ import CreateAccount from './pages/CreateAccount'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import Dashboard from './pages/Dashboard'
+import ContentViewer from './pages/ContentViewer'
 
 function App() {
   return (
@@ -19,6 +20,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/content/:slug" 
+          element={
+            <ProtectedRoute>
+              <ContentViewer />
             </ProtectedRoute>
           } 
         />

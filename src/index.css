@@ -23,6 +23,19 @@ body {
 
 #root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Layout global para páginas */
+.page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-layout main {
+  flex: 1;
 }
 
 /* Remove outline padrão e força cores customizadas */

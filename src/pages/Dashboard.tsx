@@ -365,7 +365,7 @@ export default function Dashboard() {
     ]
 
     return (
-        <div className="min-h-screen bg-gray-950">
+        <div className="page-layout bg-gray-950">
             {/* Header Sticky com Glassmorphism */}
             <Header />
 
