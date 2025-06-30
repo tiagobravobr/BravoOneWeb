@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Settings, Users, BookOpen, BarChart3, TrendingUp, Monitor, Shield } from 'lucide-react'
+import { Settings, Users, BookOpen, BarChart3, TrendingUp, Monitor, Shield, Menu } from 'lucide-react'
 
 export default function Header() {
     const { user, signOut } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
@@ -113,14 +114,28 @@ export default function Header() {
     // Fechar menu ao clicar fora
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            const target = event.target as Node
+            
+            // Não fechar se o clique foi no menu mobile ou seus filhos
+            const mobileMenu = document.querySelector('[data-mobile-menu]')
+            if (mobileMenu && mobileMenu.contains(target)) {
+                return
+            }
+            
+            if (menuRef.current && !menuRef.current.contains(target)) {
                 setIsMenuOpen(false)
+                setIsMobileMenuOpen(false)
             }
         }
 
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [])
+
+    // Fechar menu mobile quando a rota mudar
+    useEffect(() => {
+        setIsMobileMenuOpen(false)
+    }, [location.pathname])
 
     const handleSignOut = async () => {
         const { error } = await signOut()
@@ -152,11 +167,11 @@ export default function Header() {
 
                     {/* Menu Central de Navegação (só aparece no admin) */}
                     {isAdminArea && (
+                        <>
                         <nav className="hidden md:flex items-center space-x-8">
                             {adminMenuItems.map((item) => {
                                 const Icon = item.icon
                                 const isActive = isActiveRoute(item.path)
-                                
                                 return (
                                     <button
                                         key={item.id}
@@ -170,13 +185,9 @@ export default function Header() {
                                     >
                                         <Icon className="w-4 h-4" />
                                         <span className="font-medium text-sm">{item.label}</span>
-                                        
-                                        {/* Active indicator - linha embaixo */}
                                         {isActive && (
                                             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full"></div>
                                         )}
-                                        
-                                        {/* Hover indicator */}
                                         {!isActive && (
                                             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                                         )}
@@ -184,6 +195,44 @@ export default function Header() {
                                 )
                             })}
                         </nav>
+                        {/* Botão de menu mobile */}
+                        <button
+                            className="md:hidden p-2 rounded-lg hover:bg-gray-800/50 transition-colors ml-2"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            aria-label="Menu"
+                        >
+                            <Menu className="w-6 h-6 text-gray-400" />
+                        </button>
+                        {/* Menu suspenso mobile */}
+                        {isMobileMenuOpen && (
+                            <div className="fixed inset-0 z-50 md:hidden" data-mobile-menu>
+                                <div 
+                                    className="absolute inset-0 bg-black/50" 
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                />
+                                <div className="absolute top-16 left-0 right-0 bg-gray-900 border-t border-gray-800 shadow-xl">
+                                    {adminMenuItems.map((item) => {
+                                        const Icon = item.icon
+                                        const isActive = isActiveRoute(item.path)
+                                        return (
+                                            <button
+                                                key={item.id}
+                                                onClick={() => navigate(item.path)}
+                                                className={`w-full flex items-center gap-3 px-6 py-4 text-left border-b border-gray-800 last:border-b-0 transition-colors ${
+                                                    isActive
+                                                        ? 'text-primary-300 bg-gray-800'
+                                                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                                                }`}
+                                            >
+                                                <Icon className="w-5 h-5" />
+                                                <span className="font-medium">{item.label}</span>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                        </>
                     )}
 
                     {/* Ações e Avatar */}
