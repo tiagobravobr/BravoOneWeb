@@ -1,4 +1,4 @@
-import { Plus, BookOpen, Calendar, Users, Trash2 } from 'lucide-react'
+import { Plus, BookOpen, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
@@ -62,13 +62,6 @@ const AdminContent = () => {
     navigate(`/admin/content/edit-academy/${academyId}`)
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit', 
-      year: 'numeric'
-    })
-  }
 
   const handleOpenDeleteModal = (academy: Academy) => {
     setAcademyToDelete(academy)
