@@ -407,7 +407,7 @@ export default function Dashboard() {
                                 <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light">
                                     Desenvolva um negócio com propósito, estratégia e resultados
                                 </p>
-                                <button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                                <button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded font-medium transition-all duration-200 hover:-translate-y-1 hover:brightness-110">
                                     Começar
                                 </button>
                             </div>

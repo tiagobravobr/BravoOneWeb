@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Trash2 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useToast } from '../../contexts/ToastContext'
+import ConfirmDeleteModal from '../../components/ConfirmDeleteModal'
 
 interface Academy {
   id: string
@@ -25,6 +26,8 @@ const AcademyForm = () => {
   const [isLoading, setIsLoading] = useState(isEditMode) // Loading apenas se estivermos carregando dados existentes
   const [isSaving, setIsSaving] = useState(false)
   const [hasFocus, setHasFocus] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -203,6 +206,27 @@ const AcademyForm = () => {
     }
   }
 
+  const handleOpenDeleteModal = () => setDeleteModalOpen(true)
+  const handleCloseDeleteModal = () => setDeleteModalOpen(false)
+  const handleDeleteAcademy = async () => {
+    if (!academy) return
+    setIsDeleting(true)
+    try {
+      const { error } = await supabase
+        .from('content_nodes')
+        .delete()
+        .eq('id', academy.id)
+      if (error) throw error
+      showToast('Academia excluída com sucesso!', 'success')
+      navigate('/admin/content')
+    } catch (err) {
+      showToast('Erro ao excluir academia.', 'error')
+    } finally {
+      setIsDeleting(false)
+      setDeleteModalOpen(false)
+    }
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header com link de voltar */}
@@ -218,54 +242,78 @@ const AcademyForm = () => {
 
       {/* Campo Nome editável, destacado */}
       <div className="mb-8">
-        {isEditing ? (
-          <div className="relative min-h-[3rem] flex items-center">
-            <input
-              ref={inputRef}
-              type="text"
-              value={academyName}
-              onChange={(e) => setAcademyName(e.target.value)}
-              onKeyDown={handleKeyDown}
-              onFocus={() => setHasFocus(true)}
-              onBlur={() => {
-                setHasFocus(false)
-                handleBlur()
-              }}
-              disabled={isSaving}
-              placeholder={(!academyName && !hasFocus) ? "Digite o nome da academia..." : ""}
-              className={`w-full bg-transparent text-3xl font-bold text-white placeholder-gray-500 border-none outline-none focus:ring-0 p-0 h-12 ${
-                isSaving ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              style={{ fontSize: '2rem', lineHeight: '3rem' }}
-            />
-            <div className={`absolute bottom-0 left-0 right-0 h-0.5 transform transition-all duration-200 ${
-              isSaving ? 'bg-yellow-500 scale-x-100' : 'bg-primary-500 scale-x-100'
-            }`}></div>
-            {isSaving && (
-              <div className="absolute right-0 top-1/2 -translate-y-1/2">
-                <div className="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+        <div className="flex items-center gap-2">
+          <div className="flex-1">
+            {isEditing ? (
+              <div className="relative min-h-[3rem] flex items-center">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={academyName}
+                  onChange={(e) => setAcademyName(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onFocus={() => setHasFocus(true)}
+                  onBlur={() => {
+                    setHasFocus(false)
+                    handleBlur()
+                  }}
+                  disabled={isSaving}
+                  placeholder={(!academyName && !hasFocus) ? "Digite o nome da academia..." : ""}
+                  className={`w-full bg-transparent text-3xl font-bold text-white placeholder-gray-500 border-none outline-none focus:ring-0 p-0 h-12 ${
+                    isSaving ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  style={{ fontSize: '2rem', lineHeight: '3rem' }}
+                />
+                <div className={`absolute bottom-0 left-0 right-0 h-0.5 transform transition-all duration-200 ${
+                  isSaving ? 'bg-yellow-500 scale-x-100' : 'bg-primary-500 scale-x-100'
+                }`}></div>
+                {isSaving && (
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2">
+                    <div className="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div 
+                onClick={handleEditClick}
+                className={`cursor-text text-3xl font-bold text-white hover:text-gray-300 transition-colors min-h-[3rem] flex items-center h-12 ${
+                  isSaving ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                style={{ fontSize: '2rem', lineHeight: '3rem' }}
+              >
+                {academyName || (
+                  <span className="text-gray-500 font-normal">Digite o nome da academia...</span>
+                )}
+                {isSaving && (
+                  <div className="ml-3">
+                    <div className="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        ) : (
-          <div 
-            onClick={handleEditClick}
-            className={`cursor-text text-3xl font-bold text-white hover:text-gray-300 transition-colors min-h-[3rem] flex items-center h-12 ${
-              isSaving ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            style={{ fontSize: '2rem', lineHeight: '3rem' }}
-          >
-            {academyName || (
-              <span className="text-gray-500 font-normal">Digite o nome da academia...</span>
-            )}
-            {isSaving && (
-              <div className="ml-3">
-                <div className="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
-              </div>
-            )}
-          </div>
-        )}
+          {/* Ícone de exclusão, aparece sempre que academy.id existir */}
+          {academy && academy.id && (
+            <button
+              className="ml-2 flex items-center justify-center w-8 h-8 rounded-full text-red-400 hover:bg-red-900/60 hover:text-red-300 transition-all"
+              title="Excluir academia"
+              onClick={handleOpenDeleteModal}
+              disabled={isSaving || isDeleting}
+            >
+              <Trash2 className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Modal de confirmação de exclusão */}
+      <ConfirmDeleteModal
+        open={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleDeleteAcademy}
+        title={academy?.title || ''}
+        loading={isDeleting}
+      />
 
       {/* Área de conteúdo principal para futuras funcionalidades */}
       <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-8">
