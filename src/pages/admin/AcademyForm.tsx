@@ -227,7 +227,7 @@ const AcademyForm = () => {
               onChange={(e) => setAcademyName(e.target.value)}
               onKeyDown={handleKeyDown}
               onFocus={() => setHasFocus(true)}
-              onBlur={(e) => {
+              onBlur={() => {
                 setHasFocus(false)
                 handleBlur()
               }}
