@@ -9,12 +9,12 @@ export default {
     extend: {
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],
-        'sm': ['0.8125rem', { lineHeight: '1.25rem' }],
-        'base': ['0.875rem', { lineHeight: '1.375rem' }],
-        'lg': ['1rem', { lineHeight: '1.5rem' }],
-        'xl': ['1.125rem', { lineHeight: '1.75rem' }],
-        '2xl': ['1.25rem', { lineHeight: '1.75rem' }],
-        '3xl': ['1.5rem', { lineHeight: '2rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'base': ['1rem', { lineHeight: '1.5rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
       },
       colors: {
         primary: {
@@ -64,6 +64,17 @@ export default {
       fontFamily: {
         sans: ['IBM Plex Sans', 'system-ui', 'sans-serif'],
         serif: ['IBM Plex Serif', 'Georgia', 'serif'],
+      },
+      borderRadius: {
+        'none': '0',
+        'sm': '0.125rem',
+        DEFAULT: '0.375rem', // 6px - alterado de 0.25rem (4px)
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'xl': '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        'full': '9999px',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(ellipse at center, var(--tw-gradient-stops))',

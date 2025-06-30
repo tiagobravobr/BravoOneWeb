@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useEmblaCarousel from 'embla-carousel-react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import { MainLayout } from '../components/layouts'
 
 export default function Dashboard() {
     const navigate = useNavigate()
@@ -377,485 +376,479 @@ export default function Dashboard() {
     ]
 
     return (
-        <div className="page-layout bg-gray-950">
-            {/* Header Sticky com Glassmorphism */}
-            <Header />
+        <MainLayout>
+                {/* Main Content - Hero deve começar do topo absoluto */}
+                <main className="flex-1 -mt-20">
+                    {/* Hero Section - com transição suave para o fundo */}
+                    <div className="relative overflow-hidden">
+                        <div className="absolute inset-0">
+                            <img
+                                src="https://images.unsplash.com/photo-1492366254240-43affaefc3e3?q=80&w=2000&auto=format&fit=crop"
+                                alt="Leadership"
+                                className="w-full h-full object-cover"
+                            />
+                            {/* Gradiente horizontal para escurecer a imagem */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-gray-950/80 to-gray-950/40" />
+                            {/* Gradiente vertical na parte inferior para transição suave */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950" />
+                        </div>
 
-            {/* Main Content - sem padding-top para hero começar do topo */}
-            <main>
-                {/* Hero Section - com transição suave para o fundo */}
-                <div className="relative overflow-hidden">
-                    <div className="absolute inset-0">
-                        <img
-                            src="https://images.unsplash.com/photo-1492366254240-43affaefc3e3?q=80&w=2000&auto=format&fit=crop"
-                            alt="Leadership"
-                            className="w-full h-full object-cover"
-                        />
-                        {/* Gradiente horizontal para escurecer a imagem */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-gray-950/80 to-gray-950/40" />
-                        {/* Gradiente vertical na parte inferior para transição suave */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950" />
+                        {/* Conteúdo do hero alinhado com o cabeçalho */}
+                        <div className="relative pt-24 pb-20 md:pt-32 md:pb-32 min-h-[70vh] flex items-center">
+                            <div className="container mx-auto px-4">
+                                <div className="max-w-2xl">
+                                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-serif">
+                                        Academia de Negócios
+                                    </h1>
+                                    <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light">
+                                        Desenvolva um negócio com propósito, estratégia e resultados
+                                    </p>
+                                    <button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded font-medium transition-colors">
+                                        Começar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Conteúdo do hero alinhado com o cabeçalho */}
-                    <div className="relative py-20 md:py-32 min-h-[70vh] flex items-center">
-                        <div className="container mx-auto px-4">
-                            <div className="max-w-2xl">
-                                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-serif">
-                                    Academia de Negócios
-                                </h1>
-                                <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light">
-                                    Desenvolva um negócio com propósito, estratégia e resultados
-                                </p>
-                                <button className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded font-medium transition-all duration-200 hover:-translate-y-1 hover:brightness-110">
-                                    Começar
-                                </button>
+                    <div className="container mx-auto px-4 py-8 -mt-16 z-10">
+                        {/* Modules Section */}
+                        <section>
+                            <div className="mb-4 relative">
+                                <h2 className="text-2xl font-bold text-white mb-2 font-serif">Método Bravo de Negócios</h2>
+                                <p className="text-gray-400">Domine qualquer negócio com maestria e gere os melhores resultados</p>
                             </div>
-                        </div>
+
+                            {/* Carrossel com Embla - botões fora do overflow */}
+                            <div className="relative select-none">
+                                {/* Setas de navegação posicionadas fora do overflow */}
+                                {canScrollPrev && (
+                                    <button
+                                        onClick={scrollPrev}
+                                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {canScrollNext && (
+                                    <button
+                                        onClick={scrollNext}
+                                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {/* Container Embla com overflow controlado */}
+                                <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRef}>
+                                    <div className="flex gap-4">
+                                        {modules.map((module) => (
+                                            <div
+                                                key={module.id}
+                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                           w-[calc(40%-9.6px)]
+                                                           md:w-[calc(22.22%-12.8px)]
+                                                           lg:w-[calc(18.18%-12.8px)]
+                                                           select-none"
+                                                onClick={() => handleModuleClick(module.id)}
+                                            >
+                                                {/* Container principal com brilho de fundo */}
+                                                <div className="relative aspect-[9/16]">
+                                                    {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
+                                                    <div className="card-glow"></div>
+
+                                                    {/* Card principal */}
+                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                        <img
+                                                            src={module.image}
+                                                            alt={module.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        {/* Overlay preto sutil para melhor contraste */}
+                                                        <div className="absolute inset-0 bg-black/20" />
+
+                                                        {/* Gradiente adicional na parte inferior para contraste do texto - finalizando em preto */}
+                                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+
+                                                        {/* Ícone de cadeado para módulos bloqueados (exceto o primeiro) */}
+                                                        {module.id !== 1 && (
+                                                            <div className="absolute top-3 right-3 bg-gray-600 rounded-full p-2">
+                                                                <svg className="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                                                </svg>
+                                                            </div>
+                                                        )}
+
+                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                            <div>
+                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                    {module.title}
+                                                                </h3>
+                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                    {module.subtitle}
+                                                                </p>
+                                                                <p className="text-[#bd1616] text-sm font-medium">
+                                                                    MÓDULO {module.id}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Gestão & Liderança Section */}
+                        <section className="mt-16">
+                            <div className="mb-4 relative">
+                                <h2 className="text-2xl font-bold text-white mb-2 font-serif">Gestão & Liderança</h2>
+                                <p className="text-gray-400">Desenvolva sua capacidade de liderar pessoas e processos</p>
+                            </div>
+
+                            {/* Carrossel com Embla - Gestão */}
+                            <div className="relative select-none">
+                                {/* Setas de navegação */}
+                                {canScrollPrevGestao && (
+                                    <button
+                                        onClick={scrollPrevGestao}
+                                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {canScrollNextGestao && (
+                                    <button
+                                        onClick={scrollNextGestao}
+                                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {/* Container Embla com overflow controlado */}
+                                <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefGestao}>
+                                    <div className="flex gap-4">
+                                        {gestaoItems.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                           w-[calc(40%-9.6px)]
+                                                           md:w-[calc(22.22%-12.8px)]
+                                                           lg:w-[calc(18.18%-12.8px)]
+                                                           select-none"
+                                            >
+                                                {/* Container principal com brilho de fundo */}
+                                                <div className="relative aspect-[9/16]">
+                                                    {/* Brilho difuso */}
+                                                    <div className="card-glow"></div>
+
+                                                    {/* Card principal */}
+                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        {/* Overlay preto sutil */}
+                                                        <div className="absolute inset-0 bg-black/20" />
+                                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+
+                                                        {/* Badge Novo */}
+                                                        {item.isNew && (
+                                                            <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
+                                                                Novo
+                                                            </div>
+                                                        )}
+
+                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                            <div>
+                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                    {item.title}
+                                                                </h3>
+                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                    {item.subtitle}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Finanças Empresariais Section */}
+                        <section className="mt-16">
+                            <div className="mb-4 relative">
+                                <h2 className="text-2xl font-bold text-white mb-2 font-serif">Finanças Empresariais</h2>
+                                <p className="text-gray-400">Controle e maximize a rentabilidade do seu negócio</p>
+                            </div>
+
+                            {/* Carrossel com Embla - Finanças */}
+                            <div className="relative select-none">
+                                {/* Setas de navegação */}
+                                {canScrollPrevFinancas && (
+                                    <button
+                                        onClick={scrollPrevFinancas}
+                                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {canScrollNextFinancas && (
+                                    <button
+                                        onClick={scrollNextFinancas}
+                                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {/* Container Embla com overflow controlado */}
+                                <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefFinancas}>
+                                    <div className="flex gap-4">
+                                        {financasItems.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                           w-[calc(40%-9.6px)]
+                                                           md:w-[calc(22.22%-12.8px)]
+                                                           lg:w-[calc(18.18%-12.8px)]
+                                                           select-none"
+                                            >
+                                                {/* Container principal com brilho de fundo */}
+                                                <div className="relative aspect-[9/16]">
+                                                    {/* Brilho difuso */}
+                                                    <div className="card-glow"></div>
+
+                                                    {/* Card principal */}
+                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        {/* Overlay preto sutil */}
+                                                        <div className="absolute inset-0 bg-black/20" />
+                                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+
+                                                        {/* Badge Novo */}
+                                                        {item.isNew && (
+                                                            <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
+                                                                Novo
+                                                            </div>
+                                                        )}
+
+                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                            <div>
+                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                    {item.title}
+                                                                </h3>
+                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                    {item.subtitle}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Marketing e Estratégia Comercial Section */}
+                        <section className="mt-16">
+                            <div className="mb-4 relative">
+                                <h2 className="text-2xl font-bold text-white mb-2 font-serif">Marketing e Estratégia Comercial</h2>
+                                <p className="text-gray-400">Atraia, converta e fideliza clientes com estratégias eficazes</p>
+                            </div>
+
+                            {/* Carrossel com Embla - Marketing */}
+                            <div className="relative select-none">
+                                {/* Setas de navegação */}
+                                {canScrollPrevMarketing && (
+                                    <button
+                                        onClick={scrollPrevMarketing}
+                                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {canScrollNextMarketing && (
+                                    <button
+                                        onClick={scrollNextMarketing}
+                                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {/* Container Embla com overflow controlado */}
+                                <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefMarketing}>
+                                    <div className="flex gap-4">
+                                        {marketingItems.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                           w-[calc(40%-9.6px)]
+                                                           md:w-[calc(22.22%-12.8px)]
+                                                           lg:w-[calc(18.18%-12.8px)]
+                                                           select-none"
+                                            >
+                                                {/* Container principal com brilho de fundo */}
+                                                <div className="relative aspect-[9/16]">
+                                                    {/* Brilho difuso */}
+                                                    <div className="card-glow"></div>
+
+                                                    {/* Card principal */}
+                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        {/* Overlay preto sutil */}
+                                                        <div className="absolute inset-0 bg-black/20" />
+                                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
+
+                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                            <div>
+                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                    {item.title}
+                                                                </h3>
+                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                    {item.subtitle}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Novidades Section */}
+                        <section className="mt-16">
+                            <div className="mb-8 relative z-10">
+                                <h2 className="text-2xl font-bold text-white mb-2 font-serif">Novidades</h2>
+                                <p className="text-gray-400">Insights e tendências do mundo dos negócios</p>
+                            </div>
+
+                            {/* Carrossel de Novidades */}
+                            <div className="relative select-none">
+                                {/* Setas de navegação para novidades */}
+                                {canScrollPrevNews && (
+                                    <button
+                                        onClick={scrollPrevNews}
+                                        className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                    </button>
+                                )}
+                                
+                                {canScrollNextNews && (
+                                    <button
+                                        onClick={scrollNextNews}
+                                        className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
+                                    >
+                                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {/* Container do Embla Carousel para Novidades */}
+                                <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefNews}>
+                                    <div className="flex gap-4">
+                                        {newsItems.map((item) => (
+                                            <div 
+                                                key={item.id} 
+                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                           w-[calc(60%-9.6px)]
+                                                           md:w-[calc(33.33%-12.8px)]
+                                                           lg:w-[calc(27.27%-12.8px)]
+                                                           select-none"
+                                            >
+                                                {/* Container principal com brilho de fundo */}
+                                                <div className="relative aspect-[4/3.5]">
+                                                    {/* Brilho difuso */}
+                                                    <div className="card-glow"></div>
+
+                                                    {/* Card principal */}
+                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    
+                                                        {/* Imagem */}
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.title}
+                                                            className="w-full h-[70%] object-cover"
+                                                        />
+                                                        
+                                                        {/* Overlay preto sutil apenas na imagem */}
+                                                        <div className="absolute top-0 left-0 right-0 h-[70%] bg-gradient-to-b from-black/10 via-transparent to-black/60" />
+
+                                                        {/* Badge Novo */}
+                                                        {item.isNew && (
+                                                            <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
+                                                                Novo
+                                                            </div>
+                                                        )}
+
+                                                        {/* Conteúdo do card - 30% da altura */}
+                                                        <div className="absolute bottom-0 left-0 right-0 h-[30%] p-3 bg-gray-800 flex flex-col justify-center">
+                                                            <h3 className="text-white font-semibold text-sm mb-1 line-clamp-1">
+                                                                {item.title}
+                                                            </h3>
+                                                            <p className="text-gray-300 text-xs mb-2 line-clamp-1">
+                                                                {item.subtitle}
+                                                            </p>
+                                                            <div className="flex items-center justify-between text-xs">
+                                                                <span className="text-gray-400">{item.readTime}</span>
+                                                                <span className="text-gray-500">{item.date}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </div>
-
-                <div className="container mx-auto px-4 py-8 -mt-16 z-10">
-                    {/* Modules Section */}
-                    <section>
-                        <div className="mb-4 relative">
-                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">Método Bravo de Negócios</h2>
-                            <p className="text-gray-400">Domine qualquer negócio com maestria e gere os melhores resultados</p>
-                        </div>
-
-                        {/* Carrossel com Embla - botões fora do overflow */}
-                        <div className="relative select-none">
-                            {/* Setas de navegação posicionadas fora do overflow */}
-                            {canScrollPrev && (
-                                <button
-                                    onClick={scrollPrev}
-                                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {canScrollNext && (
-                                <button
-                                    onClick={scrollNext}
-                                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {/* Container Embla com overflow controlado */}
-                            <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRef}>
-                                <div className="flex gap-4">
-                                    {modules.map((module) => (
-                                        <div
-                                            key={module.id}
-                                            className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
-                                                       w-[calc(40%-9.6px)]
-                                                       md:w-[calc(22.22%-12.8px)]
-                                                       lg:w-[calc(18.18%-12.8px)]
-                                                       select-none"
-                                            onClick={() => handleModuleClick(module.id)}
-                                        >
-                                            {/* Container principal com brilho de fundo */}
-                                            <div className="relative aspect-[9/16]">
-                                                {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
-                                                <div className="card-glow"></div>
-
-                                                {/* Card principal */}
-                                                <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
-                                                    <img
-                                                        src={module.image}
-                                                        alt={module.title}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                    {/* Overlay preto sutil para melhor contraste */}
-                                                    <div className="absolute inset-0 bg-black/20" />
-
-                                                    {/* Gradiente adicional na parte inferior para contraste do texto - finalizando em preto */}
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
-
-                                                    {/* Ícone de cadeado para módulos bloqueados (exceto o primeiro) */}
-                                                    {module.id !== 1 && (
-                                                        <div className="absolute top-3 right-3 bg-gray-600 rounded-full p-2">
-                                                            <svg className="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                                                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                                                            </svg>
-                                                        </div>
-                                                    )}
-
-                                                    <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                                                        <div>
-                                                            <h3 className="text-white font-bold text-xl mb-1 font-serif">
-                                                                {module.title}
-                                                            </h3>
-                                                            <p className="text-gray-200 text-base font-light mb-2">
-                                                                {module.subtitle}
-                                                            </p>
-                                                            <p className="text-[#bd1616] text-sm font-medium">
-                                                                MÓDULO {module.id}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Gestão & Liderança Section */}
-                    <section className="mt-16">
-                        <div className="mb-4 relative">
-                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">Gestão & Liderança</h2>
-                            <p className="text-gray-400">Desenvolva sua capacidade de liderar pessoas e processos</p>
-                        </div>
-
-                        {/* Carrossel com Embla - Gestão */}
-                        <div className="relative select-none">
-                            {/* Setas de navegação */}
-                            {canScrollPrevGestao && (
-                                <button
-                                    onClick={scrollPrevGestao}
-                                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {canScrollNextGestao && (
-                                <button
-                                    onClick={scrollNextGestao}
-                                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {/* Container Embla com overflow controlado */}
-                            <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefGestao}>
-                                <div className="flex gap-4">
-                                    {gestaoItems.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
-                                                       w-[calc(40%-9.6px)]
-                                                       md:w-[calc(22.22%-12.8px)]
-                                                       lg:w-[calc(18.18%-12.8px)]
-                                                       select-none"
-                                        >
-                                            {/* Container principal com brilho de fundo */}
-                                            <div className="relative aspect-[9/16]">
-                                                {/* Brilho difuso */}
-                                                <div className="card-glow"></div>
-
-                                                {/* Card principal */}
-                                                <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
-                                                    <img
-                                                        src={item.image}
-                                                        alt={item.title}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                    {/* Overlay preto sutil */}
-                                                    <div className="absolute inset-0 bg-black/20" />
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
-
-                                                    {/* Badge Novo */}
-                                                    {item.isNew && (
-                                                        <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
-                                                            Novo
-                                                        </div>
-                                                    )}
-
-                                                    <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                                                        <div>
-                                                            <h3 className="text-white font-bold text-xl mb-1 font-serif">
-                                                                {item.title}
-                                                            </h3>
-                                                            <p className="text-gray-200 text-base font-light mb-2">
-                                                                {item.subtitle}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Finanças Empresariais Section */}
-                    <section className="mt-16">
-                        <div className="mb-4 relative">
-                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">Finanças Empresariais</h2>
-                            <p className="text-gray-400">Controle e maximize a rentabilidade do seu negócio</p>
-                        </div>
-
-                        {/* Carrossel com Embla - Finanças */}
-                        <div className="relative select-none">
-                            {/* Setas de navegação */}
-                            {canScrollPrevFinancas && (
-                                <button
-                                    onClick={scrollPrevFinancas}
-                                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {canScrollNextFinancas && (
-                                <button
-                                    onClick={scrollNextFinancas}
-                                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {/* Container Embla com overflow controlado */}
-                            <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefFinancas}>
-                                <div className="flex gap-4">
-                                    {financasItems.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
-                                                       w-[calc(40%-9.6px)]
-                                                       md:w-[calc(22.22%-12.8px)]
-                                                       lg:w-[calc(18.18%-12.8px)]
-                                                       select-none"
-                                        >
-                                            {/* Container principal com brilho de fundo */}
-                                            <div className="relative aspect-[9/16]">
-                                                {/* Brilho difuso */}
-                                                <div className="card-glow"></div>
-
-                                                {/* Card principal */}
-                                                <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
-                                                    <img
-                                                        src={item.image}
-                                                        alt={item.title}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                    {/* Overlay preto sutil */}
-                                                    <div className="absolute inset-0 bg-black/20" />
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
-
-                                                    {/* Badge Novo */}
-                                                    {item.isNew && (
-                                                        <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
-                                                            Novo
-                                                        </div>
-                                                    )}
-
-                                                    <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                                                        <div>
-                                                            <h3 className="text-white font-bold text-xl mb-1 font-serif">
-                                                                {item.title}
-                                                            </h3>
-                                                            <p className="text-gray-200 text-base font-light mb-2">
-                                                                {item.subtitle}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Marketing e Estratégia Comercial Section */}
-                    <section className="mt-16">
-                        <div className="mb-4 relative">
-                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">Marketing e Estratégia Comercial</h2>
-                            <p className="text-gray-400">Atraia, converta e fideliza clientes com estratégias eficazes</p>
-                        </div>
-
-                        {/* Carrossel com Embla - Marketing */}
-                        <div className="relative select-none">
-                            {/* Setas de navegação */}
-                            {canScrollPrevMarketing && (
-                                <button
-                                    onClick={scrollPrevMarketing}
-                                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {canScrollNextMarketing && (
-                                <button
-                                    onClick={scrollNextMarketing}
-                                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {/* Container Embla com overflow controlado */}
-                            <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefMarketing}>
-                                <div className="flex gap-4">
-                                    {marketingItems.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
-                                                       w-[calc(40%-9.6px)]
-                                                       md:w-[calc(22.22%-12.8px)]
-                                                       lg:w-[calc(18.18%-12.8px)]
-                                                       select-none"
-                                        >
-                                            {/* Container principal com brilho de fundo */}
-                                            <div className="relative aspect-[9/16]">
-                                                {/* Brilho difuso */}
-                                                <div className="card-glow"></div>
-
-                                                {/* Card principal */}
-                                                <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
-                                                    <img
-                                                        src={item.image}
-                                                        alt={item.title}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                    {/* Overlay preto sutil */}
-                                                    <div className="absolute inset-0 bg-black/20" />
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
-
-                                                    <div className="absolute inset-0 p-4 flex flex-col justify-end">
-                                                        <div>
-                                                            <h3 className="text-white font-bold text-xl mb-1 font-serif">
-                                                                {item.title}
-                                                            </h3>
-                                                            <p className="text-gray-200 text-base font-light mb-2">
-                                                                {item.subtitle}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Novidades Section */}
-                    <section className="mt-16">
-                        <div className="mb-8 relative z-10">
-                            <h2 className="text-2xl font-bold text-white mb-2 font-serif">Novidades</h2>
-                            <p className="text-gray-400">Insights e tendências do mundo dos negócios</p>
-                        </div>
-
-                        {/* Carrossel de Novidades */}
-                        <div className="relative select-none">
-                            {/* Setas de navegação para novidades */}
-                            {canScrollPrevNews && (
-                                <button
-                                    onClick={scrollPrevNews}
-                                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-                            )}
-                            
-                            {canScrollNextNews && (
-                                <button
-                                    onClick={scrollNextNews}
-                                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-gray-800/80 hover:bg-gray-700/90 text-white w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-sm"
-                                >
-                                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            )}
-
-                            {/* Container do Embla Carousel para Novidades */}
-                            <div className="overflow-hidden py-6 px-3 select-none" ref={emblaRefNews}>
-                                <div className="flex gap-4">
-                                    {newsItems.map((item) => (
-                                        <div 
-                                            key={item.id} 
-                                            className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
-                                                       w-[calc(60%-9.6px)]
-                                                       md:w-[calc(33.33%-12.8px)]
-                                                       lg:w-[calc(27.27%-12.8px)]
-                                                       select-none"
-                                        >
-                                            {/* Container principal com brilho de fundo */}
-                                            <div className="relative aspect-[4/3.5]">
-                                                {/* Brilho difuso */}
-                                                <div className="card-glow"></div>
-
-                                                {/* Card principal */}
-                                                <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
-                                                    
-                                                    {/* Imagem */}
-                                                    <img
-                                                        src={item.image}
-                                                        alt={item.title}
-                                                        className="w-full h-[70%] object-cover"
-                                                    />
-                                                    
-                                                    {/* Overlay preto sutil apenas na imagem */}
-                                                    <div className="absolute top-0 left-0 right-0 h-[70%] bg-gradient-to-b from-black/10 via-transparent to-black/60" />
-
-                                                    {/* Badge Novo */}
-                                                    {item.isNew && (
-                                                        <div className="absolute top-3 right-3 bg-red-600 text-white px-2 py-1 text-xs font-semibold rounded-full">
-                                                            Novo
-                                                        </div>
-                                                    )}
-
-                                                    {/* Conteúdo do card - 30% da altura */}
-                                                    <div className="absolute bottom-0 left-0 right-0 h-[30%] p-3 bg-gray-800 flex flex-col justify-center">
-                                                        <h3 className="text-white font-semibold text-sm mb-1 line-clamp-1">
-                                                            {item.title}
-                                                        </h3>
-                                                        <p className="text-gray-300 text-xs mb-2 line-clamp-1">
-                                                            {item.subtitle}
-                                                        </p>
-                                                        <div className="flex items-center justify-between text-xs">
-                                                            <span className="text-gray-400">{item.readTime}</span>
-                                                            <span className="text-gray-500">{item.date}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </main>
-            
-            {/* Footer */}
-            <Footer />
-        </div>
+                </main>
+        </MainLayout>
     )
 }

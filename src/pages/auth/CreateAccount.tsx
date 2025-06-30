@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import { AuthLayout } from '../../components/layouts'
 
 export default function CreateAccount() {
   const [name, setName] = useState('')
@@ -21,6 +22,14 @@ export default function CreateAccount() {
       navigate('/dashboard')
     }
   }, [user, navigate])
+
+  // Adicionar classe para permitir scroll natural nesta página
+  useEffect(() => {
+    document.body.classList.add('auth-page')
+    return () => {
+      document.body.classList.remove('auth-page')
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,12 +82,12 @@ export default function CreateAccount() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <AuthLayout>
+      <div className="min-h-dvh flex">
       {/* Lado esquerdo - Formulário */}
-      <div className="flex-none w-full lg:w-2/5 bg-gray-900 flex flex-col">
-        <div className="flex-1 overflow-y-auto">
-          <div className="min-h-full flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-20 xl:px-24">
-            <div className="mx-auto w-full max-w-sm lg:w-96">
+      <div className="w-full lg:w-2/5 bg-gray-900 flex flex-col">
+        <div className="flex-1 flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-20 xl:px-24">
+          <div className="max-w-sm lg:max-w-md mx-auto space-y-6">
               {/* Logo e título */}
               <div className="mb-8">
                 <div className="flex justify-center mb-8">
@@ -223,7 +232,7 @@ export default function CreateAccount() {
               </div>
 
               {/* Footer */}
-              <div className="mt-8 text-center">
+              <div className="mt-8 text-center pb-8">
                 <p className="text-xs text-gray-500">
                   © 2025 Bravo One. Todos os direitos reservados.
                 </p>
@@ -231,10 +240,9 @@ export default function CreateAccount() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Lado direito - Imagem fixa */}
-      <div className="hidden lg:block relative flex-1 lg:w-3/5 h-screen overflow-hidden">
+        {/* Lado direito - Imagem fixa */}
+      <div className="hidden lg:block relative flex-1 lg:w-3/5 min-h-dvh">
         <img
           className="absolute inset-0 h-full w-full object-cover"
           src="https://images.unsplash.com/photo-1492366254240-43affaefc3e3?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -252,6 +260,7 @@ export default function CreateAccount() {
           </blockquote>
         </div>
       </div>
-    </div>
+      </div>
+    </AuthLayout>
   )
 }
