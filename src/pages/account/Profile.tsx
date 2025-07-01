@@ -6,7 +6,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useAvatar } from '../../contexts/AvatarContext'
 
 const Profile = () => {
-  const { profile, updateProfile, updateDisplayName, updateEmail, refreshUserSession, removeAvatar, uploadAvatar } = useUserProfile()
+  const { profile, updateProfile, updateDisplayName, updateEmail, refreshUserSession, removeAvatar } = useUserProfile()
   const { user } = useAuth()
   const { updateAvatarVersion } = useAvatar()
   const [formData, setFormData] = useState({
@@ -129,22 +129,6 @@ const Profile = () => {
       updateAvatarVersion() // Atualiza todos os Avatars
     } else {
       showFieldFeedback('avatar', 'error', `Erro ao remover: ${result.error}`)
-    }
-  }
-
-  // Função para upload de avatar
-  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-    setIsSaving(true)
-    clearFieldFeedback('avatar')
-    const result = await uploadAvatar(file)
-    setIsSaving(false)
-    if (!result.error) {
-      showFieldFeedback('avatar', 'success', 'Avatar enviado com sucesso!')
-      updateAvatarVersion() // Atualiza todos os Avatars
-    } else {
-      showFieldFeedback('avatar', 'error', `Erro ao fazer upload: ${result.error}`)
     }
   }
 

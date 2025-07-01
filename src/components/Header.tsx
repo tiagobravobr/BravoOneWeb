@@ -80,13 +80,13 @@ export default function Header() {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node
-            
+
             // Não fechar se o clique foi no menu mobile ou seus filhos
             const mobileMenu = document.querySelector('[data-mobile-menu]')
             if (mobileMenu && mobileMenu.contains(target)) {
                 return
             }
-            
+
             if (menuRef.current && !menuRef.current.contains(target)) {
                 setIsMenuOpen(false)
                 setIsMobileMenuOpen(false)
@@ -112,8 +112,8 @@ export default function Header() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-gray-950/80 backdrop-blur-md shadow-lg'
-                    : 'bg-transparent'
+                ? 'bg-gray-950/50 backdrop-blur-md shadow-md'
+                : 'bg-transparent'
                 }`}
         >
             <div className="container mx-auto px-4 py-4">
@@ -133,70 +133,68 @@ export default function Header() {
                     {/* Menu Central de Navegação (só aparece no admin) */}
                     {isAdminArea && (
                         <>
-                        <nav className="hidden md:flex items-center space-x-8">
-                            {adminMenuItems.map((item) => {
-                                const Icon = item.icon
-                                const isActive = isActiveRoute(item.path)
-                                return (
-                                    <button
-                                        key={item.id}
-                                        onClick={() => navigate(item.path)}
-                                        className={`relative flex items-center gap-2 px-1 py-2 transition-all duration-200 group ${
-                                            isActive
+                            <nav className="hidden md:flex items-center space-x-8">
+                                {adminMenuItems.map((item) => {
+                                    const Icon = item.icon
+                                    const isActive = isActiveRoute(item.path)
+                                    return (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => navigate(item.path)}
+                                            className={`relative flex items-center gap-2 px-1 py-2 transition-all duration-200 group ${isActive
                                                 ? 'text-primary-300'
                                                 : 'text-gray-400 hover:text-gray-200'
-                                        }`}
-                                        title={item.description}
-                                    >
-                                        <Icon className="w-4 h-4" />
-                                        <span className="font-medium text-sm">{item.label}</span>
-                                        {isActive && (
-                                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full"></div>
-                                        )}
-                                        {!isActive && (
-                                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-                                        )}
-                                    </button>
-                                )
-                            })}
-                        </nav>
-                        {/* Botão de menu mobile */}
-                        <button
-                            className="md:hidden p-2 rounded-lg hover:bg-gray-800/50 transition-colors ml-2"
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            aria-label="Menu"
-                        >
-                            <Menu className="w-6 h-6 text-gray-400" />
-                        </button>
-                        {/* Menu suspenso mobile */}
-                        {isMobileMenuOpen && (
-                            <div className="fixed inset-0 z-50 md:hidden" data-mobile-menu>
-                                <div 
-                                    className="absolute inset-0 bg-black/50" 
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                />
-                                <div className="absolute top-16 left-0 right-0 bg-gray-900 border-t border-gray-800 shadow-xl">
-                                    {adminMenuItems.map((item) => {
-                                        const Icon = item.icon
-                                        const isActive = isActiveRoute(item.path)
-                                        return (
-                                            <button
-                                                key={item.id}
-                                                onClick={() => navigate(item.path)}
-                                                className={`w-full flex items-center gap-3 px-6 py-4 text-left border-b border-gray-800 last:border-b-0 transition-colors ${
-                                                    isActive
+                                                }`}
+                                            title={item.description}
+                                        >
+                                            <Icon className="w-4 h-4" />
+                                            <span className="font-medium text-sm">{item.label}</span>
+                                            {isActive && (
+                                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full"></div>
+                                            )}
+                                            {!isActive && (
+                                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                                            )}
+                                        </button>
+                                    )
+                                })}
+                            </nav>
+                            {/* Botão de menu mobile */}
+                            <button
+                                className="md:hidden p-2 rounded-lg hover:bg-gray-800/50 transition-colors ml-2"
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                aria-label="Menu"
+                            >
+                                <Menu className="w-6 h-6 text-gray-400" />
+                            </button>
+                            {/* Menu suspenso mobile */}
+                            {isMobileMenuOpen && (
+                                <div className="fixed inset-0 z-50 md:hidden" data-mobile-menu>
+                                    <div
+                                        className="absolute inset-0 bg-black/50"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    />
+                                    <div className="absolute top-16 left-0 right-0 bg-gray-900 border-t border-gray-800 shadow-xl">
+                                        {adminMenuItems.map((item) => {
+                                            const Icon = item.icon
+                                            const isActive = isActiveRoute(item.path)
+                                            return (
+                                                <button
+                                                    key={item.id}
+                                                    onClick={() => navigate(item.path)}
+                                                    className={`w-full flex items-center gap-3 px-6 py-4 text-left border-b border-gray-800 last:border-b-0 transition-colors ${isActive
                                                         ? 'text-primary-300 bg-gray-800'
                                                         : 'text-gray-300 hover:text-white hover:bg-gray-800'
-                                                }`}
-                                            >
-                                                <Icon className="w-5 h-5" />
-                                                <span className="font-medium">{item.label}</span>
-                                            </button>
-                                        )
-                                    })}
+                                                        }`}
+                                                >
+                                                    <Icon className="w-5 h-5" />
+                                                    <span className="font-medium">{item.label}</span>
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
                         </>
                     )}
 
@@ -221,7 +219,7 @@ export default function Header() {
                         </button>
 
                         {/* Botão Toggle Admin/Home */}
-                        <button 
+                        <button
                             onClick={() => navigate(isAdminArea ? '/' : '/admin')}
                             className="p-2 hover:bg-gray-800/50 rounded-lg transition-colors group"
                             title={isAdminArea ? 'Área de Membros' : 'Administração'}
