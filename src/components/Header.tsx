@@ -2,11 +2,14 @@ import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Settings, Users, BookOpen, BarChart3, TrendingUp, Monitor, Shield, Menu } from 'lucide-react'
+import Avatar from './Avatar'
+import { useAvatar } from '../contexts/AvatarContext'
 
 export default function Header() {
-    const { user, signOut } = useAuth()
+    const { signOut } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
+    const { avatarVersion } = useAvatar()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -61,44 +64,6 @@ export default function Header() {
         }
         // Para outras rotas, usar startsWith
         return location.pathname.startsWith(path)
-    }
-
-    // Gerar iniciais do usuário
-    const getInitials = (user: any) => {
-        if (!user) return 'US'
-
-        // Tentar usar display_name (padrão) ou full_name (compatibilidade)
-        const displayName = user.user_metadata?.display_name || user.user_metadata?.full_name
-        if (displayName) {
-            const nameParts = displayName.trim().split(' ')
-            if (nameParts.length >= 2) {
-                // Se tem nome e sobrenome, usar primeira letra de cada
-                return (nameParts[0][0] + nameParts[1][0]).toUpperCase()
-            } else if (nameParts[0].length >= 2) {
-                // Se tem apenas um nome, usar as 2 primeiras letras
-                return (nameParts[0][0] + nameParts[0][1]).toUpperCase()
-            }
-        }
-
-        // Fallback para email se não tiver nome
-        const email = user.email
-        if (!email) return 'US'
-
-        const parts = email.split('@')[0].split('.')
-
-        // Se tem 2 ou mais partes (ex: tiago.bravo), usar primeira letra de cada
-        if (parts.length >= 2) {
-            return (parts[0][0] + parts[1][0]).toUpperCase()
-        }
-
-        // Se tem apenas 1 parte (ex: maria), usar as 2 primeiras letras
-        const name = parts[0]
-        if (name.length >= 2) {
-            return (name[0] + name[1]).toUpperCase()
-        }
-
-        // Se o nome tem apenas 1 letra, duplicar
-        return (name[0] + name[0]).toUpperCase()
     }
 
     // Detectar scroll para efeito glassmorphism
@@ -275,11 +240,7 @@ export default function Header() {
                                 className="flex items-center space-x-2 hover:bg-gray-800/50 rounded-lg p-2 transition-colors"
                             >
                                 {/* Avatar */}
-                                <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-xs font-medium">
-                                        {getInitials(user)}
-                                    </span>
-                                </div>
+                                <Avatar size="sm" key={avatarVersion} />
 
                                 {/* Seta */}
                                 <svg
