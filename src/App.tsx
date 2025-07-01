@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Login, CreateAccount, ForgotPassword, ResetPassword } from './pages/auth'
-import Teste from './pages/auth/Teste'
 import Home from './pages/Home'
 import ContentViewer from './pages/ContentViewer'
 import { AdminLayout, MainLayout } from './components/layouts'
@@ -16,7 +15,6 @@ function App() {
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/teste" element={<Teste />} />
         <Route 
           path="/" 
           element={
