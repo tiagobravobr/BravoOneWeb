@@ -39,13 +39,103 @@ body {
 }
 
 
-/* === FORM STYLES (ACCESSIBLE) === */
-input:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid rgba(189, 22, 22, 0.6); /* Accessible focus outline */
-  outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(189, 22, 22, 0.1);
+/* === DESIGN SYSTEM - FORM COMPONENTS === */
+/* Classe base para todos os inputs do sistema */
+.form-input {
+  appearance: none;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem; /* py-3 px-4 */
+  background-color: #1f1f1f; /* bg-gray-800 customizado - mais neutro */
+  border: 1px solid #525252; /* border-gray-600 customizado */
+  border-radius: 0.375rem; /* rounded (valor padrão do tailwind config) */
+  color: white;
+  font-size: 1rem; /* text-base */
+  transition: all 0.2s ease-in-out;
+}
+
+.form-input::placeholder {
+  color: #a3a3a3; /* placeholder-gray-400 customizado */
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #BD1616; /* border-primary-500 */
+}
+
+/* Classe para selects */
+.form-select {
+  appearance: none;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem; /* py-3 px-4 */
+  background-color: #1f1f1f; /* bg-gray-800 customizado */
+  border: 1px solid #525252; /* border-gray-600 customizado */
+  border-radius: 0.375rem; /* rounded (valor padrão do tailwind config) */
+  color: white;
+  font-size: 1rem; /* text-base */
+  transition: all 0.2s ease-in-out;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #BD1616; /* border-primary-500 */
+}
+
+/* Classe para checkboxes e radio buttons */
+.form-checkbox,
+.form-radio {
+  width: 1rem;
+  height: 1rem;
+  background-color: #1f1f1f; /* bg-gray-800 customizado */
+  border: 1px solid #525252; /* border-gray-600 customizado */
+  border-radius: 0.125rem; /* rounded-sm para checkbox/radio */
+  color: #BD1616; /* text-primary-500 */
+}
+
+.form-checkbox:focus,
+.form-radio:focus {
+  outline: none;
+  border-color: #BD1616; /* border-primary-500 */
+}
+
+/* Classe base para botões */
+.btn {
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.375rem; /* rounded (valor padrão do tailwind config) */
+  font-weight: 500; /* font-medium */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #BD1616; /* bg-primary-600 */
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #991b1b; /* bg-primary-700 */
+}
+
+.btn-secondary {
+  background-color: #292929; /* bg-gray-700 */
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #525252; /* bg-gray-600 */
+}
+
+.btn-danger {
+  background-color: rgba(239, 68, 68, 0.2); /* bg-red-600/20 */
+  color: #f87171; /* text-red-400 */
+}
+
+.btn-danger:hover {
+  background-color: rgba(239, 68, 68, 0.3); /* bg-red-600/30 */
 }
 
 /* Enhanced form styling */

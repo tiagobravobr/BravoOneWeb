@@ -4,13 +4,13 @@ import { Login, CreateAccount, ForgotPassword, ResetPassword } from './pages/aut
 import Teste from './pages/auth/Teste'
 import Home from './pages/Home'
 import ContentViewer from './pages/ContentViewer'
-import { AdminLayout } from './components/layouts'
+import { AdminLayout, MainLayout } from './components/layouts'
 import { AdminDashboard, AdminContent, AdminUsers, AdminAnalytics, AdminSettings, AcademyForm } from './pages/admin'
-import { ToastProvider } from './contexts/ToastContext'
+import { Account, Profile, Subscriptions, Purchases, PaymentMethods, AccountSettings } from './pages/account'
 
 function App() {
   return (
-    <ToastProvider>
+    <div>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/create-account" element={<CreateAccount />} />
@@ -52,8 +52,27 @@ function App() {
         </Route>
         <Route path="/home" element={<Navigate to="/" replace />} />
         <Route path="/dashboard" element={<Navigate to="/" replace />} />
+        
+        {/* Account Routes */}
+        <Route 
+          path="/account" 
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Account />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="/account/profile" replace />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="subscriptions" element={<Subscriptions />} />
+          <Route path="purchases" element={<Purchases />} />
+          <Route path="payment" element={<PaymentMethods />} />
+          <Route path="settings" element={<AccountSettings />} />
+        </Route>
       </Routes>
-    </ToastProvider>
+    </div>
   )
 }
 

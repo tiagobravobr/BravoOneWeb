@@ -299,7 +299,7 @@ export default function Header() {
                                     <button
                                         onClick={() => {
                                             setIsMenuOpen(false)
-                                            // Aqui você pode adicionar navegação para "Minha Conta"
+                                            navigate('/account')
                                         }}
                                         className="w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700/50 transition-colors text-sm"
                                     >

@@ -65,7 +65,7 @@ export default function ResetPassword() {
                 <div>
                   <a
                     href="/login"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200 transform hover:scale-[1.02]"
+                    className="btn btn-primary w-full"
                   >
                     Fazer Login
                   </a>
@@ -140,7 +140,7 @@ export default function ResetPassword() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
+                    className="form-input"
                     placeholder="Digite sua nova senha"
                   />
                   {password && (
@@ -178,7 +178,7 @@ export default function ResetPassword() {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 border border-gray-600 bg-gray-800 text-white placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
+                    className="form-input"
                     placeholder="Confirme sua nova senha"
                   />
                   {confirmPassword && password !== confirmPassword && (
@@ -190,7 +190,7 @@ export default function ResetPassword() {
                   <button
                     type="submit"
                     disabled={isLoading || !password || !confirmPassword || password !== confirmPassword}
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                    className="btn btn-primary w-full"
                   >
                     {isLoading ? 'Redefinindo...' : 'Redefinir Senha'}
                   </button>

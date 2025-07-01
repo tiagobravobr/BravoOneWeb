@@ -129,7 +129,7 @@ export default function CreateAccount() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 bg-gray-800 border border-gray-600 placeholder-gray-400 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
+                    className="form-input"
                     placeholder="Digite seu nome"
                   />
                 </div>
@@ -146,7 +146,7 @@ export default function CreateAccount() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 bg-gray-800 border border-gray-600 placeholder-gray-400 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
+                    className="form-input"
                     placeholder="Digite seu e-mail"
                   />
                 </div>
@@ -163,7 +163,7 @@ export default function CreateAccount() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 bg-gray-800 border border-gray-600 placeholder-gray-400 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
+                    className="form-input"
                     placeholder="Digite sua senha"
                   />
                 </div>
@@ -180,7 +180,7 @@ export default function CreateAccount() {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="appearance-none relative block w-full px-3 py-3 bg-gray-800 border border-gray-600 placeholder-gray-400 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 text-base"
+                    className="form-input"
                     placeholder="Confirme sua senha"
                   />
                 </div>
@@ -193,7 +193,7 @@ export default function CreateAccount() {
                       type="checkbox"
                       checked={agreeTerms}
                       onChange={(e) => setAgreeTerms(e.target.checked)}
-                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 bg-gray-800 border-gray-600 rounded"
+                      className="form-checkbox"
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -214,7 +214,7 @@ export default function CreateAccount() {
                   <button
                     type="submit"
                     disabled={!agreeTerms || isLoading}
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+                    className="btn btn-primary w-full"
                   >
                     {isLoading ? 'Criando conta...' : 'Criar Conta'}
                   </button>
