@@ -13,12 +13,10 @@ const Profile = () => {
     nome_completo: '',
     telefone: '',
     data_nascimento: '',
-    display_name: '' // Adicionando campo para nome de exibição
+    display_name: ''
   })
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
   const [phoneHasFocus, setPhoneHasFocus] = useState(false)
-  const [unsavedFields, setUnsavedFields] = useState<Set<string>>(new Set())
   const [fieldFeedback, setFieldFeedback] = useState<{[key: string]: {type: 'success' | 'error', message: string} | null}>({})
 
   // Função para mostrar feedback por campo
@@ -54,59 +52,10 @@ const Profile = () => {
         nome_completo: profile?.nome_completo || '',
         telefone: profile?.telefone || '',
         data_nascimento: profile?.data_nascimento || '',
-        display_name: user?.user_metadata?.display_name || '' // Pegar do user_metadata
+        display_name: user?.user_metadata?.display_name || ''
       })
     }
   }, [profile, user])
-
-  // Função para salvar automaticamente após mudanças
-  /* 
-  // Função antiga - não usar mais
-  const handleFieldChange = async (field: string, value: string) => {
-    const newFormData = { ...formData, [field]: value }
-    setFormData(newFormData)
-    setUnsavedFields(prev => new Set(prev.add(field))) // Adiciona o campo às mudanças não salvas
-
-    // Limpar timeout anterior se existir
-    if (saveTimeout) {
-      clearTimeout(saveTimeout)
-    }
-
-    // Criar novo timeout para salvar após 1 segundo de inatividade
-    const timeout = setTimeout(async () => {
-      setIsSaving(true)
-      addDebugLog(`🔄 Iniciando salvamento de ${field}: "${value}"`)
-      
-      let result
-      
-      if (field === 'display_name') {
-        addDebugLog(`📝 Salvando display_name no Auth...`)
-        result = await handleDisplayNameChange(value)
-      } else {
-        addDebugLog(`💾 Salvando ${field} no profile...`)
-        result = await updateProfile({ [field]: value })
-      }
-      
-      setIsSaving(false)
-      
-      if (!result.error) {
-        addDebugLog(`✅ ${field} salvo com sucesso!`)
-        setLastSaved(new Date())
-        setUnsavedFields(prev => {
-          const newSet = new Set(prev)
-          newSet.delete(field) // Remove o campo das mudanças não salvas
-          return newSet
-        })
-      } else {
-        addDebugLog(`❌ Erro ao salvar ${field}: ${result.error}`)
-      }
-    }, 1000)
-
-    setSaveTimeout(timeout)
-  }
-  */
-
-
 
   // Função para atualizar o nome de exibição
   const handleDisplayNameChange = async (newDisplayName: string) => {
@@ -120,13 +69,11 @@ const Profile = () => {
 
   // Função SIMPLES para remover avatar
   const handleRemoveAvatar = async () => {
-    setIsSaving(true)
     clearFieldFeedback('avatar')
     const result = await removeAvatar()
-    setIsSaving(false)
     if (!result.error) {
       showFieldFeedback('avatar', 'success', 'Avatar removido com sucesso!')
-      updateAvatarVersion() // Atualiza todos os Avatars
+      updateAvatarVersion()
     } else {
       showFieldFeedback('avatar', 'error', `Erro ao remover: ${result.error}`)
     }
@@ -175,10 +122,9 @@ const Profile = () => {
     setPhoneHasFocus(false)
   }
 
-  // Função para salvar imediatamente (para campos que salvam no onBlur)
+  // Função para salvar imediatamente
   const handleInstantSave = async (field: string, value: string) => {
-    setIsSaving(true)
-    clearFieldFeedback(field) // Limpar feedback anterior
+    clearFieldFeedback(field)
     
     let result
     
@@ -190,8 +136,6 @@ const Profile = () => {
       result = await updateProfile({ [field]: value })
     }
     
-    setIsSaving(false)
-    
     if (!result.error) {
       const fieldName = field === 'display_name' ? 'Nome de exibição' : 
                        field === 'nome_completo' ? 'Nome completo' : 
@@ -199,27 +143,15 @@ const Profile = () => {
                        field === 'data_nascimento' ? 'Data de nascimento' : 
                        field === 'email' ? 'E-mail' : 'Campo'
       showFieldFeedback(field, 'success', `${fieldName} salvo!`)
-      // Remove da lista de campos não salvos
-      setUnsavedFields(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(field)
-        return newSet
-      })
     } else {
       showFieldFeedback(field, 'error', `Erro ao salvar: ${result.error}`)
     }
-  }
-
-  // Função para marcar campo como "sujo" (com mudanças não salvas)
-  const markFieldAsUnsaved = (field: string) => {
-    setUnsavedFields(prev => new Set(prev).add(field))
   }
 
   // Handler para campos de texto (auto-save com delay)
   const handleTextFieldChange = (field: string, value: string) => {
     const newFormData = { ...formData, [field]: value }
     setFormData(newFormData)
-    markFieldAsUnsaved(field)
 
     // Limpar timeout anterior se existir
     if (saveTimeout) {
@@ -238,15 +170,11 @@ const Profile = () => {
   const handleStructuredFieldChange = (field: string, value: string) => {
     const newFormData = { ...formData, [field]: value }
     setFormData(newFormData)
-    markFieldAsUnsaved(field)
   }
 
   // Handler para onBlur de campos estruturados
   const handleStructuredFieldBlur = (field: string, value: string) => {
-    // Só salva se o campo realmente mudou e tem valor
-    if (unsavedFields.has(field)) {
-      handleInstantSave(field, value)
-    }
+    handleInstantSave(field, value)
   }
 
   return (
@@ -268,17 +196,9 @@ const Profile = () => {
               <button 
                 className="btn btn-danger text-sm px-4 py-2"
                 onClick={handleRemoveAvatar}
-                disabled={isSaving}
               >
                 Remover
               </button>
-              
-              {/* Indicador de salvamento */}
-              {isSaving && (
-                <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              )}
             </div>
             
             <p className="text-xs text-gray-400 mb-2">
@@ -305,7 +225,6 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-300 mb-3">
                 <User className="w-4 h-4 inline mr-2" />
                 Nome Completo
-                {unsavedFields.has('nome_completo') && <span className="text-yellow-400 ml-2 text-xs">●</span>}
               </label>
               <input
                 type="text"
@@ -330,7 +249,6 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-300 mb-3">
                 <User className="w-4 h-4 inline mr-2" />
                 Nome de Exibição
-                {unsavedFields.has('display_name') && <span className="text-yellow-400 ml-2 text-xs">●</span>}
               </label>
               <input
                 type="text"
@@ -355,7 +273,6 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-300 mb-3">
                 <Calendar className="w-4 h-4 inline mr-2" />
                 Data de Nascimento
-                {unsavedFields.has('data_nascimento') && <span className="text-yellow-400 ml-2 text-xs">●</span>}
               </label>
               <input
                 type="date"
@@ -383,7 +300,6 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-300 mb-3">
                 <Phone className="w-4 h-4 inline mr-2" />
                 Telefone
-                {unsavedFields.has('telefone') && <span className="text-yellow-400 ml-2 text-xs">●</span>}
               </label>
               <input
                 type="tel"
@@ -409,7 +325,6 @@ const Profile = () => {
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3">
                 E-mail
-                {unsavedFields.has('email') && <span className="text-yellow-400 ml-2 text-xs">●</span>}
               </label>
               <input
                 type="email"
