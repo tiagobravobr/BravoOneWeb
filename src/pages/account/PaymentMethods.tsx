@@ -45,7 +45,14 @@ const PaymentMethods = () => {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-white">Cartões Salvos</h3>
-          <button className="btn btn-primary flex items-center gap-2">
+          <button 
+            className="btn btn-primary flex items-center gap-2"
+            onClick={() => {
+              // TODO: Implementar integração com gateway seguro (Stripe Elements/Modal)
+              // Nunca capturar dados sensíveis diretamente no nosso formulário
+              console.log('Abrir modal seguro do gateway para adicionar cartão')
+            }}
+          >
             <Plus className="w-4 h-4" />
             Adicionar Cartão
           </button>
@@ -92,82 +99,7 @@ const PaymentMethods = () => {
         </div>
       </div>
 
-      {/* Adicionar Novo Cartão */}
-      <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded p-6 mb-8">
-        <h3 className="text-lg font-semibold text-white mb-6">Adicionar Novo Cartão</h3>
-        
-        <form className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Número do Cartão
-            </label>
-            <input
-              type="text"
-              placeholder="1234 5678 9012 3456"
-              className="form-input"
-            />
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Nome no Cartão
-              </label>                <input
-                  type="text"
-                  placeholder="Como impresso no cartão"
-                  className="form-input"
-                />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Validade
-                </label>                  <input
-                    type="text"
-                    placeholder="MM/AA"
-                    className="form-input"
-                  />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  CVV
-                </label>                  <input
-                    type="text"
-                    placeholder="123"
-                    className="form-input"
-                  />
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="setDefault"
-              className="form-checkbox"
-            />
-            <label htmlFor="setDefault" className="text-gray-300 text-sm">
-              Definir como método de pagamento padrão
-            </label>
-          </div>
-
-          <div className="flex gap-4">
-            <button 
-              type="submit"
-              className="btn btn-primary"
-            >
-              Adicionar Cartão
-            </button>
-            <button 
-              type="button"
-              className="btn btn-secondary"
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
-      </div>
 
       {/* Informações de Segurança */}
       <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded p-6">
@@ -176,9 +108,9 @@ const PaymentMethods = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-2">Segurança dos Dados</h3>
             <div className="space-y-2 text-gray-300 text-sm">
-              <p>🔒 Todas as informações de pagamento são criptografadas com SSL 256-bit</p>
-              <p>🛡️ Não armazenamos dados completos do seu cartão de crédito</p>
-              <p>💳 Processamento seguro via Stripe - certificado PCI DSS Level 1</p>
+              <p>🔒 Dados de cartão processados diretamente pelo gateway seguro</p>
+              <p>🛡️ Nunca armazenamos ou processamos dados sensíveis do cartão</p>
+              <p>💳 Integração via tokenização segura - certificado PCI DSS Level 1</p>
               <p>🔐 Autenticação 3D Secure disponível para maior proteção</p>
             </div>
           </div>
