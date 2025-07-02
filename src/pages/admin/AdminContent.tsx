@@ -2,7 +2,7 @@ import { Plus, BookOpen, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-import Modal from '../../components/Modal'
+import ConfirmDeleteModal from '../../components/ConfirmDeleteModal'
 import { useToast } from '../../contexts/ToastContext'
 
 interface Academy {
@@ -22,7 +22,6 @@ const AdminContent = () => {
   const [error, setError] = useState<string | null>(null)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [academyToDelete, setAcademyToDelete] = useState<Academy | null>(null)
-  const [deleteInput, setDeleteInput] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
   const { showToast } = useToast()
 
@@ -34,7 +33,7 @@ const AdminContent = () => {
     try {
       setIsLoading(true)
       setError(null)
-      
+
       const { data, error: supabaseError } = await supabase
         .from('content_nodes')
         .select('*')
@@ -65,14 +64,12 @@ const AdminContent = () => {
 
   const handleOpenDeleteModal = (academy: Academy) => {
     setAcademyToDelete(academy)
-    setDeleteInput('')
     setDeleteModalOpen(true)
   }
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false)
     setAcademyToDelete(null)
-    setDeleteInput('')
   }
 
   const handleDeleteAcademy = async () => {
@@ -111,7 +108,7 @@ const AdminContent = () => {
       {error && (
         <div className="mb-6 p-4 bg-red-900/20 border border-red-800 rounded-lg">
           <p className="text-red-400">{error}</p>
-          <button 
+          <button
             onClick={loadAcademies}
             className="mt-2 text-sm text-red-300 hover:text-red-200 underline"
           >
@@ -145,7 +142,7 @@ const AdminContent = () => {
         {isLoading && (
           <>
             {[...Array(3)].map((_, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden animate-pulse h-full w-full flex items-center justify-center"
                 style={{ aspectRatio: '9/16', minHeight: 220 }}
@@ -158,7 +155,7 @@ const AdminContent = () => {
 
         {/* Academias Reais */}
         {!isLoading && academies.map((academy) => (
-          <div 
+          <div
             key={academy.id}
             className="group relative cursor-pointer bg-neutral-900 border border-gray-800 rounded-xl flex items-center justify-center shadow-md mx-auto transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl h-full w-full"
             style={{ aspectRatio: '9/16', minHeight: 220 }}
@@ -177,7 +174,7 @@ const AdminContent = () => {
             </span>
           </div>
         ))}
-        
+
         {/* Estado vazio */}
         {!isLoading && !error && academies.length === 0 && (
           <div className="col-span-full text-center py-12">
@@ -196,34 +193,13 @@ const AdminContent = () => {
       </div>
 
       {/* Modal de confirmação de exclusão */}
-      <Modal open={deleteModalOpen} onClose={handleCloseDeleteModal}>
-        <h2 className="text-xl font-bold text-white mb-4 text-center">Excluir Academia</h2>
-        <p className="text-gray-300 text-center mb-2">
-          Para excluir, digite o nome da academia abaixo:<br />
-          <span className="font-semibold text-primary-400">{academyToDelete?.title}</span>
-        </p>
-        <input
-          type="text"
-          className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 mb-4 text-center"
-          placeholder="Digite o nome exato para confirmar"
-          value={deleteInput}
-          onChange={e => setDeleteInput(e.target.value)}
-          disabled={isDeleting}
-        />
-        <div className="text-yellow-400 text-xs text-center mb-4">⚠️ Esta ação é irreversível e apagará todos os conteúdos internos.</div>
-        <div className="flex justify-end gap-2">
-          <button
-            className="px-4 py-2 rounded-lg bg-neutral-700 hover:bg-neutral-600 text-white"
-            onClick={handleCloseDeleteModal}
-            disabled={isDeleting}
-          >Cancelar</button>
-          <button
-            className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold disabled:opacity-50"
-            onClick={handleDeleteAcademy}
-            disabled={deleteInput !== academyToDelete?.title || isDeleting}
-          >{isDeleting ? 'Excluindo...' : 'Excluir'}</button>
-        </div>
-      </Modal>
+      <ConfirmDeleteModal
+        open={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleDeleteAcademy}
+        title={academyToDelete?.title || ''}
+        loading={isDeleting}
+      />
     </div>
   )
 }
