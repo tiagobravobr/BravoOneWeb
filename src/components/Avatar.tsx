@@ -1,15 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
-import { useUserProfile } from '../hooks/useUserProfile'
-import { useAvatar } from '../contexts/AvatarContext'
+import { useAvatarContext } from '../contexts/AvatarRefreshContext'
+import { supabase } from '../lib/supabase'
+
+// Cache de memória para evitar flash entre navegações
+const avatarCache = new Map<string, string | null>()
 
 interface AvatarProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
   showName?: boolean
   className?: string
   onClick?: () => void
-  editable?: boolean
-  onImageChange?: (file: File) => void
 }
 
 const sizeClasses = {
@@ -23,129 +24,164 @@ export default function Avatar({
   size = 'md', 
   showName = false, 
   className = '', 
-  onClick, 
-  editable = false,
-  onImageChange 
+  onClick
 }: AvatarProps) {
-  const { profile, uploadAvatar } = useUserProfile()
-  const { avatarVersion } = useAvatar()
-  const [isUploading, setIsUploading] = useState(false)
-  const [avatarError, setAvatarError] = useState(false)
   const { user } = useAuth()
+  const { avatarTimestamp } = useAvatarContext()
+  
+  // Inicializar com valor do cache se disponível
+  const getCacheKey = () => user ? `${user.id}_${avatarTimestamp}` : null
+  const cacheKey = getCacheKey()
+  const cachedValue = cacheKey ? avatarCache.get(cacheKey) : undefined
+  
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(
+    cachedValue !== undefined ? cachedValue : null
+  )
 
-  // Função para montar a URL do avatar
-  const getAvatarUrl = () => {
-    if (!user) return null
-    const baseUrl = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/avatars/${user.id}.jpg`
-    return `${baseUrl}?v=${avatarVersion}`
-  }
-
-  // Função para obter nome de exibição
-  const getDisplayName = () => {
-    return user?.user_metadata?.display_name || 
-           profile?.nome_completo || 
-           user?.email?.split('@')[0] || 
-           'Usuário'
-  }
-
-  // Função para obter iniciais
-  const getInitials = () => {
-    const name = getDisplayName()
-    const words = name.split(/\s+/).filter((word: string) => word.length > 0)
-    
-    if (words.length >= 2) {
-      return (words[0][0] + words[1][0]).toUpperCase()
-    } else if (words.length === 1) {
-      return words[0].substring(0, 2).toUpperCase()
+  // Função para carregar avatar de forma simples e eficiente
+  const loadAvatar = async () => {
+    if (!user) {
+      setAvatarUrl(null)
+      return
     }
-    return 'US'
-  }
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    setIsUploading(true)
-    setAvatarError(false)
+    const currentCacheKey = getCacheKey()
     
+    // Se já tem no cache para esta versão, usar
+    if (currentCacheKey && avatarCache.has(currentCacheKey)) {
+      const cached = avatarCache.get(currentCacheKey)
+      setAvatarUrl(cached!)
+      return
+    }
+
     try {
-      const result = await uploadAvatar(file)
-      if (result.error) {
-        console.error('Erro ao fazer upload:', result.error)
-      } else {
-        onImageChange?.(file)
-        // Força re-render após upload
-        setAvatarError(false)
-        // Força reload da imagem
-        setTimeout(() => setAvatarError(false), 100)
+      // Tentar buscar o avatar (.webp primeiro, depois .jpg)
+      const extensions = ['webp', 'jpg']
+      let foundUrl = null
+
+      for (const ext of extensions) {
+        const { data } = await supabase.storage
+          .from('avatars')
+          .getPublicUrl(`${user.id}.${ext}`)
+        
+        if (data?.publicUrl) {
+          // Usar o timestamp apenas quando há mudança real (upload/remoção)
+          const urlWithVersion = avatarTimestamp > 0 ? 
+            `${data.publicUrl}?v=${avatarTimestamp}` : 
+            data.publicUrl
+          
+          // Verificar se existe de forma simples
+          try {
+            const response = await fetch(urlWithVersion, { method: 'HEAD' })
+            if (response.ok) {
+              foundUrl = urlWithVersion
+              break
+            }
+          } catch {
+            // Continua para próxima extensão
+          }
+        }
       }
+
+      // Salvar no cache e atualizar estado
+      if (currentCacheKey) {
+        avatarCache.set(currentCacheKey, foundUrl)
+        
+        // Limpar cache de versões antigas para este usuário
+        for (const [key] of avatarCache) {
+          if (key.startsWith(`${user.id}_`) && key !== currentCacheKey) {
+            avatarCache.delete(key)
+          }
+        }
+      }
+      
+      setAvatarUrl(foundUrl)
     } catch (error) {
-      console.error('Erro no upload:', error)
-    } finally {
-      setIsUploading(false)
+      console.error('Erro ao carregar avatar:', error)
+      const fallback = null
+      if (currentCacheKey) {
+        avatarCache.set(currentCacheKey, fallback)
+      }
+      setAvatarUrl(fallback)
     }
   }
 
-  const handleClick = () => {
-    if (editable) {
-      document.getElementById('avatar-upload')?.click()
+  // Carregar avatar quando usuário ou timestamp mudam
+  useEffect(() => {
+    // Se não tem no cache para esta versão, carregar
+    const currentCacheKey = getCacheKey()
+    if (currentCacheKey && !avatarCache.has(currentCacheKey)) {
+      loadAvatar()
     }
-    onClick?.()
+  }, [user, avatarTimestamp])
+
+  // Quando usuário muda, limpar estado se não tem cache
+  useEffect(() => {
+    if (!user) {
+      setAvatarUrl(null)
+    } else {
+      const currentCacheKey = getCacheKey()
+      if (currentCacheKey && avatarCache.has(currentCacheKey)) {
+        setAvatarUrl(avatarCache.get(currentCacheKey)!)
+      } else {
+        loadAvatar()
+      }
+    }
+  }, [user])
+
+  // Função para gerar iniciais
+  const getInitials = () => {
+    if (!user) return '?'
+    
+    const displayName = user.user_metadata?.display_name || user.email || ''
+    const names = displayName.split(' ').filter(Boolean)
+    
+    if (names.length >= 2) {
+      return (names[0][0] + names[names.length - 1][0]).toUpperCase()
+    } else if (names.length === 1) {
+      return names[0].slice(0, 2).toUpperCase()
+    } else {
+      return displayName.slice(0, 2).toUpperCase()
+    }
   }
 
-  const avatarUrl = getAvatarUrl()
-  const initials = getInitials()
-  const displayName = getDisplayName()
+  const displayName = user?.user_metadata?.display_name || user?.email?.split('@')[0] || 'Usuário'
 
   return (
     <div className="flex items-center gap-3">
       <div 
-        className={`${sizeClasses[size]} bg-gray-600 rounded-full flex items-center justify-center relative overflow-hidden ${className} group transition-all duration-200 ${editable ? 'cursor-pointer hover:ring-2 hover:ring-primary-500/50' : ''}`}
-        onClick={handleClick}
+        className={`
+          ${sizeClasses[size]} 
+          rounded-full 
+          overflow-hidden 
+          flex-shrink-0 
+          relative
+          ${onClick ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}
+          ${className}
+        `}
+        onClick={onClick}
       >
-        {!avatarError && avatarUrl ? (
+        {avatarUrl ? (
           <img 
-            src={avatarUrl}
-            alt={displayName}
+            src={avatarUrl} 
+            alt="Avatar"
             className="w-full h-full object-cover"
-            onError={() => setAvatarError(true)}
-            onLoad={() => setAvatarError(false)}
+            onError={() => {
+              console.log('Image failed to load, falling back to initials')
+              setAvatarUrl(null)
+            }}
           />
         ) : (
-          <span className="text-white font-medium">
-            {initials}
-          </span>
-        )}
-        
-        {isUploading && (
-          <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
-            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
-        
-        {/* Câmera no hover */}
-        {editable && !isUploading && (
-          <div className="absolute inset-0 bg-black/0 hover:bg-black/60 transition-all duration-200 flex items-center justify-center opacity-0 hover:opacity-100">
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+          <div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-300 font-medium">
+            {getInitials()}
           </div>
         )}
       </div>
       
       {showName && (
-        <span className="text-white font-medium">{displayName}</span>
-      )}
-      
-      {editable && (
-        <input
-          id="avatar-upload"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="hidden"
-        />
+        <span className="text-gray-200 font-medium truncate">
+          {displayName}
+        </span>
       )}
     </div>
   )

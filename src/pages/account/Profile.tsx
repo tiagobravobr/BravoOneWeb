@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Phone, Calendar, User } from 'lucide-react'
+import { Phone, Calendar, User, Camera, X } from 'lucide-react'
 import Avatar from '../../components/Avatar'
+import AvatarUploader from '../../components/AvatarUploader'
 import { useUserProfile } from '../../hooks/useUserProfile'
+import { useAvatar } from '../../hooks/useAvatar'
 import { useAuth } from '../../contexts/AuthContext'
-import { useAvatar } from '../../contexts/AvatarContext'
 
 const Profile = () => {
-  const { profile, updateProfile, updateDisplayName, updateEmail, refreshUserSession, removeAvatar } = useUserProfile()
+  const { profile, updateProfile, updateDisplayName, updateEmail, refreshUserSession } = useUserProfile()
+  const { uploadAvatar, removeAvatar, checkAvatarExists, isUploading } = useAvatar()
   const { user } = useAuth()
-  const { updateAvatarVersion } = useAvatar()
   const [formData, setFormData] = useState({
     nome_completo: '',
     telefone: '',
@@ -18,6 +19,13 @@ const Profile = () => {
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null)
   const [phoneHasFocus, setPhoneHasFocus] = useState(false)
   const [fieldFeedback, setFieldFeedback] = useState<{[key: string]: {type: 'success' | 'error', message: string} | null}>({})
+  
+  // Estados para o sistema de avatar
+  const [showAvatarUploader, setShowAvatarUploader] = useState(false)
+  const [hasAvatar, setHasAvatar] = useState(false)
+
+  // Estado para controlar overlay em touch devices
+  const [showAvatarOverlay, setShowAvatarOverlay] = useState(false)
 
   // Função para mostrar feedback por campo
   const showFieldFeedback = (field: string, type: 'success' | 'error', message: string) => {
@@ -65,18 +73,6 @@ const Profile = () => {
       await refreshUserSession()
     }
     return result
-  }
-
-  // Função SIMPLES para remover avatar
-  const handleRemoveAvatar = async () => {
-    clearFieldFeedback('avatar')
-    const result = await removeAvatar()
-    if (!result.error) {
-      showFieldFeedback('avatar', 'success', 'Avatar removido com sucesso!')
-      updateAvatarVersion()
-    } else {
-      showFieldFeedback('avatar', 'error', `Erro ao remover: ${result.error}`)
-    }
   }
 
   // Função para aplicar máscara no telefone
@@ -177,42 +173,131 @@ const Profile = () => {
     handleInstantSave(field, value)
   }
 
+  // Verificar se usuário tem avatar
+  useEffect(() => {
+    if (user) {
+      checkAvatarExists().then((exists) => setHasAvatar(exists || false))
+    }
+  }, [user, checkAvatarExists])
+
+  // Funções para gerenciar avatar
+  const handleAvatarUpload = async (file: File) => {
+    try {
+      await uploadAvatar(file)
+      setHasAvatar(true)
+      setShowAvatarUploader(false)
+      showFieldFeedback('avatar', 'success', 'Avatar atualizado com sucesso!')
+    } catch (error) {
+      showFieldFeedback('avatar', 'error', error instanceof Error ? error.message : 'Erro ao fazer upload')
+    }
+  }
+
+  const handleAvatarRemove = async () => {
+    try {
+      await removeAvatar()
+      setHasAvatar(false)
+      setShowAvatarUploader(false)
+      showFieldFeedback('avatar', 'success', 'Avatar removido com sucesso!')
+    } catch (error) {
+      showFieldFeedback('avatar', 'error', error instanceof Error ? error.message : 'Erro ao remover avatar')
+    }
+  }
+
   return (
     <div>
       {/* Card Principal do Perfil */}
       <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-8">
-        {/* Avatar no lado esquerdo com botões horizontais */}
-        <div className="flex items-start gap-6 mb-10">
-          <div className="flex-shrink-0">
+        {/* Avatar e controles - layout responsivo */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10">
+          <div className="flex-shrink-0 relative group">
             <Avatar 
               size="xl" 
-              editable={true}
-              className="w-20 h-20 text-xl"
+              className="w-20 h-20 text-xl cursor-pointer"
+              onClick={() => {
+                // Em dispositivos touch, mostrar overlay primeiro
+                if ('ontouchstart' in window && !showAvatarOverlay) {
+                  setShowAvatarOverlay(true)
+                  setTimeout(() => setShowAvatarOverlay(false), 3000) // Auto-hide após 3s
+                } else {
+                  setShowAvatarUploader(true)
+                }
+              }}
             />
+            
+            {/* Overlay com opções - visível no hover ou quando ativado em touch */}
+            <div className={`
+              absolute inset-0 bg-black/70 rounded-full transition-all duration-300 
+              flex items-center justify-center pointer-events-none
+              ${showAvatarOverlay ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
+            `}>
+              <div className="flex gap-1.5 pointer-events-auto">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowAvatarOverlay(false)
+                    setShowAvatarUploader(true)
+                  }}
+                  className="p-2 bg-white/25 hover:bg-white/40 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/20 shadow-lg hover:scale-105 focus:scale-105 focus:outline-none focus:ring-2 focus:ring-white/30"
+                  title={hasAvatar ? 'Alterar Avatar' : 'Adicionar Avatar'}
+                  disabled={isUploading}
+                >
+                  <Camera className="w-4 h-4 text-white drop-shadow-sm" />
+                </button>
+                
+                {hasAvatar && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setShowAvatarOverlay(false)
+                      handleAvatarRemove()
+                    }}
+                    className="p-2 bg-red-500/85 hover:bg-red-500 rounded-full transition-all duration-200 backdrop-blur-sm border border-red-400/30 shadow-lg hover:scale-105 focus:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400/50"
+                    title="Remover Avatar"
+                    disabled={isUploading}
+                  >
+                    <X className="w-4 h-4 text-white drop-shadow-sm" />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
           
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <button 
-                className="btn btn-danger text-sm px-4 py-2"
-                onClick={handleRemoveAvatar}
-              >
-                Remover
-              </button>
-            </div>
-            
-            <p className="text-xs text-gray-400 mb-2">
-              Imagens até 5MB • Clique na foto para alterar
+          <div className="flex-1 text-center sm:text-left space-y-3">
+            <p className="text-xs text-gray-400">
+              Imagens até 5MB • JPG, PNG ou WebP
             </p>
             
-            {/* Feedback do avatar */}
-            {fieldFeedback.avatar && (
-              <div className={`text-xs ${
-                fieldFeedback.avatar.type === 'success' ? 'text-green-400' : 'text-red-400'
-              }`}>
-                {fieldFeedback.avatar.message}
-              </div>
-            )}
+            {/* Botões para gerenciar avatar */}
+            <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
+              <button
+                onClick={() => setShowAvatarUploader(true)}
+                className="btn btn-secondary text-xs px-3 py-1.5"
+                disabled={isUploading}
+              >
+                {hasAvatar ? 'Alterar Avatar' : 'Adicionar Avatar'}
+              </button>
+              
+              {hasAvatar && (
+                <button
+                  onClick={handleAvatarRemove}
+                  className="btn btn-danger text-xs px-3 py-1.5"
+                  disabled={isUploading}
+                >
+                  Remover Avatar
+                </button>
+              )}
+            </div>
+            
+            {/* Área fixa para feedback do avatar - reserva espaço para evitar jump */}
+            <div className="h-4 flex items-start justify-center sm:justify-start">
+              {fieldFeedback.avatar && (
+                <div className={`text-xs transition-opacity duration-200 ${
+                  fieldFeedback.avatar.type === 'success' ? 'text-green-400' : 'text-red-400'
+                }`}>
+                  {fieldFeedback.avatar.message}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -359,6 +444,14 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      
+      {/* Modal do AvatarUploader */}
+      {showAvatarUploader && (
+        <AvatarUploader
+          onSave={handleAvatarUpload}
+          onCancel={() => setShowAvatarUploader(false)}
+        />
+      )}
     </div>
   )
 }

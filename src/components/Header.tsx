@@ -3,13 +3,11 @@ import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Settings, Users, BookOpen, BarChart3, TrendingUp, Monitor, Shield, Menu } from 'lucide-react'
 import Avatar from './Avatar'
-import { useAvatar } from '../contexts/AvatarContext'
 
 export default function Header() {
     const { signOut } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
-    const { avatarVersion } = useAvatar()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -238,7 +236,7 @@ export default function Header() {
                                 className="flex items-center space-x-2 hover:bg-gray-800/50 rounded-lg p-2 transition-colors"
                             >
                                 {/* Avatar */}
-                                <Avatar size="sm" key={avatarVersion} />
+                                <Avatar size="sm" />
 
                                 {/* Seta */}
                                 <svg

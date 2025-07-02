@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
-import { AvatarProvider } from './contexts/AvatarContext'
+import { AvatarProvider } from './contexts/AvatarRefreshContext'
 import App from './App.tsx'
 import './index.css'
 

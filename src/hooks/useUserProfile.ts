@@ -130,43 +130,6 @@ export function useUserProfile() {
     }
   }
 
-  // Função para upload de avatar (simples, rápida)
-  const uploadAvatar = async (file: File) => {
-    if (!user) return { error: 'Usuário não autenticado' }
-    try {
-      setLoading(true)
-      if (!file.type.startsWith('image/')) throw new Error('Por favor, selecione apenas arquivos de imagem')
-      if (file.size > 5 * 1024 * 1024) throw new Error('Arquivo muito grande. Máximo 5MB')
-      const fileName = `${user.id}.jpg`
-      await supabase.storage.from('avatars').remove([fileName])
-      const { error: uploadError } = await supabase.storage.from('avatars').upload(fileName, file, { upsert: true, contentType: file.type })
-      if (uploadError) throw new Error(`Erro no upload: ${uploadError.message}`)
-      await fetchProfile()
-      return { data: true, error: null }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro ao fazer upload'
-      setError(errorMessage)
-      return { data: null, error: errorMessage }
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // Função para remover avatar (simples, rápida)
-  const removeAvatar = async () => {
-    if (!user) return { error: 'Usuário não autenticado' }
-    try {
-      setLoading(true)
-      await supabase.storage.from('avatars').remove([`${user.id}.jpg`])
-      return { data: true, error: null }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro ao remover'
-      return { data: null, error: errorMessage }
-    } finally {
-      setLoading(false)
-    }
-  }
-
   // Função para atualizar display_name no Auth
   const updateDisplayName = async (displayName: string) => {
     if (!user) return { error: 'Usuário não autenticado' }
@@ -283,8 +246,6 @@ export function useUserProfile() {
     loading,
     error,
     updateProfile,
-    uploadAvatar,
-    removeAvatar,
     fetchProfile,
     updateDisplayName,
     updateEmail,
