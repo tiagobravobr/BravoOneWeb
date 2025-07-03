@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Trash2, BarChart3, BookOpen } from 'lucide-react'
+import { ArrowLeft, Trash2, BarChart3, LayoutPanelTop } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useToast } from '../../contexts/ToastContext'
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal'
@@ -33,7 +33,7 @@ const AcademyForm = () => {
   // Abas do menu da academia
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
-    { id: 'content', label: 'Conteúdos', icon: BookOpen },
+    { id: 'content', label: 'Conteúdos', icon: LayoutPanelTop },
   ]
 
   // Detectar mudanças na URL e atualizar estado
@@ -260,7 +260,9 @@ const AcademyForm = () => {
       <div className="mb-6">
         <div className="flex items-center gap-2 overflow-hidden">
           <div className="flex-1 min-w-0">
-            {isEditing ? (
+            {isLoading ? (
+              <div className="h-12 w-64 bg-gray-800/60 rounded animate-pulse" />
+            ) : isEditing ? (
               <div className={`form-inline-container relative min-h-[3rem] flex items-center ${
                 isSaving ? 'saving' : ''
               }`}>
@@ -354,7 +356,7 @@ const AcademyForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-center gap-4">
                   <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <BookOpen className="w-5 h-5 text-blue-400" />
+                    <LayoutPanelTop className="w-5 h-5 text-blue-400" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-400">Total de Conteúdos</p>
@@ -402,7 +404,7 @@ const AcademyForm = () => {
           {activeTab === 'content' && (
             <div className="bg-gray-900/30 border border-gray-800 rounded p-8">
               <div className="text-center py-12">
-                <BookOpen className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+                <LayoutPanelTop className="w-16 h-16 text-gray-500 mx-auto mb-4" />
                 <h4 className="text-lg font-medium text-white mb-2">Em breve</h4>
                 <p className="text-gray-400">
                   A funcionalidade de gerenciamento de conteúdos estará disponível em breve.
