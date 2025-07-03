@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Settings, Users, BarChart3, TrendingUp, Monitor, Shield, Menu, LayoutPanelTop } from 'lucide-react'
+import { Settings, Users, BarChart3, TrendingUp, Monitor, Crown, Menu, LayoutPanelTop } from 'lucide-react'
 import Avatar from './Avatar'
 
 export default function Header() {
@@ -225,7 +225,7 @@ export default function Header() {
                             {isAdminArea ? (
                                 <Monitor className="w-5 h-5 text-gray-400 group-hover:text-gray-300" />
                             ) : (
-                                <Shield className="w-5 h-5 text-gray-400 group-hover:text-primary-400" />
+                                <Crown className="w-5 h-5 text-gray-400 group-hover:text-primary-400" />
                             )}
                         </button>
 
