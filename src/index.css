@@ -2,10 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/.form-input:focus {
+.form-input:focus {
   outline: none;
   border-color: #9CA3AF; /* border-gray-400 - cinza mais sutil */
-}= RESET CSS APRIMORADO === */
+}
+
+/* === RESET CSS APRIMORADO === */
 *,
 *::before,
 *::after {
