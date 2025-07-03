@@ -5,6 +5,9 @@ import { supabase } from '../../../lib/supabase'
 import { useToast } from '../../../contexts/ToastContext'
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
 import AcademyHeader from './academy/components/AcademyHeader'
+import AcademyTabs from './academy/components/AcademyTabs'
+import AcademyOverview from './academy/components/AcademyOverview'
+import AcademyContent from './academy/components/AcademyContent'
 
 interface Academy {
   id: string
@@ -263,93 +266,21 @@ const AcademyForm = () => {
         isDeleting={isDeleting}
       />
 
-      {/* Menu de navegação - só aparece quando há uma academia carregada */}
-      {academy && (
-        <div className="mb-8">
-          <div className="border-b border-gray-700">
-            <nav className="flex space-x-8 overflow-x-auto">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-1 py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
-                    activeTab === tab.id
-                      ? 'border-primary-500 text-primary-400'
-                      : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
-                  }`}
-                >
-                  <tab.icon className="w-4 h-4" />
-                  {tab.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-      )}
+      <AcademyTabs
+        tabs={tabs}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        academy={academy}
+      />
 
       {/* Conteúdo das abas */}
       {academy && (
         <div className="mb-8">
           {activeTab === 'overview' && (
-            <div className="bg-gray-900/30 border border-gray-800 rounded p-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <LayoutPanelTop className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Total de Conteúdos</p>
-                    <p className="text-2xl font-bold text-white">0</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-green-500/20 rounded-lg">
-                    <BarChart3 className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Progresso Médio</p>
-                    <p className="text-2xl font-bold text-white">0%</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-primary-500/20 rounded-lg">
-                    <BarChart3 className="w-5 h-5 text-primary-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Alunos Ativos</p>
-                    <p className="text-2xl font-bold text-white">0</p>
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-gray-900/30 rounded-lg border border-gray-600">
-                  <div>
-                    <p className="text-white font-medium">Visibilidade</p>
-                    <p className="text-sm text-gray-400">Controle quem pode ver esta academia</p>
-                  </div>
-                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">Pública</span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-gray-900/30 rounded-lg border border-gray-600">
-                  <div>
-                    <p className="text-white font-medium">Status</p>
-                    <p className="text-sm text-gray-400">Estado atual da academia</p>
-                  </div>
-                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Ativa</span>
-                </div>
-              </div>
-            </div>
+            <AcademyOverview />
           )}
-          
           {activeTab === 'content' && (
-            <div className="bg-gray-900/30 border border-gray-800 rounded p-8">
-              <div className="text-center py-12">
-                <LayoutPanelTop className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-                <h4 className="text-lg font-medium text-white mb-2">Em breve</h4>
-                <p className="text-gray-400">
-                  A funcionalidade de gerenciamento de conteúdos estará disponível em breve.
-                </p>
-              </div>
-            </div>
+            <AcademyContent />
           )}
         </div>
       )}
