@@ -450,7 +450,7 @@ export default function Dashboard() {
                                         {modules.map((module) => (
                                             <div
                                                 key={module.id}
-                                                className="card-hover flex-[0_0_auto] 
+                                                className="flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -460,7 +460,7 @@ export default function Dashboard() {
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
                                                     {/* Card principal */}
-                                                    <div className="card-wrapper">
+                                                    <div className="content-cover">
                                                         <img
                                                             src={module.image}
                                                             alt={module.title}
@@ -538,7 +538,7 @@ export default function Dashboard() {
                                         {gestaoItems.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="card-hover flex-[0_0_auto] 
+                                                className="flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -547,7 +547,7 @@ export default function Dashboard() {
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
                                                     {/* Card principal */}
-                                                    <div className="card-wrapper">
+                                                    <div className="content-cover">
                                                         <img
                                                             src={item.image}
                                                             alt={item.title}
@@ -618,7 +618,7 @@ export default function Dashboard() {
                                         {financasItems.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="card-hover flex-[0_0_auto] 
+                                                className="flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -627,7 +627,7 @@ export default function Dashboard() {
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
                                                     {/* Card principal */}
-                                                    <div className="card-wrapper">
+                                                    <div className="content-cover">
                                                         <img
                                                             src={item.image}
                                                             alt={item.title}
@@ -698,7 +698,7 @@ export default function Dashboard() {
                                         {marketingItems.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="card-hover flex-[0_0_auto] 
+                                                className="flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -707,7 +707,7 @@ export default function Dashboard() {
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
                                                     {/* Card principal */}
-                                                    <div className="card-wrapper">
+                                                    <div className="content-cover">
                                                         <img
                                                             src={item.image}
                                                             alt={item.title}
@@ -771,7 +771,7 @@ export default function Dashboard() {
                                         {newsItems.map((item) => (
                                             <div 
                                                 key={item.id} 
-                                                className="card-hover flex-[0_0_auto] 
+                                                className="flex-[0_0_auto] 
                                                            w-[calc(60%-9.6px)]
                                                            md:w-[calc(33.33%-12.8px)]
                                                            lg:w-[calc(27.27%-12.8px)]
@@ -780,7 +780,7 @@ export default function Dashboard() {
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[4/3.5]">
                                                     {/* Card principal */}
-                                                    <div className="card-wrapper">
+                                                    <div className="content-cover">
                                                     
                                                         {/* Imagem */}
                                                         <img
