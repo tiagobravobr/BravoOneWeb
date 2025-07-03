@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { BarChart3, LayoutPanelTop, Settings } from 'lucide-react'
+import { BarChart3, LayoutPanelTop, Settings, Layers } from 'lucide-react'
 import { supabase } from '../../../lib/supabase'
 import { useToast } from '../../../contexts/ToastContext'
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
 import AcademyHeader from './academy/components/AcademyHeader'
 import AcademyTabs from './academy/components/AcademyTabs'
 import AcademyOverview from './academy/components/AcademyOverview'
+import AcademyShowcase from './academy/components/AcademyShowcase'
 import AcademyContent from './academy/components/AcademyContent'
 import AcademySettings from './academy/components/AcademySettings'
 
@@ -38,7 +39,8 @@ const AcademyForm = () => {
   // Abas do menu da academia
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
-    { id: 'content', label: 'Conteúdos', icon: LayoutPanelTop },
+    { id: 'vitrine', label: 'Vitrine', icon: LayoutPanelTop },
+    { id: 'content', label: 'Conteúdos', icon: Layers },
     { id: 'settings', label: 'Configurações', icon: Settings },
   ]
 
@@ -280,6 +282,9 @@ const AcademyForm = () => {
         <div className="mb-8">
           {activeTab === 'overview' && (
             <AcademyOverview />
+          )}
+          {activeTab === 'vitrine' && (
+            <AcademyShowcase />
           )}
           {activeTab === 'content' && (
             <AcademyContent />

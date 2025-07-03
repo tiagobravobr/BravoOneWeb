@@ -1,0 +1,6 @@
+export { default as AcademyHeader } from './AcademyHeader'
+export { default as AcademyTabs } from './AcademyTabs'
+export { default as AcademyOverview } from './AcademyOverview'
+export { default as AcademyShowcase } from './AcademyShowcase'
+export { default as AcademyContent } from './AcademyContent'
+export { default as AcademySettings } from './AcademySettings'
