@@ -18,24 +18,30 @@ const AcademyForm = () => {
   const { id } = useParams() // Para detectar se estamos editando (se há ID na URL)
   const navigate = useNavigate()
   const { showToast } = useToast()
-  const isEditMode = Boolean(id)
   
   const [academyName, setAcademyName] = useState('')
   const [academy, setAcademy] = useState<Academy | null>(null)
-  const [isEditing, setIsEditing] = useState(!isEditMode) // Se é novo, já inicia editando
-  const [isLoading, setIsLoading] = useState(isEditMode) // Loading apenas se estivermos carregando dados existentes
+  const [isEditing, setIsEditing] = useState(false) // Será controlado pelos useEffects
+  const [isLoading, setIsLoading] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [hasFocus, setHasFocus] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  // Detectar mudanças na URL e atualizar estado
   useEffect(() => {
-    // Se estamos em modo de edição, carregar os dados da academia
-    if (isEditMode && id) {
+    if (id) {
+      // Modo edição: carregar academia existente
       loadAcademy(id)
+    } else {
+      // Modo criação: limpar estado e iniciar editando
+      setAcademy(null)
+      setAcademyName('')
+      setIsLoading(false)
+      setIsEditing(true) // Iniciar em modo de edição para criar
     }
-  }, [id, isEditMode])
+  }, [id]) // Reagir sempre que o ID na URL mudar
 
   const loadAcademy = async (academyId: string) => {
     try {
@@ -88,10 +94,15 @@ const AcademyForm = () => {
       return
     }
 
+    // Prevenir múltiplas execuções
+    if (isSaving) {
+      return
+    }
+
     setIsSaving(true)
     
     try {
-      if (isEditMode && academy) {
+      if (academy) {
         // Atualizar academia existente
         const { error } = await supabase
           .from('content_nodes')
@@ -130,21 +141,13 @@ const AcademyForm = () => {
         showToast('Academia criada com sucesso!', 'success')
         console.log(`Academia "${academyName}" criada com sucesso!`, data)
         
-        // Após criar, atualizar o estado para modo de edição
-        if (data) {
-          const newAcademy: Academy = {
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            type: data.type,
-            created_at: data.created_at,
-            updated_at: data.updated_at
-          }
-          setAcademy(newAcademy)
-          
-          // Atualizar a URL para o modo de edição sem recarregar a página
-          window.history.replaceState(null, '', `/admin/content/academy/${data.id}`)
-        }
+        // Parar edição e remover foco antes de navegar
+        setIsEditing(false)
+        inputRef.current?.blur()
+        
+        // Navegar para o modo de edição
+        navigate(`/admin/content/edit-academy/${data.id}`, { replace: true })
+        return
       }
 
       setIsEditing(false)
@@ -159,7 +162,7 @@ const AcademyForm = () => {
   }
 
   const handleCancel = () => {
-    if (isEditMode || academyName.trim()) {
+    if (academy || academyName.trim()) {
       // Se é edição ou já tem nome, apenas para de editar
       setIsEditing(false)
       // Reverte para o nome original se estiver editando
@@ -176,13 +179,19 @@ const AcademyForm = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleSave()
+      e.preventDefault() // Prevenir comportamentos padrão
+      if (!isSaving) { // Só executar se não estiver salvando
+        handleSave()
+      }
     } else if (e.key === 'Escape') {
       handleCancel()
     }
   }
 
   const handleBlur = () => {
+    // Não fazer nada se já estiver salvando
+    if (isSaving) return
+    
     // Só salva se o nome mudou
     if (academy) {
       if (academyName.trim() && academyName.trim() !== academy.title) {
@@ -242,10 +251,12 @@ const AcademyForm = () => {
 
       {/* Campo Nome editável, destacado */}
       <div className="mb-8">
-        <div className="flex items-center gap-2">
-          <div className="flex-1">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <div className="flex-1 min-w-0">
             {isEditing ? (
-              <div className="relative min-h-[3rem] flex items-center">
+              <div className={`form-inline-container relative min-h-[3rem] flex items-center ${
+                isSaving ? 'saving' : ''
+              }`}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -259,14 +270,11 @@ const AcademyForm = () => {
                   }}
                   disabled={isSaving}
                   placeholder={(!academyName && !hasFocus) ? "Digite o nome da academia..." : ""}
-                  className={`w-full bg-transparent text-3xl font-bold text-white placeholder-gray-500 border-none outline-none focus:ring-0 p-0 h-12 ${
+                  className={`form-inline-editor text-3xl font-bold h-12 ${
                     isSaving ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   style={{ fontSize: '2rem', lineHeight: '3rem' }}
                 />
-                <div className={`absolute bottom-0 left-0 right-0 h-0.5 transform transition-all duration-200 ${
-                  isSaving ? 'bg-yellow-500 scale-x-100' : 'bg-primary-500 scale-x-100'
-                }`}></div>
                 {isSaving && (
                   <div className="absolute right-0 top-1/2 -translate-y-1/2">
                     <div className="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
@@ -280,10 +288,11 @@ const AcademyForm = () => {
                   isSaving ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
                 style={{ fontSize: '2rem', lineHeight: '3rem' }}
+                title={academyName && academyName.length > 50 ? academyName : undefined}
               >
-                {academyName || (
+                <span className="truncate">{academyName || (
                   <span className="text-gray-500 font-normal">Digite o nome da academia...</span>
-                )}
+                )}</span>
                 {isSaving && (
                   <div className="ml-3">
                     <div className="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
