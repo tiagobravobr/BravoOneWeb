@@ -460,7 +460,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[10/16]">
                                                 {/* Card principal */}
-                                                <div className="content-cover">
+                                                <div className="content-cover rounded">
                                                     <img
                                                         src={module.image}
                                                         alt={module.title}
@@ -547,7 +547,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[10/16]">
                                                 {/* Card principal */}
-                                                <div className="content-cover">
+                                                <div className="content-cover rounded">
                                                     <img
                                                         src={item.image}
                                                         alt={item.title}
@@ -627,7 +627,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[10/16]">
                                                 {/* Card principal */}
-                                                <div className="content-cover">
+                                                <div className="content-cover rounded">
                                                     <img
                                                         src={item.image}
                                                         alt={item.title}
@@ -707,7 +707,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[10/16]">
                                                 {/* Card principal */}
-                                                <div className="content-cover">
+                                                <div className="content-cover rounded">
                                                     <img
                                                         src={item.image}
                                                         alt={item.title}
@@ -780,7 +780,7 @@ export default function Dashboard() {
                                             {/* Container principal com brilho de fundo */}
                                             <div className="relative aspect-[4/3.5]">
                                                 {/* Card principal */}
-                                                <div className="content-cover">
+                                                <div className="content-cover rounded">
 
                                                     {/* Imagem */}
                                                     <img

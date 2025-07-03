@@ -145,7 +145,7 @@ const AdminContent = () => {
               <div
                 key={index}
                 className="bg-gray-900/30 border border-gray-800 rounded overflow-hidden animate-pulse h-full w-full flex items-center justify-center"
-                style={{ aspectRatio: '9/16', minHeight: 220 }}
+                style={{ aspectRatio: '10/16', minHeight: 220 }}
               >
                 <div className="w-2/3 h-6 bg-gray-700 rounded mx-auto" />
               </div>
