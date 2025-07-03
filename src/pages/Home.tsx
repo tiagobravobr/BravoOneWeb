@@ -458,7 +458,7 @@ export default function Dashboard() {
                                                 onClick={() => handleModuleClick(module.id)}
                                             >
                                                 {/* Container principal com brilho de fundo */}
-                                                <div className="relative aspect-[9/16]">
+                                                <div className="relative aspect-[10/16]">
                                                     {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
                                                     <div className="card-glow"></div>
 
@@ -484,14 +484,11 @@ export default function Dashboard() {
                                                             </div>
                                                         )}
 
-                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                        <div className="absolute inset-0 px-6 pt-6 pb-8 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1">
                                                                     {module.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
-                                                                    {module.subtitle}
-                                                                </p>
                                                                 <p className="text-[#bd1616] text-sm font-medium">
                                                                     MÓDULO {module.id}
                                                                 </p>
@@ -551,7 +548,7 @@ export default function Dashboard() {
                                                            select-none"
                                             >
                                                 {/* Container principal com brilho de fundo */}
-                                                <div className="relative aspect-[9/16]">
+                                                <div className="relative aspect-[10/16]">
                                                     {/* Brilho difuso */}
                                                     <div className="card-glow"></div>
 
@@ -573,14 +570,11 @@ export default function Dashboard() {
                                                             </div>
                                                         )}
 
-                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                        <div className="absolute inset-0 px-6 pt-6 pb-8 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1">
                                                                     {item.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
-                                                                    {item.subtitle}
-                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -637,7 +631,7 @@ export default function Dashboard() {
                                                            select-none"
                                             >
                                                 {/* Container principal com brilho de fundo */}
-                                                <div className="relative aspect-[9/16]">
+                                                <div className="relative aspect-[10/16]">
                                                     {/* Brilho difuso */}
                                                     <div className="card-glow"></div>
 
@@ -659,14 +653,11 @@ export default function Dashboard() {
                                                             </div>
                                                         )}
 
-                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                        <div className="absolute inset-0 px-6 pt-6 pb-8 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1">
                                                                     {item.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
-                                                                    {item.subtitle}
-                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -723,7 +714,7 @@ export default function Dashboard() {
                                                            select-none"
                                             >
                                                 {/* Container principal com brilho de fundo */}
-                                                <div className="relative aspect-[9/16]">
+                                                <div className="relative aspect-[10/16]">
                                                     {/* Brilho difuso */}
                                                     <div className="card-glow"></div>
 
@@ -738,14 +729,11 @@ export default function Dashboard() {
                                                         <div className="absolute inset-0 bg-black/20" />
                                                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
 
-                                                        <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                                                        <div className="absolute inset-0 px-6 pt-6 pb-8 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1">
                                                                     {item.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
-                                                                    {item.subtitle}
-                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
