@@ -119,11 +119,11 @@ const AdminContent = () => {
 
       {/* Grid de Academias */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
-        {/* Create Academy Card - Formato 9:16 */}
+        {/* Create Academy Card - Formato 10:16 */}
         <div
           onClick={handleCreateAcademy}
           className="group cursor-pointer bg-gray-900/30 border-2 border-dashed border-gray-700 rounded transition-all duration-200 hover:bg-gray-900/50 hover:-translate-y-2 hover:shadow-2xl h-full w-full flex items-center justify-center"
-          style={{ aspectRatio: '9/16', minHeight: 220 }}
+          style={{ aspectRatio: '10/16', minHeight: 220 }}
         >
           <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center">
             <div className="w-16 h-16 bg-gray-800 group-hover:bg-primary-600/20 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300">
@@ -158,7 +158,7 @@ const AdminContent = () => {
           <div
             key={academy.id}
             className="group relative cursor-pointer bg-neutral-900 border border-gray-800 rounded flex items-center justify-center shadow-md mx-auto transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl h-full w-full"
-            style={{ aspectRatio: '9/16', minHeight: 220 }}
+            style={{ aspectRatio: '10/16', minHeight: 220 }}
             onClick={() => handleEditAcademy(academy.id)}
           >
             {/* Botão de excluir, só aparece no hover */}
