@@ -1,9 +1,9 @@
 import { Plus, BookOpen, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { supabase } from '../../lib/supabase'
-import ConfirmDeleteModal from '../../components/ConfirmDeleteModal'
-import { useToast } from '../../contexts/ToastContext'
+import { supabase } from '../../../lib/supabase'
+import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
+import { useToast } from '../../../contexts/ToastContext'
 
 interface Academy {
   id: string

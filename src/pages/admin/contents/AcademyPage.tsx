@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Trash2, BarChart3, LayoutPanelTop } from 'lucide-react'
-import { supabase } from '../../lib/supabase'
-import { useToast } from '../../contexts/ToastContext'
-import ConfirmDeleteModal from '../../components/ConfirmDeleteModal'
+import { supabase } from '../../../lib/supabase'
+import { useToast } from '../../../contexts/ToastContext'
+import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
 
 interface Academy {
   id: string

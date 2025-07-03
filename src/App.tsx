@@ -4,7 +4,9 @@ import { Login, CreateAccount, ForgotPassword, ResetPassword } from './pages/aut
 import Home from './pages/Home'
 import ContentViewer from './pages/ContentViewer'
 import { AdminLayout, MainLayout } from './components/layouts'
-import { AdminDashboard, AdminContent, AdminUsers, AdminAnalytics, AdminSettings, AcademyForm } from './pages/admin'
+import { AdminDashboard, AdminUsers, AdminAnalytics, AdminSettings } from './pages/admin'
+import ContentsPage from './pages/admin/contents/ContentsPage'
+import AcademyPage from './pages/admin/contents/AcademyPage'
 import { Account, Profile, Subscriptions, Purchases, PaymentMethods, AccountSettings } from './pages/account'
 
 function App() {
@@ -41,9 +43,9 @@ function App() {
           }
         >
           <Route index element={<AdminDashboard />} />
-          <Route path="contents" element={<AdminContent />} />
-          <Route path="contents/create-academy" element={<AcademyForm />} />
-          <Route path="contents/edit-academy/:id" element={<AcademyForm />} />
+          <Route path="contents" element={<ContentsPage />} />
+          <Route path="contents/create-academy" element={<AcademyPage />} />
+          <Route path="contents/edit-academy/:id" element={<AcademyPage />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AdminSettings />} />
