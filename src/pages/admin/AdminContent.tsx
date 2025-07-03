@@ -54,11 +54,11 @@ const AdminContent = () => {
   }
 
   const handleCreateAcademy = () => {
-    navigate('/admin/content/create-academy')
+    navigate('/admin/contents/create-academy')
   }
 
   const handleEditAcademy = (academyId: string) => {
-    navigate(`/admin/content/edit-academy/${academyId}`)
+    navigate(`/admin/contents/edit-academy/${academyId}`)
   }
 
 
@@ -122,7 +122,7 @@ const AdminContent = () => {
         {/* Create Academy Card - Formato 9:16 */}
         <div
           onClick={handleCreateAcademy}
-          className="group cursor-pointer bg-gray-900/30 border-2 border-dashed border-gray-700 rounded-xl transition-all duration-200 hover:bg-gray-900/50 hover:-translate-y-2 hover:shadow-2xl h-full w-full flex items-center justify-center"
+          className="group cursor-pointer bg-gray-900/30 border-2 border-dashed border-gray-700 rounded transition-all duration-200 hover:bg-gray-900/50 hover:-translate-y-2 hover:shadow-2xl h-full w-full flex items-center justify-center"
           style={{ aspectRatio: '9/16', minHeight: 220 }}
         >
           <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center">
@@ -144,7 +144,7 @@ const AdminContent = () => {
             {[...Array(3)].map((_, index) => (
               <div
                 key={index}
-                className="bg-gray-900/30 border border-gray-800 rounded-xl overflow-hidden animate-pulse h-full w-full flex items-center justify-center"
+                className="bg-gray-900/30 border border-gray-800 rounded overflow-hidden animate-pulse h-full w-full flex items-center justify-center"
                 style={{ aspectRatio: '9/16', minHeight: 220 }}
               >
                 <div className="w-2/3 h-6 bg-gray-700 rounded mx-auto" />
@@ -157,7 +157,7 @@ const AdminContent = () => {
         {!isLoading && academies.map((academy) => (
           <div
             key={academy.id}
-            className="group relative cursor-pointer bg-neutral-900 border border-gray-800 rounded-xl flex items-center justify-center shadow-md mx-auto transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl h-full w-full"
+            className="group relative cursor-pointer bg-neutral-900 border border-gray-800 rounded flex items-center justify-center shadow-md mx-auto transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl h-full w-full"
             style={{ aspectRatio: '9/16', minHeight: 220 }}
             onClick={() => handleEditAcademy(academy.id)}
           >

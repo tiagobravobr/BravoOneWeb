@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header'
+import Footer from '../Footer'
 
 interface AdminLayoutProps {
   children?: ReactNode
@@ -14,6 +15,7 @@ export default function AdminLayout({ children, className = "" }: AdminLayoutPro
       <main className="flex-1 pt-20">
         {children || <Outlet />}
       </main>
+      <Footer />
     </div>
   )
 }

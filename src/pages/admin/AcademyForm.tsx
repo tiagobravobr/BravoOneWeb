@@ -82,7 +82,7 @@ const AcademyForm = () => {
     } catch (error) {
       console.error('Erro ao carregar academia:', error)
       alert('Erro ao carregar dados da academia')
-      navigate('/admin/content')
+      navigate('/admin/contents')
     } finally {
       setIsLoading(false)
     }
@@ -153,7 +153,7 @@ const AcademyForm = () => {
         inputRef.current?.blur()
         
         // Navegar para o modo de edição
-        navigate(`/admin/content/edit-academy/${data.id}`, { replace: true })
+        navigate(`/admin/contents/edit-academy/${data.id}`, { replace: true })
         return
       }
 
@@ -179,7 +179,7 @@ const AcademyForm = () => {
     } else {
       // Se não há nome e é criação, pergunta se quer sair
       if (confirm('Deseja sair sem criar a academia?')) {
-        navigate('/admin/content')
+        navigate('/admin/contents')
       }
     }
   }
@@ -234,7 +234,7 @@ const AcademyForm = () => {
         .eq('id', academy.id)
       if (error) throw error
       showToast('Academia excluída com sucesso!', 'success')
-      navigate('/admin/content')
+      navigate('/admin/contents')
     } catch (err) {
       showToast('Erro ao excluir academia.', 'error')
     } finally {
@@ -248,7 +248,7 @@ const AcademyForm = () => {
       {/* Header com link de voltar */}
       <div className="mb-6">
         <Link 
-          to="/admin/content" 
+          to="/admin/contents" 
           className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -350,7 +350,7 @@ const AcademyForm = () => {
       {academy && (
         <div className="mb-8">
           {activeTab === 'overview' && (
-            <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-8">
+            <div className="bg-gray-900/30 border border-gray-800 rounded p-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="flex items-center gap-4">
                   <div className="p-2 bg-blue-500/20 rounded-lg">
@@ -400,7 +400,7 @@ const AcademyForm = () => {
           )}
           
           {activeTab === 'content' && (
-            <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-8">
+            <div className="bg-gray-900/30 border border-gray-800 rounded p-8">
               <div className="text-center py-12">
                 <BookOpen className="w-16 h-16 text-gray-500 mx-auto mb-4" />
                 <h4 className="text-lg font-medium text-white mb-2">Em breve</h4>

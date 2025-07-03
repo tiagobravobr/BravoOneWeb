@@ -41,9 +41,9 @@ function App() {
           }
         >
           <Route index element={<AdminDashboard />} />
-          <Route path="content" element={<AdminContent />} />
-          <Route path="content/create-academy" element={<AcademyForm />} />
-          <Route path="content/edit-academy/:id" element={<AcademyForm />} />
+          <Route path="contents" element={<AdminContent />} />
+          <Route path="contents/create-academy" element={<AcademyForm />} />
+          <Route path="contents/edit-academy/:id" element={<AcademyForm />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AdminSettings />} />

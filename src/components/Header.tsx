@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Settings, Users, BookOpen, BarChart3, TrendingUp, Monitor, Shield, Menu } from 'lucide-react'
+import { Settings, Users, BarChart3, TrendingUp, Monitor, Shield, Menu, LayoutGrid } from 'lucide-react'
 import Avatar from './Avatar'
 
 export default function Header() {
@@ -27,9 +27,9 @@ export default function Header() {
         },
         {
             id: 'content',
-            label: 'Conteúdo',
-            icon: BookOpen,
-            path: '/admin/content',
+            label: 'Conteúdos',
+            icon: LayoutGrid,
+            path: '/admin/contents',
             description: 'Gerenciar academias, cursos e aulas'
         },
         {

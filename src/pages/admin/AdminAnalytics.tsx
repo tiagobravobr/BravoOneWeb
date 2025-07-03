@@ -6,7 +6,7 @@ const AdminAnalytics = () => {
         <p className="text-gray-400">Acompanhe métricas, estatísticas e performance da plataforma</p>
       </div>
 
-      <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-8 text-center">
+      <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded p-8 text-center">
         <h3 className="text-lg font-semibold text-white mb-2">Em Desenvolvimento</h3>
         <p className="text-gray-400">Esta funcionalidade será implementada em breve</p>
       </div>
