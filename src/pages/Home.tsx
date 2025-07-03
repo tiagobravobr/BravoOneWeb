@@ -450,7 +450,7 @@ export default function Dashboard() {
                                         {modules.map((module) => (
                                             <div
                                                 key={module.id}
-                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                className="card-hover flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -459,11 +459,8 @@ export default function Dashboard() {
                                             >
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
-                                                    {/* Brilho difuso - estado normal mais espalhado, hover mais centralizado */}
-                                                    <div className="card-glow"></div>
-
                                                     {/* Card principal */}
-                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    <div className="card-wrapper">
                                                         <img
                                                             src={module.image}
                                                             alt={module.title}
@@ -541,7 +538,7 @@ export default function Dashboard() {
                                         {gestaoItems.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                className="card-hover flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -549,11 +546,8 @@ export default function Dashboard() {
                                             >
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
-                                                    {/* Brilho difuso */}
-                                                    <div className="card-glow"></div>
-
                                                     {/* Card principal */}
-                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    <div className="card-wrapper">
                                                         <img
                                                             src={item.image}
                                                             alt={item.title}
@@ -624,7 +618,7 @@ export default function Dashboard() {
                                         {financasItems.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                className="card-hover flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -632,11 +626,8 @@ export default function Dashboard() {
                                             >
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
-                                                    {/* Brilho difuso */}
-                                                    <div className="card-glow"></div>
-
                                                     {/* Card principal */}
-                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    <div className="card-wrapper">
                                                         <img
                                                             src={item.image}
                                                             alt={item.title}
@@ -707,7 +698,7 @@ export default function Dashboard() {
                                         {marketingItems.map((item) => (
                                             <div
                                                 key={item.id}
-                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                className="card-hover flex-[0_0_auto] 
                                                            w-[calc(40%-9.6px)]
                                                            md:w-[calc(22.22%-12.8px)]
                                                            lg:w-[calc(18.18%-12.8px)]
@@ -715,11 +706,8 @@ export default function Dashboard() {
                                             >
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[10/16]">
-                                                    {/* Brilho difuso */}
-                                                    <div className="card-glow"></div>
-
                                                     {/* Card principal */}
-                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    <div className="card-wrapper">
                                                         <img
                                                             src={item.image}
                                                             alt={item.title}
@@ -783,7 +771,7 @@ export default function Dashboard() {
                                         {newsItems.map((item) => (
                                             <div 
                                                 key={item.id} 
-                                                className="group cursor-pointer transform transition-all duration-500 ease-out hover:-translate-y-3 flex-[0_0_auto] 
+                                                className="card-hover flex-[0_0_auto] 
                                                            w-[calc(60%-9.6px)]
                                                            md:w-[calc(33.33%-12.8px)]
                                                            lg:w-[calc(27.27%-12.8px)]
@@ -791,11 +779,8 @@ export default function Dashboard() {
                                             >
                                                 {/* Container principal com brilho de fundo */}
                                                 <div className="relative aspect-[4/3.5]">
-                                                    {/* Brilho difuso */}
-                                                    <div className="card-glow"></div>
-
                                                     {/* Card principal */}
-                                                    <div className="relative w-full h-full rounded overflow-hidden bg-gray-800 shadow-lg shadow-white/10 group-hover:shadow-xl group-hover:shadow-white/20 transition-all duration-300">
+                                                    <div className="card-wrapper">
                                                     
                                                         {/* Imagem */}
                                                         <img
