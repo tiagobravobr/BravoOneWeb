@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { BarChart3, LayoutPanelTop } from 'lucide-react'
+import { BarChart3, LayoutPanelTop, Settings } from 'lucide-react'
 import { supabase } from '../../../lib/supabase'
 import { useToast } from '../../../contexts/ToastContext'
 import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
@@ -8,6 +8,7 @@ import AcademyHeader from './academy/components/AcademyHeader'
 import AcademyTabs from './academy/components/AcademyTabs'
 import AcademyOverview from './academy/components/AcademyOverview'
 import AcademyContent from './academy/components/AcademyContent'
+import AcademySettings from './academy/components/AcademySettings'
 
 interface Academy {
   id: string
@@ -31,13 +32,14 @@ const AcademyForm = () => {
   const [hasFocus, setHasFocus] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [activeTab, setActiveTab] = useState('overview')
+  const [activeTab, setActiveTab] = useState('content') // Sempre abrir na aba Conteúdos
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Abas do menu da academia
   const tabs = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
     { id: 'content', label: 'Conteúdos', icon: LayoutPanelTop },
+    { id: 'settings', label: 'Configurações', icon: Settings },
   ]
 
   // Detectar mudanças na URL e atualizar estado
@@ -281,6 +283,9 @@ const AcademyForm = () => {
           )}
           {activeTab === 'content' && (
             <AcademyContent />
+          )}
+          {activeTab === 'settings' && (
+            <AcademySettings />
           )}
         </div>
       )}
