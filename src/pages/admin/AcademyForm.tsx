@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Trash2 } from 'lucide-react'
+import { ArrowLeft, Trash2, BarChart3, BookOpen } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useToast } from '../../contexts/ToastContext'
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal'
@@ -27,7 +27,14 @@ const AcademyForm = () => {
   const [hasFocus, setHasFocus] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [activeTab, setActiveTab] = useState('overview')
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Abas do menu da academia
+  const tabs = [
+    { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
+    { id: 'content', label: 'Conteúdos', icon: BookOpen },
+  ]
 
   // Detectar mudanças na URL e atualizar estado
   useEffect(() => {
@@ -239,10 +246,10 @@ const AcademyForm = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header com link de voltar */}
-      <div className="mb-4">
+      <div className="mb-6">
         <Link 
           to="/admin/content" 
-          className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+          className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Voltar para Academias
@@ -250,7 +257,7 @@ const AcademyForm = () => {
       </div>
 
       {/* Campo Nome editável, destacado */}
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-center gap-2 overflow-hidden">
           <div className="flex-1 min-w-0">
             {isEditing ? (
@@ -315,6 +322,97 @@ const AcademyForm = () => {
         </div>
       </div>
 
+      {/* Menu de navegação - só aparece quando há uma academia carregada */}
+      {academy && (
+        <div className="mb-8">
+          <div className="border-b border-gray-700">
+            <nav className="flex space-x-8 overflow-x-auto">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-1 py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-primary-500 text-primary-400'
+                      : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+                  }`}
+                >
+                  <tab.icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Conteúdo das abas */}
+      {academy && (
+        <div className="mb-8">
+          {activeTab === 'overview' && (
+            <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-blue-500/20 rounded-lg">
+                    <BookOpen className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Total de Conteúdos</p>
+                    <p className="text-2xl font-bold text-white">0</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-green-500/20 rounded-lg">
+                    <BarChart3 className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Progresso Médio</p>
+                    <p className="text-2xl font-bold text-white">0%</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-primary-500/20 rounded-lg">
+                    <BarChart3 className="w-5 h-5 text-primary-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Alunos Ativos</p>
+                    <p className="text-2xl font-bold text-white">0</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-gray-900/30 rounded-lg border border-gray-600">
+                  <div>
+                    <p className="text-white font-medium">Visibilidade</p>
+                    <p className="text-sm text-gray-400">Controle quem pode ver esta academia</p>
+                  </div>
+                  <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">Pública</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-gray-900/30 rounded-lg border border-gray-600">
+                  <div>
+                    <p className="text-white font-medium">Status</p>
+                    <p className="text-sm text-gray-400">Estado atual da academia</p>
+                  </div>
+                  <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">Ativa</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {activeTab === 'content' && (
+            <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-8">
+              <div className="text-center py-12">
+                <BookOpen className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+                <h4 className="text-lg font-medium text-white mb-2">Em breve</h4>
+                <p className="text-gray-400">
+                  A funcionalidade de gerenciamento de conteúdos estará disponível em breve.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Modal de confirmação de exclusão */}
       <ConfirmDeleteModal
         open={deleteModalOpen}
@@ -323,13 +421,6 @@ const AcademyForm = () => {
         title={academy?.title || ''}
         loading={isDeleting}
       />
-
-      {/* Área de conteúdo principal para futuras funcionalidades */}
-      <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-8">
-        <div className="text-gray-400 text-center py-12">
-          <p className="mb-2">🏗️ Em breve: configurações avançadas, cursos, e gerenciamento de conteúdo.</p>
-        </div>
-      </div>
     </div>
   )
 }
