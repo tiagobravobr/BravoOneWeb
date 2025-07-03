@@ -486,10 +486,10 @@ export default function Dashboard() {
 
                                                         <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
                                                                     {module.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
                                                                     {module.subtitle}
                                                                 </p>
                                                                 <p className="text-[#bd1616] text-sm font-medium">
@@ -575,10 +575,10 @@ export default function Dashboard() {
 
                                                         <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
                                                                     {item.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
                                                                     {item.subtitle}
                                                                 </p>
                                                             </div>
@@ -661,10 +661,10 @@ export default function Dashboard() {
 
                                                         <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
                                                                     {item.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
                                                                     {item.subtitle}
                                                                 </p>
                                                             </div>
@@ -740,10 +740,10 @@ export default function Dashboard() {
 
                                                         <div className="absolute inset-0 p-4 flex flex-col justify-end">
                                                             <div>
-                                                                <h3 className="text-white font-bold text-xl mb-1 font-serif">
+                                                                <h3 className="text-white font-bold text-base lg:text-xl mb-1 font-serif">
                                                                     {item.title}
                                                                 </h3>
-                                                                <p className="text-gray-200 text-base font-light mb-2">
+                                                                <p className="text-gray-200 text-sm lg:text-base font-light mb-2">
                                                                     {item.subtitle}
                                                                 </p>
                                                             </div>
@@ -828,10 +828,10 @@ export default function Dashboard() {
 
                                                         {/* Conteúdo do card - 30% da altura */}
                                                         <div className="absolute bottom-0 left-0 right-0 h-[30%] p-3 bg-gray-800 flex flex-col justify-center">
-                                                            <h3 className="text-white font-semibold text-sm mb-1 line-clamp-1">
+                                                            <h3 className="text-white font-semibold text-base lg:text-sm mb-1 line-clamp-1">
                                                                 {item.title}
                                                             </h3>
-                                                            <p className="text-gray-300 text-xs mb-2 line-clamp-1">
+                                                            <p className="text-gray-300 text-sm mb-2 line-clamp-1">
                                                                 {item.subtitle}
                                                             </p>
                                                             <div className="flex items-center justify-between text-xs">
