@@ -6,7 +6,8 @@ import ContentViewer from './pages/ContentViewer'
 import { AdminLayout, MainLayout } from './components/layouts'
 import { AdminDashboard, AdminUsers, AdminAnalytics, AdminSettings } from './pages/admin'
 import ContentsPage from './pages/admin/contents/ContentsPage'
-import AcademyPage from './pages/admin/contents/AcademyPage'
+import AcademyPage from './pages/admin/contents/academy/AcademyPage'
+import ContentEditor from './pages/admin/contents/content-editor/ContentEditor'
 import { Account, Profile, Subscriptions, Purchases, PaymentMethods, AccountSettings } from './pages/account'
 
 function App() {
@@ -46,10 +47,30 @@ function App() {
           <Route path="contents" element={<ContentsPage />} />
           <Route path="contents/create-academy" element={<AcademyPage />} />
           <Route path="contents/edit-academy/:id" element={<AcademyPage />} />
+          <Route path="contents/:academyId/content" element={<AcademyPage />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
+        
+        {/* Editor de Conteúdo - Fora do AdminLayout para tela completa */}
+        <Route 
+          path="/admin/contents/:academyId/content/create" 
+          element={
+            <ProtectedRoute>
+              <ContentEditor />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/contents/:academyId/content/edit/:contentId" 
+          element={
+            <ProtectedRoute>
+              <ContentEditor />
+            </ProtectedRoute>
+          } 
+        />
+        
         <Route path="/home" element={<Navigate to="/" replace />} />
         <Route path="/dashboard" element={<Navigate to="/" replace />} />
         

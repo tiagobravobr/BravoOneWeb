@@ -1,7 +1,14 @@
 import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Plus, Play, FileText, Video, Headphones } from 'lucide-react'
 
 const AcademyContent: React.FC = () => {
+  const navigate = useNavigate()
+  const { id: academyId } = useParams()
+
+  const handleCreateContent = () => {
+    navigate(`/admin/contents/${academyId}/content/create`)
+  }
   // Simulando 20 conteúdos para o grid
   const mockContents = [
     { id: 1, title: "Introdução ao Empreendedorismo", type: "video", duration: "15:30", image: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=400&h=600&fit=crop" },
@@ -66,6 +73,7 @@ const AcademyContent: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
         {/* Card de Adicionar Conteúdo */}
         <div
+          onClick={handleCreateContent}
           className="group cursor-pointer bg-gray-900/30 border-2 border-dashed border-gray-700 rounded transition-all duration-200 hover:bg-gray-900/50 hover:-translate-y-2 hover:shadow-2xl"
           style={{ aspectRatio: '10/16' }}
         >
