@@ -85,7 +85,7 @@ const PaymentMethods = () => {
 
                 <div className="flex items-center gap-2">
                   {!method.isDefault && (
-                    <button className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded transition-colors">
+                    <button className="btn btn-secondary btn-sm">
                       Definir como Padrão
                     </button>
                   )}

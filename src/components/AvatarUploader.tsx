@@ -178,7 +178,7 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
             <div className="flex justify-center gap-2">
               <button
                 onClick={() => setRotate(rotate - 90)}
-                className="flex items-center gap-2 px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm"
+                className="btn btn-secondary btn-sm"
               >
                 <RotateCcw className="w-4 h-4" />
                 Girar
@@ -186,14 +186,14 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
               
               <button
                 onClick={resetPosition}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm"
+                className="btn btn-secondary btn-sm"
               >
                 Resetar
               </button>
               
               <button
                 onClick={openFileSelector}
-                className="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm"
+                className="btn btn-secondary btn-sm"
               >
                 Trocar Imagem
               </button>

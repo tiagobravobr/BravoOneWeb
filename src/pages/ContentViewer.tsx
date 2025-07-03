@@ -128,7 +128,7 @@ const ContentViewer = () => {
           <p className="text-gray-400 mb-8">O conteúdo que você está procurando não existe.</p>
           <button
             onClick={handleGoBack}
-            className="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded transition-colors"
+            className="btn btn-primary btn-lg"
           >
             Voltar ao Dashboard
           </button>
@@ -161,7 +161,6 @@ const ContentViewer = () => {
               <div>
                 <div className={`relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded transition-all duration-300 ${isSidebarCollapsed ? 'w-16' : 'w-full'
                   }`}>
-                  <div className="card-glow"></div>
 
                   {isSidebarCollapsed ? (
                     /* Modo Colapsado - Apenas botão toggle */
@@ -683,7 +682,7 @@ const ContentViewer = () => {
                         rows={3}
                       />
                       <div className="flex justify-end mt-3">
-                        <button className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded transition-colors">
+                        <button className="btn btn-primary btn-sm">
                           Comentar
                         </button>
                       </div>
@@ -772,7 +771,6 @@ const ContentViewer = () => {
 
               {/* Navegação - Próxima Aula */}
               <div className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded p-6">
-                <div className="card-glow"></div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex-1">

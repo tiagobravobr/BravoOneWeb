@@ -100,7 +100,7 @@ const Settings = () => {
                   <p className="text-gray-400 text-sm">Gerencie dispositivos conectados</p>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors text-sm">
+              <button className="btn btn-secondary btn-sm">
                 Ver Sessões
               </button>
             </div>
@@ -177,7 +177,7 @@ const Settings = () => {
                 <p className="text-white font-medium">Baixar meus dados</p>
                 <p className="text-gray-400 text-sm">Exportar todas as suas informações</p>
               </div>
-              <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors text-sm">
+              <button className="btn btn-secondary btn-sm">
                 Solicitar
               </button>
             </div>
@@ -187,7 +187,7 @@ const Settings = () => {
                 <p className="text-white font-medium">Deletar conta</p>
                 <p className="text-gray-400 text-sm">Remover permanentemente sua conta</p>
               </div>
-              <button className="px-4 py-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded transition-colors text-sm">
+              <button className="btn btn-danger btn-sm">
                 Deletar
               </button>
             </div>

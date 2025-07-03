@@ -51,12 +51,12 @@ export default function ConfirmDeleteModal({ open, onClose, onConfirm, title, lo
       <div className="text-yellow-400 text-xs text-center mb-4">⚠️ Esta ação é irreversível e apagará todos os conteúdos internos.</div>
       <div className="flex justify-end gap-2">
         <button
-          className="px-4 py-2 rounded-lg bg-neutral-700 hover:bg-neutral-600 text-white"
+          className="btn btn-secondary"
           onClick={onClose}
           disabled={loading}
         >Cancelar</button>
         <button
-          className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold disabled:opacity-50"
+          className="btn btn-danger"
           onClick={onConfirm}
           disabled={!isMatch || loading}
         >{loading ? 'Excluindo...' : 'Excluir'}</button>

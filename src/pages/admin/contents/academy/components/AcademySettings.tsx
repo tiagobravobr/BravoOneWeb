@@ -97,10 +97,10 @@ const AcademySettings: React.FC = () => {
 
         {/* Botões de Ação */}
         <div className="flex gap-3 pt-6 border-t border-gray-700">
-          <button className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+          <button className="btn btn-primary btn-lg">
             Salvar Configurações
           </button>
-          <button className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">
+          <button className="btn btn-secondary btn-lg">
             Cancelar
           </button>
         </div>
