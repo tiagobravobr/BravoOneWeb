@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-import { Plus, FileText, Video, ChevronDown, ChevronRight } from 'lucide-react'
+import { Plus, FileText, Video, ChevronDown, ChevronRight, PanelLeftClose } from 'lucide-react'
 
-const ModulesSidebar: React.FC = () => {
+interface ModulesSidebarProps {
+  // onBack será usado no footer
+}
+
+const ModulesSidebar: React.FC<ModulesSidebarProps> = () => {
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set(['module-1']))
+  const [collapsed, setCollapsed] = useState(false)
 
   const mockModules = [
     {
@@ -14,7 +19,7 @@ const ModulesSidebar: React.FC = () => {
       ]
     },
     {
-      id: 'module-2', 
+      id: 'module-2',
       title: 'Fundamentos',
       pages: [
         { id: 'page-3', title: 'Conceitos Básicos', type: 'text' },
@@ -44,16 +49,23 @@ const ModulesSidebar: React.FC = () => {
 
   return (
     <div className="w-80 bg-gray-800/50 border-r border-gray-700 flex flex-col">
-      {/* Header da Sidebar */}
+      {/* Logo e Controles */}
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-semibold">Estrutura do Conteúdo</h3>
+          <div className="flex items-center gap-2">
+            <img
+              src="/bravo-logo-dark.svg"
+              alt="Bravo One"
+              className="w-28 h-auto"
+            />
+          </div>
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="p-1 hover:bg-gray-700 rounded"
+          >
+            <PanelLeftClose className="w-4 h-4 text-gray-400" />
+          </button>
         </div>
-        
-        <button className="w-full btn btn-primary btn-sm flex items-center justify-center gap-2">
-          <Plus className="w-4 h-4" />
-          Novo Módulo
-        </button>
       </div>
 
       {/* Lista de Módulos */}
@@ -62,7 +74,7 @@ const ModulesSidebar: React.FC = () => {
           {mockModules.map((module) => (
             <div key={module.id} className="space-y-1">
               {/* Cabeçalho do Módulo */}
-              <div 
+              <div
                 className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded cursor-pointer group"
                 onClick={() => toggleModule(module.id)}
               >
@@ -81,7 +93,7 @@ const ModulesSidebar: React.FC = () => {
               {expandedModules.has(module.id) && (
                 <div className="ml-6 space-y-1">
                   {module.pages.map((page) => (
-                    <div 
+                    <div
                       key={page.id}
                       className="flex items-center gap-2 p-2 hover:bg-gray-700/30 rounded cursor-pointer group"
                     >
@@ -89,7 +101,7 @@ const ModulesSidebar: React.FC = () => {
                       <span className="text-gray-300 text-sm flex-1">{page.title}</span>
                     </div>
                   ))}
-                  
+
                   {/* Botão Adicionar Página */}
                   <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left">
                     <Plus className="w-4 h-4" />
@@ -99,6 +111,12 @@ const ModulesSidebar: React.FC = () => {
               )}
             </div>
           ))}
+
+          {/* Botão Adicionar Módulo */}
+          <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left mt-4">
+            <Plus className="w-4 h-4" />
+            <span className="text-sm font-medium">Adicionar Módulo</span>
+          </button>
         </div>
       </div>
     </div>

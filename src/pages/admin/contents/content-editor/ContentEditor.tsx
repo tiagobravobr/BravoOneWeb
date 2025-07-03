@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import EditorHeader from './components/EditorHeader'
 import ModulesSidebar from './components/ModulesSidebar'
 import BlockEditor from './components/BlockEditor'
 import SettingsSidebar from './components/SettingsSidebar'
@@ -18,9 +17,6 @@ const ContentEditor: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col">
-      {/* Header Minimalista */}
-      <EditorHeader onBack={handleBack} />
-      
       {/* Conteúdo Principal */}
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar Esquerda - Módulos e Páginas */}
@@ -32,11 +28,11 @@ const ContentEditor: React.FC = () => {
         </div>
         
         {/* Sidebar Direita - Configurações */}
-        <SettingsSidebar />
+        <SettingsSidebar academyId={academyId} />
       </div>
       
       {/* Footer */}
-      <EditorFooter />
+      <EditorFooter onBack={handleBack} />
     </div>
   )
 }

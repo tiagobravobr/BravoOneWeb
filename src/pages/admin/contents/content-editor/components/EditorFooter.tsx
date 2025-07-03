@@ -1,11 +1,22 @@
 import React from 'react'
+import { ArrowLeft } from 'lucide-react'
 
-const EditorFooter: React.FC = () => {
+interface EditorFooterProps {
+  onBack: () => void
+}
+
+const EditorFooter: React.FC<EditorFooterProps> = ({ onBack }) => {
   return (
     <footer className="bg-gray-900 border-t border-gray-800 px-6 py-3">
       <div className="flex items-center justify-between text-sm text-gray-400">
         <div className="flex items-center gap-4">
-          <span>© 2025 Bravo One. Todos os direitos reservados.</span>
+          <button 
+            onClick={onBack}
+            className="flex items-center gap-2 text-gray-400 hover:text-white text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Voltar
+          </button>
         </div>
         
         <div className="flex items-center gap-4">
