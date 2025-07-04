@@ -15,7 +15,7 @@ const ContentEditor: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="h-screen bg-gray-900 flex overflow-hidden">
       {/* Sidebar Esquerda - Módulos e Páginas */}
       <ModulesSidebar 
         collapsed={leftSidebarCollapsed}
@@ -24,7 +24,7 @@ const ContentEditor: React.FC = () => {
       />
       
       {/* Editor Central - Estilo Notion */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <BlockEditor isEditMode={isEditMode} />
       </div>
     </div>
