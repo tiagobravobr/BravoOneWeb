@@ -6,6 +6,7 @@ import ContentViewer from './pages/ContentViewer'
 import { AdminLayout, MainLayout } from './components/layouts'
 import { AdminDashboard, AdminUsers, AdminAnalytics, AdminSettings } from './pages/admin'
 import ContentsPage from './pages/admin/contents/ContentsPage'
+import IndependentContentsPage from './pages/admin/contents/contents/ContentsPage'
 import AcademyPage from './pages/admin/contents/academy/AcademyPage'
 import ContentEditor from './pages/admin/contents/content-editor/ContentEditor'
 import { Account, Profile, Subscriptions, Purchases, PaymentMethods, AccountSettings } from './pages/account'
@@ -45,6 +46,7 @@ function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="contents" element={<ContentsPage />} />
+          <Route path="contents/contents" element={<IndependentContentsPage />} />
           <Route path="contents/create-academy" element={<AcademyPage />} />
           <Route path="contents/edit-academy/:id" element={<AcademyPage />} />
           <Route path="contents/:academyId/content" element={<AcademyPage />} />

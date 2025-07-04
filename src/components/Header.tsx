@@ -11,7 +11,9 @@ export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
+    const [isContentsDropdownOpen, setIsContentsDropdownOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
+    const contentsDropdownRef = useRef<HTMLDivElement>(null)
 
     // Verificar se está na área admin
     const isAdminArea = location.pathname.startsWith('/admin')
@@ -89,6 +91,11 @@ export default function Header() {
                 setIsMenuOpen(false)
                 setIsMobileMenuOpen(false)
             }
+
+            // Fechar dropdown de conteúdos
+            if (contentsDropdownRef.current && !contentsDropdownRef.current.contains(target)) {
+                setIsContentsDropdownOpen(false)
+            }
         }
 
         document.addEventListener('mousedown', handleClickOutside)
@@ -98,6 +105,7 @@ export default function Header() {
     // Fechar menu mobile quando a rota mudar
     useEffect(() => {
         setIsMobileMenuOpen(false)
+        setIsContentsDropdownOpen(false)
     }, [location.pathname])
 
     const handleSignOut = async () => {
@@ -135,6 +143,85 @@ export default function Header() {
                                 {adminMenuItems.map((item) => {
                                     const Icon = item.icon
                                     const isActive = isActiveRoute(item.path)
+                                    
+                                    // Menu especial para Conteúdos com dropdown
+                                    if (item.id === 'content') {
+                                        const isContentsActive = location.pathname.startsWith('/admin/contents/contents')
+                                        const isAcademiesActive = location.pathname === '/admin/contents'
+                                        
+                                        return (
+                                            <div 
+                                                key={item.id} 
+                                                className="relative" 
+                                                ref={contentsDropdownRef}
+                                                onMouseEnter={() => setIsContentsDropdownOpen(true)}
+                                                onMouseLeave={() => setIsContentsDropdownOpen(false)}
+                                            >
+                                                <button
+                                                    onClick={() => navigate('/admin/contents/contents')}
+                                                    className={`relative flex items-center gap-2 px-1 py-2 transition-all duration-200 group ${isActive
+                                                        ? 'text-primary-300'
+                                                        : 'text-gray-400 hover:text-gray-200'
+                                                        }`}
+                                                    title={item.description}
+                                                >
+                                                    <Icon className="w-4 h-4" />
+                                                    <span className="font-medium text-sm">{item.label}</span>
+                                                    <svg className="w-3 h-3 transition-transform duration-200" style={{ transform: isContentsDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                    {isActive && (
+                                                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full"></div>
+                                                    )}
+                                                    {!isActive && (
+                                                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                                                    )}
+                                                </button>
+                                                
+                                                {/* Dropdown Menu */}
+                                                {isContentsDropdownOpen && (
+                                                    <div className="absolute top-full left-0 pt-2 w-48 z-50">
+                                                        <div className="bg-gray-800/95 backdrop-blur-md border border-gray-700/50 rounded-lg shadow-xl py-2">
+                                                        <button
+                                                            onClick={() => {
+                                                                navigate('/admin/contents/contents')
+                                                                setIsContentsDropdownOpen(false)
+                                                            }}
+                                                            className={`w-full text-left px-4 py-3 transition-colors text-sm ${
+                                                                isContentsActive 
+                                                                    ? 'text-primary-300 bg-gray-700/50' 
+                                                                    : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                                                            }`}
+                                                        >
+                                                            Conteúdos
+                                                            {isContentsActive && (
+                                                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-500 rounded-r"></div>
+                                                            )}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                navigate('/admin/contents')
+                                                                setIsContentsDropdownOpen(false)
+                                                            }}
+                                                            className={`w-full text-left px-4 py-3 transition-colors text-sm ${
+                                                                isAcademiesActive 
+                                                                    ? 'text-primary-300 bg-gray-700/50' 
+                                                                    : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                                                            }`}
+                                                        >
+                                                            Academias
+                                                            {isAcademiesActive && (
+                                                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-500 rounded-r"></div>
+                                                            )}
+                                                        </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )
+                                    }
+                                    
+                                    // Outros itens normais
                                     return (
                                         <button
                                             key={item.id}
@@ -176,6 +263,54 @@ export default function Header() {
                                         {adminMenuItems.map((item) => {
                                             const Icon = item.icon
                                             const isActive = isActiveRoute(item.path)
+                                            
+                                            // Menu especial para Conteúdos no mobile
+                                            if (item.id === 'content') {
+                                                const isContentsActive = location.pathname.startsWith('/admin/contents/contents')
+                                                const isAcademiesActive = location.pathname === '/admin/contents'
+                                                
+                                                return (
+                                                    <div key={item.id}>
+                                                        <div className="px-6 py-3 text-gray-500 text-xs uppercase tracking-wider font-medium border-b border-gray-800">
+                                                            {item.label}
+                                                        </div>
+                                                        <button
+                                                            onClick={() => {
+                                                                navigate('/admin/contents/contents')
+                                                                setIsMobileMenuOpen(false)
+                                                            }}
+                                                            className={`w-full flex items-center gap-3 px-8 py-3 text-left border-b border-gray-800 transition-colors ${
+                                                                isContentsActive
+                                                                    ? 'text-primary-300 bg-gray-800'
+                                                                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                                                            }`}
+                                                        >
+                                                            <span>Conteúdos</span>
+                                                            {isContentsActive && (
+                                                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-500"></div>
+                                                            )}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                navigate('/admin/contents')
+                                                                setIsMobileMenuOpen(false)
+                                                            }}
+                                                            className={`w-full flex items-center gap-3 px-8 py-3 text-left border-b border-gray-800 transition-colors ${
+                                                                isAcademiesActive
+                                                                    ? 'text-primary-300 bg-gray-800'
+                                                                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                                                            }`}
+                                                        >
+                                                            <span>Academias</span>
+                                                            {isAcademiesActive && (
+                                                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-500"></div>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                )
+                                            }
+                                            
+                                            // Outros itens normais no mobile
                                             return (
                                                 <button
                                                     key={item.id}
