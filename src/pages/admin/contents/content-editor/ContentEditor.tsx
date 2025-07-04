@@ -5,7 +5,7 @@ import BlockEditor from './components/BlockEditor'
 
 const ContentEditor: React.FC = () => {
   const navigate = useNavigate()
-  const { academyId, contentId } = useParams()
+  const { contentId } = useParams()
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false)
   
   const isEditMode = !!contentId
