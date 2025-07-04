@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import ModulesSidebar from './components/ModulesSidebar'
 import BlockEditor from './components/BlockEditor'
-import SettingsSidebar from './components/SettingsSidebar'
 
 const ContentEditor: React.FC = () => {
   const navigate = useNavigate()
   const { academyId, contentId } = useParams()
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false)
-  const [rightSidebarCollapsed, setRightSidebarCollapsed] = useState(false)
   
   const isEditMode = !!contentId
   
@@ -29,13 +27,6 @@ const ContentEditor: React.FC = () => {
       <div className="flex-1 flex flex-col">
         <BlockEditor isEditMode={isEditMode} />
       </div>
-      
-      {/* Sidebar Direita - Configurações */}
-      <SettingsSidebar 
-        academyId={academyId}
-        collapsed={rightSidebarCollapsed}
-        onToggleCollapse={() => setRightSidebarCollapsed(!rightSidebarCollapsed)}
-      />
     </div>
   )
 }
