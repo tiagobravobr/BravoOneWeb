@@ -54,11 +54,11 @@ const AcademiesPage = () => {
   }
 
   const handleCreateAcademy = () => {
-    navigate('/admin/contents/create-academy')
+    navigate('/admin/academy/new')
   }
 
   const handleEditAcademy = (academyId: string) => {
-    navigate(`/admin/contents/edit-academy/${academyId}`)
+    navigate(`/admin/academy/${academyId}`)
   }
 
 

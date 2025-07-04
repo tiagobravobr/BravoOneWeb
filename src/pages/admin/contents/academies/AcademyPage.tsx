@@ -71,7 +71,7 @@ const AcademyForm = () => {
       if (error) {
         console.error('Erro ao carregar academia:', error)
         alert('Erro ao carregar dados da academia')
-        navigate('/admin/content')
+        navigate('/admin/academies')
         return
       }
 
@@ -90,7 +90,7 @@ const AcademyForm = () => {
     } catch (error) {
       console.error('Erro ao carregar academia:', error)
       alert('Erro ao carregar dados da academia')
-      navigate('/admin/contents')
+      navigate('/admin/academies')
     } finally {
       setIsLoading(false)
     }
@@ -161,7 +161,7 @@ const AcademyForm = () => {
         inputRef.current?.blur()
         
         // Navegar para o modo de edição
-        navigate(`/admin/contents/edit-academy/${data.id}`, { replace: true })
+        navigate(`/admin/academy/${data.id}`, { replace: true })
         return
       }
 
@@ -187,7 +187,7 @@ const AcademyForm = () => {
     } else {
       // Se não há nome e é criação, pergunta se quer sair
       if (confirm('Deseja sair sem criar a academia?')) {
-        navigate('/admin/contents')
+        navigate('/admin/academies')
       }
     }
   }
@@ -242,7 +242,7 @@ const AcademyForm = () => {
         .eq('id', academy.id)
       if (error) throw error
       showToast('Academia excluída com sucesso!', 'success')
-      navigate('/admin/contents')
+      navigate('/admin/academies')
     } catch (err) {
       showToast('Erro ao excluir academia.', 'error')
     } finally {

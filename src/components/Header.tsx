@@ -146,8 +146,8 @@ export default function Header() {
                                     
                                     // Menu especial para Conteúdos com dropdown
                                     if (item.id === 'content') {
-                                        const isContentsActive = location.pathname.startsWith('/admin/contents/contents')
-                                        const isAcademiesActive = location.pathname === '/admin/contents'
+                                        const isContentsActive = location.pathname.startsWith('/admin/contents')
+                                        const isAcademiesActive = location.pathname.startsWith('/admin/academies')
                                         
                                         return (
                                             <div 
@@ -158,7 +158,7 @@ export default function Header() {
                                                 onMouseLeave={() => setIsContentsDropdownOpen(false)}
                                             >
                                                 <button
-                                                    onClick={() => navigate('/admin/contents/contents')}
+                                                    onClick={() => navigate('/admin/contents')}
                                                     className={`relative flex items-center gap-2 px-1 py-2 transition-all duration-200 group ${isActive
                                                         ? 'text-primary-300'
                                                         : 'text-gray-400 hover:text-gray-200'
@@ -184,7 +184,7 @@ export default function Header() {
                                                         <div className="bg-gray-800/95 backdrop-blur-md border border-gray-700/50 rounded-lg shadow-xl py-2">
                                                         <button
                                                             onClick={() => {
-                                                                navigate('/admin/contents/contents')
+                                                                navigate('/admin/contents')
                                                                 setIsContentsDropdownOpen(false)
                                                             }}
                                                             className={`w-full text-left px-4 py-3 transition-colors text-sm ${
@@ -200,7 +200,7 @@ export default function Header() {
                                                         </button>
                                                         <button
                                                             onClick={() => {
-                                                                navigate('/admin/contents')
+                                                                navigate('/admin/academies')
                                                                 setIsContentsDropdownOpen(false)
                                                             }}
                                                             className={`w-full text-left px-4 py-3 transition-colors text-sm ${
@@ -266,8 +266,8 @@ export default function Header() {
                                             
                                             // Menu especial para Conteúdos no mobile
                                             if (item.id === 'content') {
-                                                const isContentsActive = location.pathname.startsWith('/admin/contents/contents')
-                                                const isAcademiesActive = location.pathname === '/admin/contents'
+                                                const isContentsActive = location.pathname.startsWith('/admin/contents')
+                                                const isAcademiesActive = location.pathname.startsWith('/admin/academies')
                                                 
                                                 return (
                                                     <div key={item.id}>
@@ -276,7 +276,7 @@ export default function Header() {
                                                         </div>
                                                         <button
                                                             onClick={() => {
-                                                                navigate('/admin/contents/contents')
+                                                                navigate('/admin/contents')
                                                                 setIsMobileMenuOpen(false)
                                                             }}
                                                             className={`w-full flex items-center gap-3 px-8 py-3 text-left border-b border-gray-800 transition-colors ${
@@ -292,7 +292,7 @@ export default function Header() {
                                                         </button>
                                                         <button
                                                             onClick={() => {
-                                                                navigate('/admin/contents')
+                                                                navigate('/admin/academies')
                                                                 setIsMobileMenuOpen(false)
                                                             }}
                                                             className={`w-full flex items-center gap-3 px-8 py-3 text-left border-b border-gray-800 transition-colors ${

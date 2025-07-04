@@ -7,7 +7,7 @@ const ContentsPage: React.FC = () => {
 
   const handleCreateContent = () => {
     // Navegação para criar conteúdo independente (sem academyId)
-    navigate('/admin/contents/content-editor/create')
+    navigate('/admin/content/new')
   }
 
   // Simulação de conteúdos independentes
@@ -81,7 +81,11 @@ const ContentsPage: React.FC = () => {
 
         {/* Cards de conteúdo */}
         {mockContents.map((content) => (
-          <div key={content.id} className="group cursor-pointer">
+          <div 
+            key={content.id} 
+            className="group cursor-pointer"
+            onClick={() => navigate(`/admin/content/${content.id}`)}
+          >
             <div className="relative aspect-[10/16]">
               <div className="w-full h-full rounded overflow-hidden bg-gray-900 transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl">
                 <img

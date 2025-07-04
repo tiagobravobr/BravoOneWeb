@@ -5,10 +5,10 @@ import Home from './pages/Home'
 import ContentViewer from './pages/ContentViewer'
 import { AdminLayout, MainLayout } from './components/layouts'
 import { AdminDashboard, AdminUsers, AdminAnalytics, AdminSettings } from './pages/admin'
-import ContentsPage from './pages/admin/contents/academies/AcademiesPage'
+import AcademiesPage from './pages/admin/contents/academies/AcademiesPage'
 import IndependentContentsPage from './pages/admin/contents/contents/ContentsPage'
 import AcademyPage from './pages/admin/contents/academies/AcademyPage'
-import ContentEditor from './pages/admin/contents/content-editor/ContentEditor'
+import ContentEditor from './pages/admin/contents/contents/content-editor/ContentEditor'
 import { Account, Profile, Subscriptions, Purchases, PaymentMethods, AccountSettings } from './pages/account'
 
 function App() {
@@ -45,11 +45,10 @@ function App() {
           }
         >
           <Route index element={<AdminDashboard />} />
-          <Route path="contents" element={<ContentsPage />} />
-          <Route path="contents/contents" element={<IndependentContentsPage />} />
-          <Route path="contents/create-academy" element={<AcademyPage />} />
-          <Route path="contents/edit-academy/:id" element={<AcademyPage />} />
-          <Route path="contents/:academyId/content" element={<AcademyPage />} />
+          <Route path="contents" element={<IndependentContentsPage />} />
+          <Route path="academies" element={<AcademiesPage />} />
+          <Route path="academy/:id" element={<AcademyPage />} />
+          <Route path="academy/new" element={<AcademyPage />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AdminSettings />} />
@@ -57,7 +56,7 @@ function App() {
         
         {/* Editor de Conteúdo - Fora do AdminLayout para tela completa */}
         <Route 
-          path="/admin/contents/:academyId/content/create" 
+          path="/admin/content/new" 
           element={
             <ProtectedRoute>
               <ContentEditor />
@@ -65,7 +64,7 @@ function App() {
           } 
         />
         <Route 
-          path="/admin/contents/:academyId/content/edit/:contentId" 
+          path="/admin/content/:id" 
           element={
             <ProtectedRoute>
               <ContentEditor />

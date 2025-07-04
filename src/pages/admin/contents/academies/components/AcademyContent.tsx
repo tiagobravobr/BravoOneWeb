@@ -7,7 +7,7 @@ const AcademyContent: React.FC = () => {
   const { id: academyId } = useParams()
 
   const handleCreateContent = () => {
-    navigate(`/admin/contents/${academyId}/content/create`)
+    navigate(`/admin/content/new?academy=${academyId}`)
   }
   // Simulando 20 conteúdos para o grid
   const mockContents = [
@@ -92,7 +92,11 @@ const AcademyContent: React.FC = () => {
 
         {/* Cards de conteúdo */}
         {mockContents.map((content) => (
-          <div key={content.id} className="group cursor-pointer">
+          <div 
+            key={content.id} 
+            className="group cursor-pointer"
+            onClick={() => navigate(`/admin/content/${content.id}`)}
+          >
             <div className="relative aspect-[10/16]">
               <div className="w-full h-full rounded overflow-hidden bg-gray-900 transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl">
                 <img

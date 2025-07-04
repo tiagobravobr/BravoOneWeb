@@ -5,10 +5,10 @@ import BlockEditor from './components/BlockEditor'
 
 const ContentEditor: React.FC = () => {
   const navigate = useNavigate()
-  const { contentId } = useParams()
+  const { id } = useParams()
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false)
   
-  const isEditMode = !!contentId
+  const isEditMode = !!id
   
   const handleBack = () => {
     if (window.history.length > 2) {
