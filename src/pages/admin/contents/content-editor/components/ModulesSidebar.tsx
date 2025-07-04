@@ -53,21 +53,36 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
     <div className={`${collapsed ? 'w-16' : 'w-80'} bg-gray-800/50 border-r border-gray-700 flex flex-col transition-all duration-300`}>
       {collapsed ? (
         /* Versão Colapsada - Apenas Favicon */
-        <div className="p-4 border-b border-gray-700">
-          <div className="flex flex-col items-center gap-4">
+        <>
+          <div className="p-4 border-b border-gray-700 flex flex-col items-center gap-4">
             <img
               src="/favicon.png"
               alt="Bravo One Favicon"
-              className="w-6 h-6"
+              className="w-6 h-6 cursor-pointer"
+              onClick={onToggleCollapse}
+              title="Expandir sidebar"
             />
             <button
               onClick={onToggleCollapse}
               className="p-2 hover:bg-gray-700 rounded"
+              title="Expandir sidebar"
             >
               <PanelLeftClose className="w-4 h-4 text-gray-400 rotate-180" />
             </button>
           </div>
-        </div>
+          
+          {/* Rodapé: botão Voltar (versão colapsada) */}
+          <div className="border-t border-gray-700 p-4 mt-auto">
+            <button 
+              onClick={onBack}
+              className="flex flex-col items-center gap-1 text-gray-400 hover:text-white text-sm w-full"
+              title="Voltar"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="text-xs">Voltar</span>
+            </button>
+          </div>
+        </>
       ) : (
         <>
           {/* Logo e Controles */}
@@ -77,12 +92,15 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
                 <img
                   src="/bravo-logo-dark.svg"
                   alt="Bravo One"
-                  className="w-28 h-auto"
+                  className="w-28 h-auto cursor-pointer"
+                  onClick={onToggleCollapse}
+                  title="Fechar sidebar"
                 />
               </div>
               <button
                 onClick={onToggleCollapse}
                 className="p-1 hover:bg-gray-700 rounded"
+                title="Fechar sidebar"
               >
                 <PanelLeftClose className="w-4 h-4 text-gray-400" />
               </button>
@@ -101,7 +119,7 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
               {openAccordion === 'conteudo' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
             {openAccordion === 'conteudo' && (
-              <div className="flex-1 min-h-0 px-4 py-2 overflow-y-auto">
+              <div className="flex-1 min-h-0 px-4 py-2 overflow-y-auto bg-gray-900/80 rounded-b-md">
                 <div className="space-y-2">
                   {mockModules.map((module) => (
                     <div key={module.id} className="space-y-1">
@@ -162,7 +180,7 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
               {openAccordion === 'config' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
             {openAccordion === 'config' && (
-              <div className="flex-1 min-h-0 px-4 py-2 text-gray-400 overflow-y-auto">
+              <div className="flex-1 min-h-0 px-4 py-2 text-gray-400 overflow-y-auto bg-gray-900/80 rounded-b-md">
                 <span className="text-xs">Nenhuma configuração disponível.</span>
               </div>
             )}
