@@ -36,7 +36,7 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
     try {
       // Obter canvas da imagem editada
       const canvas = editorRef.current.getImageScaledToCanvas()
-      
+
       // Converter para WebP com qualidade 85%
       const blob = await new Promise<Blob | null>((resolve) => {
         canvas.toBlob(resolve, 'image/webp', 0.85)
@@ -68,11 +68,11 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Overlay escuro */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onCancel}
       />
-      
+
       {/* Modal */}
       <div className="relative bg-gray-900 rounded-xl shadow-2xl p-6 max-w-lg w-full mx-4 max-h-[90vh] overflow-auto">
         {/* Header */}
@@ -91,7 +91,7 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
         {!image ? (
           /* Seleção de arquivo */
           <div className="space-y-6">
-            <div 
+            <div
               onClick={openFileSelector}
               className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-gray-500 transition-colors cursor-pointer"
             >
@@ -99,7 +99,7 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
               <p className="text-gray-300 mb-2">Clique para selecionar uma imagem</p>
               <p className="text-gray-500 text-sm">JPG, PNG, WebP - Máximo 5MB</p>
             </div>
-            
+
             <div className="flex justify-end">
               <button
                 onClick={onCancel}
@@ -142,11 +142,11 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
                 >
                   <Minus className="w-4 h-4 text-white" />
                 </button>
-                
+
                 <span className="text-gray-300 text-sm min-w-[80px] text-center font-medium">
                   {Math.round(scale * 100)}%
                 </span>
-                
+
                 <button
                   onClick={() => setScale(Math.min(3, scale + 0.1))}
                   className="flex items-center justify-center w-8 h-8 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors disabled:opacity-50"
@@ -155,7 +155,7 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
                   <Plus className="w-4 h-4 text-white" />
                 </button>
               </div>
-              
+
               {/* Slider de escala */}
               <div className="px-4">
                 <input
@@ -183,14 +183,14 @@ export default function AvatarUploader({ onSave, onCancel }: AvatarUploaderProps
                 <RotateCcw className="w-4 h-4" />
                 Girar
               </button>
-              
+
               <button
                 onClick={resetPosition}
                 className="btn btn-secondary btn-sm"
               >
                 Resetar
               </button>
-              
+
               <button
                 onClick={openFileSelector}
                 className="btn btn-secondary btn-sm"

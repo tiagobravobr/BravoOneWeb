@@ -90,7 +90,7 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
           </div>
 
           {/* Accordion padrão - agora ocupa toda a altura disponível */}
-          <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+          <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden">
             {/* Seção Conteúdo */}
             <button
               className={`w-full flex items-center justify-between px-4 py-2 text-left text-sm font-medium border-b border-gray-700 bg-gray-800/70 hover:bg-gray-700/30 transition ${openAccordion === 'conteudo' ? 'text-white' : 'text-gray-400'}`}
@@ -101,7 +101,7 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
               {openAccordion === 'conteudo' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
             {openAccordion === 'conteudo' && (
-              <div className="px-4 py-2">
+              <div className="flex-1 min-h-0 px-4 py-2 overflow-y-auto">
                 <div className="space-y-2">
                   {mockModules.map((module) => (
                     <div key={module.id} className="space-y-1">
@@ -162,7 +162,7 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
               {openAccordion === 'config' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
             {openAccordion === 'config' && (
-              <div className="px-4 py-2 text-gray-400">
+              <div className="flex-1 min-h-0 px-4 py-2 text-gray-400 overflow-y-auto">
                 <span className="text-xs">Nenhuma configuração disponível.</span>
               </div>
             )}
