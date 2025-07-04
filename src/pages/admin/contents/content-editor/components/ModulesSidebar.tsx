@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Plus, FileText, Video, ChevronDown, ChevronRight, PanelLeftClose } from 'lucide-react'
+import { Plus, FileText, Video, ChevronDown, ChevronRight, PanelLeftClose, ArrowLeft } from 'lucide-react'
 
 interface ModulesSidebarProps {
-  // onBack será usado no footer
+  collapsed: boolean
+  onToggleCollapse: () => void
+  onBack: () => void
 }
 
-const ModulesSidebar: React.FC<ModulesSidebarProps> = () => {
+const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleCollapse, onBack }) => {
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set(['module-1']))
-  const [collapsed, setCollapsed] = useState(false)
 
   const mockModules = [
     {
@@ -48,77 +49,110 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = () => {
   }
 
   return (
-    <div className="w-80 bg-gray-800/50 border-r border-gray-700 flex flex-col">
-      {/* Logo e Controles */}
-      <div className="p-4 border-b border-gray-700">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
+    <div className={`${collapsed ? 'w-16' : 'w-80'} bg-gray-800/50 border-r border-gray-700 flex flex-col transition-all duration-300`}>
+      {collapsed ? (
+        /* Versão Colapsada - Apenas Logo */
+        <div className="p-4 border-b border-gray-700">
+          <div className="flex flex-col items-center gap-4">
             <img
               src="/bravo-logo-dark.svg"
               alt="Bravo One"
-              className="w-28 h-auto"
+              className="w-8 h-8"
             />
+            <button
+              onClick={onToggleCollapse}
+              className="p-2 hover:bg-gray-700 rounded"
+            >
+              <PanelLeftClose className="w-4 h-4 text-gray-400 rotate-180" />
+            </button>
           </div>
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="p-1 hover:bg-gray-700 rounded"
-          >
-            <PanelLeftClose className="w-4 h-4 text-gray-400" />
-          </button>
         </div>
-      </div>
-
-      {/* Lista de Módulos */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="space-y-2">
-          {mockModules.map((module) => (
-            <div key={module.id} className="space-y-1">
-              {/* Cabeçalho do Módulo */}
-              <div
-                className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded cursor-pointer group"
-                onClick={() => toggleModule(module.id)}
-              >
-                {expandedModules.has(module.id) ? (
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
-                )}
-                <span className="text-white font-medium flex-1">{module.title}</span>
-                <button className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-600 rounded">
-                  <Plus className="w-3 h-3 text-gray-400" />
-                </button>
+      ) : (
+        /* Versão Expandida */
+        <>
+          {/* Logo e Controles */}
+          <div className="p-4 border-b border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <img
+                  src="/bravo-logo-dark.svg"
+                  alt="Bravo One"
+                  className="w-28 h-auto"
+                />
               </div>
-
-              {/* Páginas do Módulo */}
-              {expandedModules.has(module.id) && (
-                <div className="ml-6 space-y-1">
-                  {module.pages.map((page) => (
-                    <div
-                      key={page.id}
-                      className="flex items-center gap-2 p-2 hover:bg-gray-700/30 rounded cursor-pointer group"
-                    >
-                      {getPageIcon(page.type)}
-                      <span className="text-gray-300 text-sm flex-1">{page.title}</span>
-                    </div>
-                  ))}
-
-                  {/* Botão Adicionar Página */}
-                  <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left">
-                    <Plus className="w-4 h-4" />
-                    <span className="text-sm">Adicionar Página</span>
-                  </button>
-                </div>
-              )}
+              <button
+                onClick={onToggleCollapse}
+                className="p-1 hover:bg-gray-700 rounded"
+              >
+                <PanelLeftClose className="w-4 h-4 text-gray-400" />
+              </button>
             </div>
-          ))}
+          </div>
 
-          {/* Botão Adicionar Módulo */}
-          <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left mt-4">
-            <Plus className="w-4 h-4" />
-            <span className="text-sm font-medium">Adicionar Módulo</span>
-          </button>
-        </div>
-      </div>
+          {/* Lista de Módulos */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-2">
+              {mockModules.map((module) => (
+                <div key={module.id} className="space-y-1">
+                  {/* Cabeçalho do Módulo */}
+                  <div
+                    className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded cursor-pointer group"
+                    onClick={() => toggleModule(module.id)}
+                  >
+                    {expandedModules.has(module.id) ? (
+                      <ChevronDown className="w-4 h-4 text-gray-400" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                    )}
+                    <span className="text-white font-medium flex-1">{module.title}</span>
+                    <button className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-600 rounded">
+                      <Plus className="w-3 h-3 text-gray-400" />
+                    </button>
+                  </div>
+
+                  {/* Páginas do Módulo */}
+                  {expandedModules.has(module.id) && (
+                    <div className="ml-6 space-y-1">
+                      {module.pages.map((page) => (
+                        <div
+                          key={page.id}
+                          className="flex items-center gap-2 p-2 hover:bg-gray-700/30 rounded cursor-pointer group"
+                        >
+                          {getPageIcon(page.type)}
+                          <span className="text-gray-300 text-sm flex-1">{page.title}</span>
+                        </div>
+                      ))}
+
+                      {/* Botão Adicionar Página */}
+                      <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left">
+                        <Plus className="w-4 h-4" />
+                        <span className="text-sm">Adicionar Página</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Botão Adicionar Módulo */}
+              <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left mt-4">
+                <Plus className="w-4 h-4" />
+                <span className="text-sm font-medium">Adicionar Módulo</span>
+              </button>
+            </div>
+          </div>
+          
+          {/* Linha divisória e botão Voltar */}
+          <div className="border-t border-gray-700 p-4">
+            <button 
+              onClick={onBack}
+              className="flex items-center gap-2 text-gray-400 hover:text-white text-sm w-full"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Voltar
+            </button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
