@@ -51,13 +51,13 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
   return (
     <div className={`${collapsed ? 'w-16' : 'w-80'} bg-gray-800/50 border-r border-gray-700 flex flex-col transition-all duration-300`}>
       {collapsed ? (
-        /* Versão Colapsada - Apenas Logo */
+        /* Versão Colapsada - Apenas Favicon */
         <div className="p-4 border-b border-gray-700">
           <div className="flex flex-col items-center gap-4">
             <img
-              src="/bravo-logo-dark.svg"
-              alt="Bravo One"
-              className="w-8 h-8"
+              src="/favicon.png"
+              alt="Bravo One Favicon"
+              className="w-6 h-6"
             />
             <button
               onClick={onToggleCollapse}
@@ -72,7 +72,7 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
         <>
           {/* Logo e Controles */}
           <div className="p-4 border-b border-gray-700">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <img
                   src="/bravo-logo-dark.svg"
