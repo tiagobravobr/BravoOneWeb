@@ -11,7 +11,11 @@ const ContentEditor: React.FC = () => {
   const isEditMode = !!contentId
   
   const handleBack = () => {
-    navigate(`/admin/contents/${academyId}/content`)
+    if (window.history.length > 2) {
+      navigate(-1)
+    } else {
+      navigate('/admin/contents')
+    }
   }
 
   return (
