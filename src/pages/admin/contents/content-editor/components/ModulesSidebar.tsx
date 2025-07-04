@@ -9,6 +9,7 @@ interface ModulesSidebarProps {
 
 const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleCollapse, onBack }) => {
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set(['module-1']))
+  const [openAccordion, setOpenAccordion] = useState<'conteudo' | 'config' | null>('conteudo')
 
   const mockModules = [
     {
@@ -68,7 +69,6 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
           </div>
         </div>
       ) : (
-        /* Versão Expandida */
         <>
           {/* Logo e Controles */}
           <div className="p-4 border-b border-gray-700">
@@ -89,59 +89,86 @@ const ModulesSidebar: React.FC<ModulesSidebarProps> = ({ collapsed, onToggleColl
             </div>
           </div>
 
-          {/* Lista de Módulos */}
-          <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-2">
-              {mockModules.map((module) => (
-                <div key={module.id} className="space-y-1">
-                  {/* Cabeçalho do Módulo */}
-                  <div
-                    className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded cursor-pointer group"
-                    onClick={() => toggleModule(module.id)}
-                  >
-                    {expandedModules.has(module.id) ? (
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    ) : (
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    )}
-                    <span className="text-white font-medium flex-1">{module.title}</span>
-                    <button className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-600 rounded">
-                      <Plus className="w-3 h-3 text-gray-400" />
-                    </button>
-                  </div>
+          {/* Accordion padrão - agora ocupa toda a altura disponível */}
+          <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+            {/* Seção Conteúdo */}
+            <button
+              className={`w-full flex items-center justify-between px-4 py-2 text-left text-sm font-medium border-b border-gray-700 bg-gray-800/70 hover:bg-gray-700/30 transition ${openAccordion === 'conteudo' ? 'text-white' : 'text-gray-400'}`}
+              onClick={() => setOpenAccordion(openAccordion === 'conteudo' ? null : 'conteudo')}
+              aria-expanded={openAccordion === 'conteudo'}
+            >
+              Conteúdo
+              {openAccordion === 'conteudo' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
+            {openAccordion === 'conteudo' && (
+              <div className="px-4 py-2">
+                <div className="space-y-2">
+                  {mockModules.map((module) => (
+                    <div key={module.id} className="space-y-1">
+                      {/* Cabeçalho do Módulo */}
+                      <div
+                        className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded cursor-pointer group"
+                        onClick={() => toggleModule(module.id)}
+                      >
+                        {expandedModules.has(module.id) ? (
+                          <ChevronDown className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <ChevronRight className="w-4 h-4 text-gray-400" />
+                        )}
+                        <span className="text-white font-medium flex-1">{module.title}</span>
+                        <button className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-600 rounded">
+                          <Plus className="w-3 h-3 text-gray-400" />
+                        </button>
+                      </div>
 
-                  {/* Páginas do Módulo */}
-                  {expandedModules.has(module.id) && (
-                    <div className="ml-6 space-y-1">
-                      {module.pages.map((page) => (
-                        <div
-                          key={page.id}
-                          className="flex items-center gap-2 p-2 hover:bg-gray-700/30 rounded cursor-pointer group"
-                        >
-                          {getPageIcon(page.type)}
-                          <span className="text-gray-300 text-sm flex-1">{page.title}</span>
+                      {/* Páginas do Módulo */}
+                      {expandedModules.has(module.id) && (
+                        <div className="ml-6 space-y-1">
+                          {module.pages.map((page) => (
+                            <div
+                              key={page.id}
+                              className="flex items-center gap-2 p-2 hover:bg-gray-700/30 rounded cursor-pointer group"
+                            >
+                              {getPageIcon(page.type)}
+                              <span className="text-gray-300 text-sm flex-1">{page.title}</span>
+                            </div>
+                          ))}
+
+                          {/* Botão Adicionar Página */}
+                          <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left">
+                            <Plus className="w-4 h-4" />
+                            <span className="text-sm">Adicionar Página</span>
+                          </button>
                         </div>
-                      ))}
-
-                      {/* Botão Adicionar Página */}
-                      <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left">
-                        <Plus className="w-4 h-4" />
-                        <span className="text-sm">Adicionar Página</span>
-                      </button>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                  ))}
 
-              {/* Botão Adicionar Módulo */}
-              <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left mt-4">
-                <Plus className="w-4 h-4" />
-                <span className="text-sm font-medium">Adicionar Módulo</span>
-              </button>
-            </div>
+                  {/* Botão Adicionar Módulo */}
+                  <button className="flex items-center gap-2 p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-700/30 rounded w-full text-left mt-4">
+                    <Plus className="w-4 h-4" />
+                    <span className="text-sm font-medium">Adicionar Módulo</span>
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* Seção Configurações */}
+            <button
+              className={`w-full flex items-center justify-between px-4 py-2 text-left text-sm font-medium border-b border-gray-700 bg-gray-800/70 hover:bg-gray-700/30 transition ${openAccordion === 'config' ? 'text-white' : 'text-gray-400'}`}
+              onClick={() => setOpenAccordion(openAccordion === 'config' ? null : 'config')}
+              aria-expanded={openAccordion === 'config'}
+            >
+              Configurações
+              {openAccordion === 'config' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
+            {openAccordion === 'config' && (
+              <div className="px-4 py-2 text-gray-400">
+                <span className="text-xs">Nenhuma configuração disponível.</span>
+              </div>
+            )}
           </div>
-          
-          {/* Linha divisória e botão Voltar */}
+
+          {/* Rodapé: botão Voltar */}
           <div className="border-t border-gray-700 p-4">
             <button 
               onClick={onBack}
