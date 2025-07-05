@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import ModulesSidebar from './components/ModulesSidebar'
 import BlockEditor from './components/BlockEditor'
 
 const ContentEditor: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams()
-  const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false)
-  
+
   const isEditMode = !!id
-  
+
   const handleBack = () => {
     if (window.history.length > 2) {
       navigate(-1)
@@ -20,16 +18,9 @@ const ContentEditor: React.FC = () => {
 
   return (
     <div className="h-screen bg-gray-900 flex overflow-hidden">
-      {/* Sidebar Esquerda - Módulos e Páginas */}
-      <ModulesSidebar 
-        collapsed={leftSidebarCollapsed}
-        onToggleCollapse={() => setLeftSidebarCollapsed(!leftSidebarCollapsed)}
-        onBack={handleBack}
-      />
-      
-      {/* Editor Central - Estilo Notion */}
+      {/* Editor Central com Navegação Integrada */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <BlockEditor isEditMode={isEditMode} />
+        <BlockEditor isEditMode={isEditMode} onBack={handleBack} />
       </div>
     </div>
   )
