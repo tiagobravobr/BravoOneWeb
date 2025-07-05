@@ -24,17 +24,32 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
   return (
     <div className="flex-1 overflow-hidden bg-gray-950 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-800/50 bg-gray-900">
-        <div className="flex items-center space-x-4">
+      <div className="flex items-center p-4 border-b border-gray-800/50 bg-gray-950">
+        {/* Lado esquerdo - Logo */}
+        <div className="w-32 flex items-center">
+          <img
+            src="/bravo-logo-dark.svg"
+            alt="Bravo One"
+            className="h-4 w-auto"
+            style={{ filter: "grayscale(1) brightness(0) invert(0.6)" }}
+          />
+        </div>
+
+        {/* Centro - Título centralizado */}
+        <div className="flex-1 flex justify-center">
+          <h1 className="text-2xl font-bold text-white">
+            {isEditMode ? "Editar Conteúdo" : "Novo Conteúdo"}
+          </h1>
+        </div>
+
+        {/* Lado direito - Botão fechar */}
+        <div className="w-32 flex items-center justify-end">
           <button
             onClick={onBack}
             className="text-gray-400 hover:text-white transition-colors"
           >
-            ← Voltar
+            Fechar
           </button>
-          <h1 className="text-lg font-semibold text-white">
-            {isEditMode ? "Editar Conteúdo" : "Novo Conteúdo"}
-          </h1>
         </div>
       </div>
 

@@ -1,76 +1,97 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
-import TextAlign from '@tiptap/extension-text-align'
-import Underline from '@tiptap/extension-underline'
-import Highlight from '@tiptap/extension-highlight'
-import Dropcursor from '@tiptap/extension-dropcursor'
-import Gapcursor from '@tiptap/extension-gapcursor'
-import Image from '@tiptap/extension-image'
-import Youtube from '@tiptap/extension-youtube'
-import { Bold, Italic, Strikethrough, Code, List, ListOrdered, Quote, Copy, Scissors, Clipboard, AlignLeft, AlignCenter, AlignRight, AlignJustify, Underline as UnderlineIcon, Highlighter, ChevronDown, Type, ImageIcon, Youtube as YoutubeIcon } from 'lucide-react'
+import React, { useState, useRef, useEffect } from "react";
+import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import Highlight from "@tiptap/extension-highlight";
+import Dropcursor from "@tiptap/extension-dropcursor";
+import Gapcursor from "@tiptap/extension-gapcursor";
+import Image from "@tiptap/extension-image";
+import Youtube from "@tiptap/extension-youtube";
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Code,
+  List,
+  ListOrdered,
+  Quote,
+  Copy,
+  Scissors,
+  Clipboard,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
+  Underline as UnderlineIcon,
+  Highlighter,
+  ChevronDown,
+  Type,
+  ImageIcon,
+  Youtube as YoutubeIcon,
+} from "lucide-react";
 
 interface TiptapContextEditorProps {
-  placeholder?: string
+  placeholder?: string;
 }
 
 interface ContextMenuProps {
-  x: number
-  y: number
-  isVisible: boolean
-  onClose: () => void
-  onCopy: () => void
-  onCut: () => void
-  onPaste: () => void
-  onBold: () => void
-  onItalic: () => void
-  onStrike: () => void
-  onCode: () => void
-  hasSelection: boolean
+  x: number;
+  y: number;
+  isVisible: boolean;
+  onClose: () => void;
+  onCopy: () => void;
+  onCut: () => void;
+  onPaste: () => void;
+  onBold: () => void;
+  onItalic: () => void;
+  onStrike: () => void;
+  onCode: () => void;
+  hasSelection: boolean;
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ 
-  x, 
-  y, 
-  isVisible, 
-  onClose, 
-  onCopy, 
-  onCut, 
-  onPaste, 
-  onBold, 
-  onItalic, 
+const ContextMenu: React.FC<ContextMenuProps> = ({
+  x,
+  y,
+  isVisible,
+  onClose,
+  onCopy,
+  onCut,
+  onPaste,
+  onBold,
+  onItalic,
   onStrike,
   onCode,
-  hasSelection 
+  hasSelection,
 }) => {
-  const menuRef = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        onClose()
+        onClose();
       }
-    }
+    };
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose()
+      if (event.key === "Escape") {
+        onClose();
       }
-    }
+    };
 
     if (isVisible) {
-      document.addEventListener('mousedown', handleClickOutside)
-      document.addEventListener('keydown', handleEscape)
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscape);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-      document.removeEventListener('keydown', handleEscape)
-    }
-  }, [isVisible, onClose])
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isVisible, onClose]);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <div
@@ -81,7 +102,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       <div className="px-3 py-2 text-xs text-gray-400 uppercase tracking-wider font-medium border-b border-gray-700 mb-1">
         Ações
       </div>
-      
+
       {hasSelection && (
         <>
           <button
@@ -92,7 +113,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             Copiar
             <span className="ml-auto text-xs text-gray-500">Cmd+C</span>
           </button>
-          
+
           <button
             onClick={onCut}
             className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
@@ -103,7 +124,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
           </button>
         </>
       )}
-      
+
       <button
         onClick={onPaste}
         className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
@@ -112,14 +133,14 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         Colar
         <span className="ml-auto text-xs text-gray-500">Cmd+V</span>
       </button>
-      
+
       {hasSelection && (
         <>
           <div className="h-px bg-gray-700 my-1" />
           <div className="px-3 py-2 text-xs text-gray-400 uppercase tracking-wider font-medium">
             Formatação
           </div>
-          
+
           <button
             onClick={onBold}
             className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
@@ -128,7 +149,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             Negrito
             <span className="ml-auto text-xs text-gray-500">Cmd+B</span>
           </button>
-          
+
           <button
             onClick={onItalic}
             className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
@@ -137,7 +158,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             Itálico
             <span className="ml-auto text-xs text-gray-500">Cmd+I</span>
           </button>
-          
+
           <button
             onClick={onStrike}
             className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
@@ -145,7 +166,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             <Strikethrough className="w-4 h-4" />
             Riscado
           </button>
-          
+
           <button
             onClick={onCode}
             className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
@@ -156,94 +177,97 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
 interface HeadingDropdownProps {
-  editor: any
-  isOpen: boolean
-  onToggle: () => void
-  onClose: () => void
+  editor: any;
+  isOpen: boolean;
+  onToggle: () => void;
+  onClose: () => void;
 }
 
-const HeadingDropdown: React.FC<HeadingDropdownProps> = ({ 
-  editor, 
-  isOpen, 
-  onToggle, 
-  onClose 
+const HeadingDropdown: React.FC<HeadingDropdownProps> = ({
+  editor,
+  isOpen,
+  onToggle,
+  onClose,
 }) => {
-  const dropdownRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        onClose()
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        onClose();
       }
-    }
+    };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isOpen, onClose])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
 
   const getCurrentHeading = () => {
-    if (editor.isActive('heading', { level: 1 })) return 'Título 1'
-    if (editor.isActive('heading', { level: 2 })) return 'Título 2'
-    if (editor.isActive('heading', { level: 3 })) return 'Título 3'
-    if (editor.isActive('heading', { level: 4 })) return 'Título 4'
-    if (editor.isActive('heading', { level: 5 })) return 'Título 5'
-    if (editor.isActive('heading', { level: 6 })) return 'Título 6'
-    return 'Parágrafo'
-  }
+    if (editor.isActive("heading", { level: 1 })) return "Título 1";
+    if (editor.isActive("heading", { level: 2 })) return "Título 2";
+    if (editor.isActive("heading", { level: 3 })) return "Título 3";
+    if (editor.isActive("heading", { level: 4 })) return "Título 4";
+    if (editor.isActive("heading", { level: 5 })) return "Título 5";
+    if (editor.isActive("heading", { level: 6 })) return "Título 6";
+    return "Parágrafo";
+  };
 
   const headingOptions = [
-    { 
-      label: 'Parágrafo', 
+    {
+      label: "Parágrafo",
       action: () => editor.chain().focus().setParagraph().run(),
-      isActive: editor.isActive('paragraph'),
-      className: 'text-base font-normal'
+      isActive: editor.isActive("paragraph"),
+      className: "text-base font-normal",
     },
-    { 
-      label: 'Título 1', 
+    {
+      label: "Título 1",
       action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-      isActive: editor.isActive('heading', { level: 1 }),
-      className: 'text-2xl font-bold'
+      isActive: editor.isActive("heading", { level: 1 }),
+      className: "text-2xl font-bold",
     },
-    { 
-      label: 'Título 2', 
+    {
+      label: "Título 2",
       action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      isActive: editor.isActive('heading', { level: 2 }),
-      className: 'text-xl font-semibold'
+      isActive: editor.isActive("heading", { level: 2 }),
+      className: "text-xl font-semibold",
     },
-    { 
-      label: 'Título 3', 
+    {
+      label: "Título 3",
       action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-      isActive: editor.isActive('heading', { level: 3 }),
-      className: 'text-lg font-medium'
+      isActive: editor.isActive("heading", { level: 3 }),
+      className: "text-lg font-medium",
     },
-    { 
-      label: 'Título 4', 
+    {
+      label: "Título 4",
       action: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
-      isActive: editor.isActive('heading', { level: 4 }),
-      className: 'text-base font-medium'
+      isActive: editor.isActive("heading", { level: 4 }),
+      className: "text-base font-medium",
     },
-    { 
-      label: 'Título 5', 
+    {
+      label: "Título 5",
       action: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
-      isActive: editor.isActive('heading', { level: 5 }),
-      className: 'text-sm font-medium'
+      isActive: editor.isActive("heading", { level: 5 }),
+      className: "text-sm font-medium",
     },
-    { 
-      label: 'Título 6', 
+    {
+      label: "Título 6",
       action: () => editor.chain().focus().toggleHeading({ level: 6 }).run(),
-      isActive: editor.isActive('heading', { level: 6 }),
-      className: 'text-xs font-medium'
-    }
-  ]
+      isActive: editor.isActive("heading", { level: 6 }),
+      className: "text-xs font-medium",
+    },
+  ];
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -254,21 +278,22 @@ const HeadingDropdown: React.FC<HeadingDropdownProps> = ({
       >
         <Type className="w-4 h-4" />
         <span className="truncate">{getCurrentHeading()}</span>
-        <ChevronDown className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown
+          className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
-      
+
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-lg py-1 min-w-[140px] z-10">
           {headingOptions.map((option, index) => (
             <button
               key={index}
               onClick={() => {
-                option.action()
-                onClose()
+                option.action();
+                onClose();
               }}
-              className={`w-full text-left px-3 py-2 hover:bg-gray-700 transition-colors ${
-                option.isActive ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`w-full text-left px-3 py-2 hover:bg-gray-700 transition-colors ${option.isActive ? "bg-blue-600 text-white" : "text-gray-300"
+                }`}
             >
               <span className={option.className}>{option.label}</span>
             </button>
@@ -276,20 +301,22 @@ const HeadingDropdown: React.FC<HeadingDropdownProps> = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }) => {
+const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({
+  placeholder,
+}) => {
   const [contextMenu, setContextMenu] = useState({
     x: 0,
     y: 0,
     isVisible: false,
-    hasSelection: false
-  })
-  
-  const [isHeadingDropdownOpen, setIsHeadingDropdownOpen] = useState(false)
-  
-  const editorRef = useRef<HTMLDivElement>(null)
+    hasSelection: false,
+  });
+
+  const [isHeadingDropdownOpen, setIsHeadingDropdownOpen] = useState(false);
+
+  const editorRef = useRef<HTMLDivElement>(null);
 
   const editor = useEditor({
     extensions: [
@@ -304,18 +331,18 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
         },
       }),
       Placeholder.configure({
-        placeholder: placeholder || 'Comece a escrever seu conteúdo...',
+        placeholder: placeholder || "Comece a escrever seu conteúdo...",
         showOnlyWhenEditable: true,
         showOnlyCurrent: false,
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
-        alignments: ['left', 'center', 'right', 'justify'],
+        types: ["heading", "paragraph"],
+        alignments: ["left", "center", "right", "justify"],
       }),
       Underline,
       Highlight.configure({
         HTMLAttributes: {
-          class: 'highlight',
+          class: "highlight",
         },
       }),
       Dropcursor,
@@ -323,13 +350,13 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
       Image.configure({
         inline: false,
         HTMLAttributes: {
-          class: 'editor-image',
+          class: "editor-image",
         },
       }),
       Youtube.configure({
         inline: false,
         HTMLAttributes: {
-          class: 'editor-youtube',
+          class: "editor-youtube",
         },
       }),
     ],
@@ -388,141 +415,146 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
     autofocus: true,
     editorProps: {
       attributes: {
-        class: 'prose prose-invert prose-lg max-w-none focus:outline-none min-h-[500px] p-6',
+        class:
+          "prose prose-invert prose-lg max-w-none focus:outline-none min-h-[500px] p-6",
       },
       handleDOMEvents: {
         contextmenu: (view, event) => {
-          event.preventDefault()
-          
-          const { state } = view
-          const { from, to } = state.selection
-          const hasSelection = from !== to
-          
+          event.preventDefault();
+
+          const { state } = view;
+          const { from, to } = state.selection;
+          const hasSelection = from !== to;
+
           // Calcular posição relativa ao editor
-          const editorElement = editorRef.current
+          const editorElement = editorRef.current;
           if (editorElement) {
-            const rect = editorElement.getBoundingClientRect()
-            const x = event.clientX - rect.left
-            const y = event.clientY - rect.top
-            
+            const rect = editorElement.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
             setContextMenu({
               x: Math.max(0, Math.min(x, rect.width - 200)), // Prevenir overflow horizontal
               y: Math.max(0, Math.min(y, rect.height - 200)), // Prevenir overflow vertical
               isVisible: true,
-              hasSelection
-            })
+              hasSelection,
+            });
           } else {
             setContextMenu({
               x: event.clientX,
               y: event.clientY,
               isVisible: true,
-              hasSelection
-            })
+              hasSelection,
+            });
           }
-          
-          return true
+
+          return true;
         },
       },
     },
-  })
+  });
 
   const handleContextMenuClose = () => {
-    setContextMenu(prev => ({ ...prev, isVisible: false }))
-  }
+    setContextMenu((prev) => ({ ...prev, isVisible: false }));
+  };
 
   const handleCopy = () => {
     if (editor) {
-      document.execCommand('copy')
-      handleContextMenuClose()
+      document.execCommand("copy");
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handleCut = () => {
     if (editor) {
-      document.execCommand('cut')
-      handleContextMenuClose()
+      document.execCommand("cut");
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handlePaste = () => {
     if (editor) {
-      document.execCommand('paste')
-      handleContextMenuClose()
+      document.execCommand("paste");
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handleBold = () => {
     if (editor) {
-      editor.chain().focus().toggleBold().run()
-      handleContextMenuClose()
+      editor.chain().focus().toggleBold().run();
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handleItalic = () => {
     if (editor) {
-      editor.chain().focus().toggleItalic().run()
-      handleContextMenuClose()
+      editor.chain().focus().toggleItalic().run();
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handleStrike = () => {
     if (editor) {
-      editor.chain().focus().toggleStrike().run()
-      handleContextMenuClose()
+      editor.chain().focus().toggleStrike().run();
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handleCode = () => {
     if (editor) {
-      editor.chain().focus().toggleCode().run()
-      handleContextMenuClose()
+      editor.chain().focus().toggleCode().run();
+      handleContextMenuClose();
     }
-  }
+  };
 
   const handleImageInsert = () => {
     if (editor) {
-      const url = prompt('Digite a URL da imagem:')
+      const url = prompt("Digite a URL da imagem:");
       if (url) {
         // Validar se é uma URL válida
         try {
-          new URL(url)
-          editor.chain().focus().setImage({ src: url }).run()
+          new URL(url);
+          editor.chain().focus().setImage({ src: url }).run();
         } catch (error) {
-          alert('Por favor, insira uma URL válida para a imagem.')
+          alert("Por favor, insira uma URL válida para a imagem.");
         }
       }
     }
-  }
+  };
 
   const handleYoutubeInsert = () => {
     if (editor) {
-      const url = prompt('Digite a URL do vídeo do YouTube:')
+      const url = prompt("Digite a URL do vídeo do YouTube:");
       if (url) {
         // Validar se é uma URL válida do YouTube
-        const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/
+        const youtubeRegex =
+          /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
         if (youtubeRegex.test(url)) {
           try {
-            editor.chain().focus().setYoutubeVideo({ src: url }).run()
+            editor.chain().focus().setYoutubeVideo({ src: url }).run();
           } catch (error) {
-            alert('Erro ao inserir vídeo do YouTube. Verifique a URL.')
+            alert("Erro ao inserir vídeo do YouTube. Verifique a URL.");
           }
         } else {
-          alert('Por favor, insira uma URL válida do YouTube.')
+          alert("Por favor, insira uma URL válida do YouTube.");
         }
       }
     }
-  }
+  };
 
   if (!editor) {
-    return null
+    return null;
   }
 
   return (
-    <div ref={editorRef} className="w-full bg-gray-900 rounded-lg border border-gray-600 transition-colors relative">
+    <div
+      ref={editorRef}
+      className="w-full bg-gray-900 rounded-lg transition-colors relative"
+    >
       {/* Bubble Menu - aparece ao selecionar texto */}
       {editor && (
-        <BubbleMenu 
-          editor={editor} 
+        <BubbleMenu
+          editor={editor}
           tippyOptions={{ duration: 100 }}
           className="flex flex-col gap-2 p-3 bg-gray-800 border border-gray-600 rounded-lg shadow-lg w-max max-w-screen-md"
         >
@@ -534,64 +566,70 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
               onToggle={() => setIsHeadingDropdownOpen(!isHeadingDropdownOpen)}
               onClose={() => setIsHeadingDropdownOpen(false)}
             />
-            
+
             <div className="w-px h-6 bg-gray-600 mx-1" />
-            
+
             <button
               onClick={() => editor.chain().focus().toggleBold().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('bold') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("bold")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Negrito (Cmd/Ctrl + B)"
             >
               <Bold className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('italic') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("italic")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Itálico (Cmd/Ctrl + I)"
             >
               <Italic className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleUnderline().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('underline') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("underline")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Sublinhado (Cmd/Ctrl + U)"
             >
               <UnderlineIcon className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('strike') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("strike")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Riscado"
             >
               <Strikethrough className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleHighlight().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('highlight') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("highlight")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Destacar"
             >
               <Highlighter className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleCode().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('code') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("code")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Código"
             >
               <Code className="w-4 h-4" />
@@ -601,79 +639,90 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
           {/* Segunda linha: Alinhamento e estrutura */}
           <div className="flex items-center gap-2 flex-wrap">
             <button
-              onClick={() => editor.chain().focus().setTextAlign('left').run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive({ textAlign: 'left' }) ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              onClick={() => editor.chain().focus().setTextAlign("left").run()}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive({ textAlign: "left" })
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Alinhar à esquerda"
             >
               <AlignLeft className="w-4 h-4" />
             </button>
-            
+
             <button
-              onClick={() => editor.chain().focus().setTextAlign('center').run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive({ textAlign: 'center' }) ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              onClick={() =>
+                editor.chain().focus().setTextAlign("center").run()
+              }
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive({ textAlign: "center" })
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Centralizar"
             >
               <AlignCenter className="w-4 h-4" />
             </button>
-            
+
             <button
-              onClick={() => editor.chain().focus().setTextAlign('right').run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive({ textAlign: 'right' }) ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              onClick={() => editor.chain().focus().setTextAlign("right").run()}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive({ textAlign: "right" })
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Alinhar à direita"
             >
               <AlignRight className="w-4 h-4" />
             </button>
-            
+
             <button
-              onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive({ textAlign: 'justify' }) ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              onClick={() =>
+                editor.chain().focus().setTextAlign("justify").run()
+              }
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive({ textAlign: "justify" })
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Justificar"
             >
               <AlignJustify className="w-4 h-4" />
             </button>
 
             <div className="w-px h-6 bg-gray-600 mx-1" />
-            
+
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('bulletList') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("bulletList")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Lista com marcadores"
             >
               <List className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('orderedList') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("orderedList")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Lista numerada"
             >
               <ListOrdered className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className={`p-2 rounded hover:bg-gray-700 transition-colors ${
-                editor.isActive('blockquote') ? 'bg-blue-600 text-white' : 'text-gray-300'
-              }`}
+              className={`p-2 rounded hover:bg-gray-700 transition-colors ${editor.isActive("blockquote")
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300"
+                }`}
               title="Citação"
             >
               <Quote className="w-4 h-4" />
             </button>
 
             <div className="w-px h-6 bg-gray-600 mx-1" />
-            
+
             <button
               onClick={handleImageInsert}
               className="p-2 rounded hover:bg-gray-700 transition-colors text-gray-300"
@@ -681,7 +730,7 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
             >
               <ImageIcon className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={handleYoutubeInsert}
               className="p-2 rounded hover:bg-gray-700 transition-colors text-gray-300"
@@ -692,7 +741,7 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
           </div>
         </BubbleMenu>
       )}
-      
+
       {/* Context Menu - aparece ao clicar com botão direito */}
       <ContextMenu
         x={contextMenu.x}
@@ -708,13 +757,13 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({ placeholder }
         onStrike={handleStrike}
         onCode={handleCode}
       />
-      
-      <EditorContent 
-        editor={editor} 
-        className="text-gray-100 [&_.ProseMirror]:min-h-[500px] [&_.ProseMirror]:p-6 [&_.ProseMirror]:focus:outline-none [&_.ProseMirror_h1]:text-4xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:text-white [&_.ProseMirror_h1]:mb-4 [&_.ProseMirror_h1]:mt-6 [&_.ProseMirror_h2]:text-3xl [&_.ProseMirror_h2]:font-bold [&_.ProseMirror_h2]:text-white [&_.ProseMirror_h2]:mb-3 [&_.ProseMirror_h2]:mt-5 [&_.ProseMirror_h3]:text-2xl [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:text-white [&_.ProseMirror_h3]:mb-3 [&_.ProseMirror_h3]:mt-4 [&_.ProseMirror_h4]:text-xl [&_.ProseMirror_h4]:font-semibold [&_.ProseMirror_h4]:text-white [&_.ProseMirror_h4]:mb-2 [&_.ProseMirror_h4]:mt-3 [&_.ProseMirror_h5]:text-lg [&_.ProseMirror_h5]:font-medium [&_.ProseMirror_h5]:text-white [&_.ProseMirror_h5]:mb-2 [&_.ProseMirror_h5]:mt-3 [&_.ProseMirror_h6]:text-base [&_.ProseMirror_h6]:font-medium [&_.ProseMirror_h6]:text-white [&_.ProseMirror_h6]:mb-2 [&_.ProseMirror_h6]:mt-2 [&_.ProseMirror_p]:text-gray-300 [&_.ProseMirror_p]:leading-relaxed [&_.ProseMirror_p]:mb-3 [&_.ProseMirror_strong]:text-white [&_.ProseMirror_em]:text-gray-200 [&_.ProseMirror_u]:text-gray-200 [&_.ProseMirror_u]:underline [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:ml-6 [&_.ProseMirror_ul]:mb-3 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:ml-6 [&_.ProseMirror_ol]:mb-3 [&_.ProseMirror_li]:text-gray-300 [&_.ProseMirror_li]:mb-1 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-gray-500 [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_blockquote]:text-gray-400 [&_.ProseMirror_blockquote]:mb-3 [&_.ProseMirror_code]:bg-gray-800 [&_.ProseMirror_code]:px-2 [&_.ProseMirror_code]:py-1 [&_.ProseMirror_code]:rounded [&_.ProseMirror_code]:text-gray-300 [&_.ProseMirror_s]:text-gray-500 [&_.ProseMirror_mark]:bg-yellow-500 [&_.ProseMirror_mark]:text-black [&_.ProseMirror_mark]:px-1 [&_.ProseMirror_mark]:rounded [&_.highlight]:bg-yellow-500 [&_.highlight]:text-black [&_.highlight]:px-1 [&_.highlight]:rounded [&_.editor-image]:max-w-full [&_.editor-image]:h-auto [&_.editor-image]:rounded-lg [&_.editor-image]:mb-4 [&_.editor-image]:mt-4 [&_.editor-image]:shadow-lg [&_.editor-youtube]:max-w-full [&_.editor-youtube]:mb-4 [&_.editor-youtube]:mt-4 [&_.editor-youtube]:rounded-lg [&_.editor-youtube]:shadow-lg [&_.ProseMirror_img]:max-w-full [&_.ProseMirror_img]:h-auto [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:mb-4 [&_.ProseMirror_img]:mt-4 [&_.ProseMirror_img]:shadow-lg [&_.ProseMirror_iframe]:max-w-full [&_.ProseMirror_iframe]:mb-4 [&_.ProseMirror_iframe]:mt-4 [&_.ProseMirror_iframe]:rounded-lg [&_.ProseMirror_iframe]:shadow-lg"
+
+      <EditorContent
+        editor={editor}
+        className="text-gray-100 [&_.ProseMirror]:min-h-[500px] [&_.ProseMirror]:px-16 [&_.ProseMirror]:py-12 [&_.ProseMirror]:focus:outline-none [&_.ProseMirror_h1]:text-4xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:text-white [&_.ProseMirror_h1]:mb-4 [&_.ProseMirror_h1]:mt-6 [&_.ProseMirror_h2]:text-3xl [&_.ProseMirror_h2]:font-bold [&_.ProseMirror_h2]:text-white [&_.ProseMirror_h2]:mb-3 [&_.ProseMirror_h2]:mt-5 [&_.ProseMirror_h3]:text-2xl [&_.ProseMirror_h3]:font-semibold [&_.ProseMirror_h3]:text-white [&_.ProseMirror_h3]:mb-3 [&_.ProseMirror_h3]:mt-4 [&_.ProseMirror_h4]:text-xl [&_.ProseMirror_h4]:font-semibold [&_.ProseMirror_h4]:text-white [&_.ProseMirror_h4]:mb-2 [&_.ProseMirror_h4]:mt-3 [&_.ProseMirror_h5]:text-lg [&_.ProseMirror_h5]:font-medium [&_.ProseMirror_h5]:text-white [&_.ProseMirror_h5]:mb-2 [&_.ProseMirror_h5]:mt-3 [&_.ProseMirror_h6]:text-base [&_.ProseMirror_h6]:font-medium [&_.ProseMirror_h6]:text-white [&_.ProseMirror_h6]:mb-2 [&_.ProseMirror_h6]:mt-2 [&_.ProseMirror_p]:text-gray-300 [&_.ProseMirror_p]:leading-relaxed [&_.ProseMirror_p]:mb-3 [&_.ProseMirror_strong]:text-white [&_.ProseMirror_em]:text-gray-200 [&_.ProseMirror_u]:text-gray-200 [&_.ProseMirror_u]:underline [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:ml-6 [&_.ProseMirror_ul]:mb-3 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:ml-6 [&_.ProseMirror_ol]:mb-3 [&_.ProseMirror_li]:text-gray-300 [&_.ProseMirror_li]:mb-1 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-gray-500 [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_blockquote]:text-gray-400 [&_.ProseMirror_blockquote]:mb-3 [&_.ProseMirror_code]:bg-gray-800 [&_.ProseMirror_code]:px-2 [&_.ProseMirror_code]:py-1 [&_.ProseMirror_code]:rounded [&_.ProseMirror_code]:text-gray-300 [&_.ProseMirror_s]:text-gray-500 [&_.ProseMirror_mark]:bg-yellow-500 [&_.ProseMirror_mark]:text-black [&_.ProseMirror_mark]:px-1 [&_.ProseMirror_mark]:rounded [&_.highlight]:bg-yellow-500 [&_.highlight]:text-black [&_.highlight]:px-1 [&_.highlight]:rounded [&_.editor-image]:max-w-full [&_.editor-image]:h-auto [&_.editor-image]:rounded-lg [&_.editor-image]:mb-4 [&_.editor-image]:mt-4 [&_.editor-image]:shadow-lg [&_.editor-youtube]:max-w-full [&_.editor-youtube]:mb-4 [&_.editor-youtube]:mt-4 [&_.editor-youtube]:rounded-lg [&_.editor-youtube]:shadow-lg [&_.ProseMirror_img]:max-w-full [&_.ProseMirror_img]:h-auto [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:mb-4 [&_.ProseMirror_img]:mt-4 [&_.ProseMirror_img]:shadow-lg [&_.ProseMirror_iframe]:max-w-full [&_.ProseMirror_iframe]:mb-4 [&_.ProseMirror_iframe]:mt-4 [&_.ProseMirror_iframe]:rounded-lg [&_.ProseMirror_iframe]:shadow-lg"
       />
     </div>
-  )
-}
+  );
+};
 
-export default TiptapContextEditor
+export default TiptapContextEditor;
