@@ -549,7 +549,7 @@ const TiptapContextEditor: React.FC<TiptapContextEditorProps> = ({
   return (
     <div
       ref={editorRef}
-      className="w-full bg-gray-900 rounded-lg transition-colors relative"
+      className="w-full bg-gray-900 rounded-lg border border-gray-700/30 transition-colors relative"
     >
       {/* Bubble Menu - aparece ao selecionar texto */}
       {editor && (

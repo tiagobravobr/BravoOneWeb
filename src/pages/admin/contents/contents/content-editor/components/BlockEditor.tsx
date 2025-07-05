@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  FileText,
-  Upload,
-  PanelLeftClose,
-  PanelRightClose,
-} from "lucide-react";
+import { List, Send, ChevronLeft, ChevronRight } from "lucide-react";
 import TiptapContextEditor from "./TiptapContextEditor";
 import ContentSidebar from "./ContentSidebar";
 import PublicationSidebar from "./PublicationSidebar";
@@ -59,7 +54,7 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
           {/* Panel Esquerdo - Conteúdo */}
           <div className="w-64 flex-shrink-0 transition-all duration-300 ease-in-out">
             <div
-              className={`w-64 h-full bg-gray-950 border-r border-gray-800/50 ${leftPanelOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+              className={`w-64 h-full bg-gray-950 ${leftPanelOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
             >
               <div className="p-4 border-b border-gray-800/50">
                 <h3 className="text-sm font-medium text-gray-300">Conteúdo</h3>
@@ -82,16 +77,16 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
               }
             >
               {leftPanelOpen ? (
-                <PanelLeftClose className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4" />
               ) : (
-                <FileText className="w-4 h-4" />
+                <List className="w-4 h-4" />
               )}
             </button>
           </div>
 
           {/* Editor Central */}
           <div className="w-[800px] flex-shrink-0 h-full overflow-y-auto bg-gray-950">
-            <div className="max-w-4xl mx-auto p-8">
+            <div className="max-w-4xl mx-auto p-4">
               {/* Blocos de Conteúdo */}
               <div className="space-y-4">
                 <TiptapContextEditor placeholder="Comece a escrever seu conteúdo..." />
@@ -114,9 +109,9 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
               }
             >
               {rightPanelOpen ? (
-                <PanelRightClose className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4" />
               ) : (
-                <Upload className="w-4 h-4" />
+                <Send className="w-4 h-4" />
               )}
             </button>
           </div>
@@ -124,7 +119,7 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
           {/* Panel Direito - Publicação */}
           <div className="w-64 flex-shrink-0 transition-all duration-300 ease-in-out">
             <div
-              className={`w-64 h-full bg-gray-950 border-l border-gray-800/50 ${rightPanelOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+              className={`w-64 h-full bg-gray-950 ${rightPanelOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
             >
               <PublicationSidebar />
             </div>
