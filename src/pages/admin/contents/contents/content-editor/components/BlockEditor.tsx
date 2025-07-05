@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  ArrowLeft,
   FileText,
   Upload,
   PanelLeftClose,
@@ -16,52 +15,36 @@ interface BlockEditorProps {
 }
 
 const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
-  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
-  const [rightSidebarOpen, setRightSidebarOpen] = useState(true);
-  const [collectionTitle, setCollectionTitle] = useState(
-    isEditMode ? "Introdução ao Empreendedorismo" : "",
-  );
+  const [leftPanelOpen, setLeftPanelOpen] = useState(true);
+  const [rightPanelOpen, setRightPanelOpen] = useState(true);
 
-  const toggleLeftSidebar = () => setLeftSidebarOpen(!leftSidebarOpen);
-  const toggleRightSidebar = () => setRightSidebarOpen(!rightSidebarOpen);
+  const toggleLeftPanel = () => setLeftPanelOpen(!leftPanelOpen);
+  const toggleRightPanel = () => setRightPanelOpen(!rightPanelOpen);
 
   return (
     <div className="flex-1 overflow-hidden bg-gray-950 flex flex-col">
-      {/* Header com botão Voltar e título da coleção centralizado */}
-      <div className="border-b border-gray-800 p-4 bg-gray-950">
-        <div className="flex items-center justify-between">
-          {/* Botão Voltar à esquerda */}
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-800/50 bg-gray-900">
+        <div className="flex items-center space-x-4">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors flex-shrink-0"
+            className="text-gray-400 hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Voltar
+            ← Voltar
           </button>
-
-          {/* Título centralizado */}
-          <div className="flex-1 flex justify-center px-4">
-            <input
-              type="text"
-              value={collectionTitle}
-              onChange={(e) => setCollectionTitle(e.target.value)}
-              className="bg-transparent border-none outline-none text-lg font-semibold text-white placeholder-gray-500 text-center max-w-md w-full"
-              placeholder="Nome da Coleção"
-            />
-          </div>
-
-          {/* Espaçador à direita para manter o título centralizado */}
-          <div className="flex-shrink-0 w-16"></div>
+          <h1 className="text-lg font-semibold text-white">
+            {isEditMode ? "Editar Conteúdo" : "Novo Conteúdo"}
+          </h1>
         </div>
       </div>
 
       {/* Container Principal - Layout centralizado */}
       <div className="flex-1 overflow-hidden bg-gray-950 flex justify-center items-start">
         <div className="flex h-full">
-          {/* Sidebar Esquerda - Conteúdo */}
+          {/* Panel Esquerdo - Conteúdo */}
           <div className="w-64 flex-shrink-0 transition-all duration-300 ease-in-out">
             <div
-              className={`w-64 h-full bg-gray-950 border-r border-gray-800/50 ${leftSidebarOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+              className={`w-64 h-full bg-gray-950 border-r border-gray-800/50 ${leftPanelOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
             >
               <div className="p-4 border-b border-gray-800/50">
                 <h3 className="text-sm font-medium text-gray-300">Conteúdo</h3>
@@ -72,18 +55,18 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
             </div>
           </div>
 
-          {/* Ícone para sidebar esquerda */}
-          <div className="w-12 flex-shrink-0 flex items-center justify-center">
+          {/* Botão para panel esquerdo - posicionado no topo */}
+          <div className="w-12 flex-shrink-0 flex items-start justify-center pt-4">
             <button
-              onClick={toggleLeftSidebar}
+              onClick={toggleLeftPanel}
               className="p-2 bg-gray-800/90 hover:bg-gray-700/90 text-gray-400 hover:text-white transition-all duration-200 rounded-md shadow-lg backdrop-blur-sm border border-gray-700/50"
               title={
-                leftSidebarOpen
-                  ? "Fechar sidebar de conteúdo"
-                  : "Abrir sidebar de conteúdo"
+                leftPanelOpen
+                  ? "Fechar panel de conteúdo"
+                  : "Abrir panel de conteúdo"
               }
             >
-              {leftSidebarOpen ? (
+              {leftPanelOpen ? (
                 <PanelLeftClose className="w-4 h-4" />
               ) : (
                 <FileText className="w-4 h-4" />
@@ -104,18 +87,18 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
             </div>
           </div>
 
-          {/* Ícone para sidebar direita */}
-          <div className="w-12 flex-shrink-0 flex items-center justify-center">
+          {/* Botão para panel direito - posicionado no topo */}
+          <div className="w-12 flex-shrink-0 flex items-start justify-center pt-4">
             <button
-              onClick={toggleRightSidebar}
+              onClick={toggleRightPanel}
               className="p-2 bg-gray-800/90 hover:bg-gray-700/90 text-gray-400 hover:text-white transition-all duration-200 rounded-md shadow-lg backdrop-blur-sm border border-gray-700/50"
               title={
-                rightSidebarOpen
-                  ? "Fechar sidebar de publicação"
-                  : "Abrir sidebar de publicação"
+                rightPanelOpen
+                  ? "Fechar panel de publicação"
+                  : "Abrir panel de publicação"
               }
             >
-              {rightSidebarOpen ? (
+              {rightPanelOpen ? (
                 <PanelRightClose className="w-4 h-4" />
               ) : (
                 <Upload className="w-4 h-4" />
@@ -123,10 +106,10 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
             </button>
           </div>
 
-          {/* Sidebar Direita - Publicação */}
+          {/* Panel Direito - Publicação */}
           <div className="w-64 flex-shrink-0 transition-all duration-300 ease-in-out">
             <div
-              className={`w-64 h-full bg-gray-950 border-l border-gray-800/50 ${rightSidebarOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+              className={`w-64 h-full bg-gray-950 border-l border-gray-800/50 ${rightPanelOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
             >
               <PublicationSidebar />
             </div>
