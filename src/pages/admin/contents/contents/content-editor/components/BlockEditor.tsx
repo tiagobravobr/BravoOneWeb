@@ -22,28 +22,36 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ isEditMode, onBack }) => {
       <div className="flex items-center p-4 border-b border-gray-800/50 bg-gray-950">
         {/* Lado esquerdo - Logo */}
         <div className="w-32 flex items-center">
-          <img
-            src="/bravo-logo-dark.svg"
-            alt="Bravo One"
-            className="h-4 w-auto"
-            style={{ filter: "grayscale(1) brightness(0) invert(0.6)" }}
-          />
+          <button
+            onClick={onBack}
+            className="flex items-center hover:opacity-80 transition-opacity"
+          >
+            <img
+              src="/bravo-logo-dark.svg"
+              alt="Bravo One"
+              className="h-4 w-auto"
+              style={{ filter: "grayscale(1) brightness(0) invert(0.6)" }}
+            />
+          </button>
         </div>
 
         {/* Centro - Título centralizado */}
         <div className="flex-1 flex justify-center">
-          <h1 className="text-2xl font-bold text-white">
-            {isEditMode ? "Editar Conteúdo" : "Novo Conteúdo"}
-          </h1>
+          <input
+            type="text"
+            defaultValue={isEditMode ? "Editar Conteúdo" : "Novo Conteúdo"}
+            className="w-96 text-2xl font-bold text-white bg-transparent border-none outline-none text-center focus:ring-0 focus:border-none"
+            placeholder="Digite o título do conteúdo..."
+          />
         </div>
 
         {/* Lado direito - Botão fechar */}
         <div className="w-32 flex items-center justify-end">
           <button
             onClick={onBack}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-white transition-colors text-sm"
           >
-            Fechar
+            × Fechar
           </button>
         </div>
       </div>

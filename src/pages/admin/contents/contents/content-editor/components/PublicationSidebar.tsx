@@ -106,42 +106,6 @@ const PublicationSidebar: React.FC = () => {
                     </select>
                 </div>
 
-                {/* Visibilidade */}
-                <div>
-                    <label className="block text-xs font-medium text-gray-400 mb-2">
-                        Visibilidade
-                    </label>
-                    <select className="w-full px-2 py-1 bg-gray-800 border border-gray-700 rounded text-xs text-gray-300 focus:outline-none focus:border-gray-600">
-                        <option value="public">Público</option>
-                        <option value="private">Privado</option>
-                        <option value="internal">Interno</option>
-                    </select>
-                </div>
-
-                {/* Dificuldade */}
-                <div>
-                    <label className="block text-xs font-medium text-gray-400 mb-2">
-                        Dificuldade
-                    </label>
-                    <select className="w-full px-2 py-1 bg-gray-800 border border-gray-700 rounded text-xs text-gray-300 focus:outline-none focus:border-gray-600">
-                        <option value="beginner">Iniciante</option>
-                        <option value="intermediate">Intermediário</option>
-                        <option value="advanced">Avançado</option>
-                    </select>
-                </div>
-
-                {/* Duração estimada */}
-                <div>
-                    <label className="block text-xs font-medium text-gray-400 mb-2">
-                        Duração Estimada
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="ex: 2h 30min"
-                        className="w-full px-2 py-1 bg-gray-800 border border-gray-700 rounded text-xs text-gray-300 placeholder-gray-500 focus:outline-none focus:border-gray-600"
-                    />
-                </div>
-
                 {/* Botão Publicar */}
                 <div className="pt-4 border-t border-gray-800/50">
                     <button className="w-full px-3 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded transition-colors">
